@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.capstone.jejuRefactoring.domain.spot.Picture;
+import com.capstone.jejuRefactoring.domain.spot.PictureTag;
 import com.capstone.jejuRefactoring.domain.spot.Spot;
 
 import jakarta.persistence.EntityManager;
@@ -18,13 +18,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @SpringBootTest
 @Transactional
-class PictureQuerydslRepositoryTest {
+class PictureTagQuerydslRepositoryTest {
 
 	@Autowired
 	SpotJpaRepository spotJpaRepository;
 
 	@Autowired
-	PictureQuerydslRepository pictureQuerydslRepository;
+	PictureTagQuerydslRepository pictureTagQuerydslRepository;
 
 	@PersistenceContext
 	EntityManager em;
@@ -39,17 +39,17 @@ class PictureQuerydslRepositoryTest {
 
 
 
-		Picture picture1 = Picture.builder()
+		PictureTag pictureTag1 = PictureTag.builder()
 			.spot(spot)
 			.url("url")
 			.build();
 
-		Picture picture2 = Picture.builder()
+		PictureTag pictureTag2 = PictureTag.builder()
 			.spot(spot)
 			.url("url")
 			.build();
 
-		Picture picture3 = Picture.builder()
+		PictureTag pictureTag3 = PictureTag.builder()
 			.spot(spot)
 			.url("url")
 			.build();
@@ -62,17 +62,17 @@ class PictureQuerydslRepositoryTest {
 
 
 
-		Picture picture4 = Picture.builder()
+		PictureTag pictureTag4 = PictureTag.builder()
 			.spot(spot2)
 			.url("url")
 			.build();
 
-		Picture picture5 = Picture.builder()
+		PictureTag pictureTag5 = PictureTag.builder()
 			.spot(spot2)
 			.url("url")
 			.build();
 
-		Picture picture6 = Picture.builder()
+		PictureTag pictureTag6 = PictureTag.builder()
 			.spot(spot2)
 			.url("url")
 			.build();
@@ -80,9 +80,9 @@ class PictureQuerydslRepositoryTest {
 
 
 		em.persist(spot);
-		em.persist(picture1);
-		em.persist(picture2);
-		em.persist(picture3);
+		em.persist(pictureTag1);
+		em.persist(pictureTag2);
+		em.persist(pictureTag3);
 		em.flush();
 		em.clear();
 

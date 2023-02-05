@@ -3,7 +3,7 @@ package com.capstone.jejuRefactoring.application.wishList;
 import org.springframework.stereotype.Service;
 
 import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotsForRouteDto;
-import com.capstone.jejuRefactoring.domain.spot.dto.response.WishListsWithPicturesResponseDto;
+import com.capstone.jejuRefactoring.domain.spot.dto.response.WishListsWithPictureTagsResponseDto;
 import com.capstone.jejuRefactoring.domain.spot.service.SpotService;
 import com.capstone.jejuRefactoring.domain.wishList.service.WishListService;
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.request.WishListDeleteRequestDto;
@@ -33,10 +33,10 @@ public class WishListFacade {
 		wishListService.changeWishListName(wishListModifyRequestDto);
 	}
 
-	public WishListsWithPicturesResponseDto showWishLists(Long memberId) {
+	public WishListsWithPictureTagsResponseDto showWishLists(Long memberId) {
 		//1. 위시리스트 메인 페이지에 보여줄, wishListId, wishListName, wishList 안에 사진들 리스트 가져오기
 		WishListsResponseDto wishListsResponseDto = wishListService.findWishLists(memberId);
-		return spotService.getPicturesForWishLists(wishListsResponseDto);
+		return spotService.getPictureTagsForWishLists(wishListsResponseDto);
 	}
 
 	public SpotsForRouteDto showWishList(Long memberId, Long wishListId) {

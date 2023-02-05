@@ -62,8 +62,8 @@ public class Spot {
 
 	@OneToMany(mappedBy = "spot")
 	@Builder.Default
-	@Column(name = "spot_pictures")
-	private List<Picture> pictures = new ArrayList<>();
+	@Column(name = "spot_pictureTags")
+	private List<PictureTag> pictureTags = new ArrayList<>();
 
 
 	protected Spot(){}

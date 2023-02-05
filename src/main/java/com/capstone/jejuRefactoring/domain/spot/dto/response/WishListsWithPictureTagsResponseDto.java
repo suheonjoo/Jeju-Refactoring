@@ -12,14 +12,14 @@ import lombok.Setter;
 @Setter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class WishListsWithPicturesResponseDto {
+public class WishListsWithPictureTagsResponseDto {
 
 	private Long memberId;
 
-	private List<SpotPictureForWishListResponseDto> wishListResponseDtos;
+	private List<SpotPictureTagForWishListResponseDto> wishListResponseDtos;
 
-	public static WishListsWithPicturesResponseDto of(Long memberId, List<SpotPictureForWishListResponseDto> wishListResponseDtos) {
-		return WishListsWithPicturesResponseDto.builder()
+	public static WishListsWithPictureTagsResponseDto of(Long memberId, List<SpotPictureTagForWishListResponseDto> wishListResponseDtos) {
+		return WishListsWithPictureTagsResponseDto.builder()
 			.memberId(memberId)
 			.wishListResponseDtos(wishListResponseDtos)
 			.build();

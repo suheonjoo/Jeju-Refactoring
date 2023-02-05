@@ -6,7 +6,7 @@ import jakarta.persistence.Lob;
 import lombok.Data;
 
 @Data
-public class PictureUrlDto {
+public class PictureTagUrlDto {
 
 	private Long spotId;
 	@Lob
@@ -14,7 +14,7 @@ public class PictureUrlDto {
 
 	private Integer idMin;
 
-	public PictureUrlDto(Long spotId, String url, Integer idMin) {
+	public PictureTagUrlDto(Long spotId, String url, Integer idMin) {
 		this.spotId = spotId;
 		this.url = url;
 		this.idMin = idMin;

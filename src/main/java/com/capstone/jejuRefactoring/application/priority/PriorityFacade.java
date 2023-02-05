@@ -14,7 +14,7 @@ import com.capstone.jejuRefactoring.domain.spot.Category;
 import com.capstone.jejuRefactoring.domain.spot.Location;
 import com.capstone.jejuRefactoring.domain.spot.LocationGroup;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotForRouteRecommendResponse;
-import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotPageWithPicturesResponse;
+import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotPageWithPictureTagsResponse;
 import com.capstone.jejuRefactoring.domain.spot.service.SpotService;
 
 import lombok.RequiredArgsConstructor;
@@ -26,17 +26,17 @@ public class PriorityFacade {
 	private final SpotService spotService;
 	private final PriorityService priorityService;
 
-	public SpotPageWithPicturesResponse getSpotWithPicturesOrderByRank(Long memberId, PriorityWeightDto priorityWeightDto, String direction, Pageable pageable) {
+	public SpotPageWithPictureTagsResponse getSpotWithPictureTagsOrderByRank(Long memberId, PriorityWeightDto priorityWeightDto, String direction, Pageable pageable) {
 		List<Location> locations = findLocationsByLocationGroup(direction);
 		List<Long> spotIdsBySpotLocations = spotService.getBySpotLocations(locations);
 		List<Long> spotIdsOrderByRank = priorityService.updateMemberSpotScore(memberId, spotIdsBySpotLocations, priorityWeightDto);
-		return spotService.getSpotWithPictureLimit3(spotIdsOrderByRank, locations, pageable);
+		return spotService.getSpotWithPictureTagLimit3(spotIdsOrderByRank, locations, pageable);
 	}
 
-	public SpotForRouteRecommendResponse getTenSpotsWithPicturesOrderByRankPerLocations(List<String> stringLocations) {
+	public SpotForRouteRecommendResponse getTenSpotsWithPictureTagsOrderByRankPerLocations(List<String> stringLocations) {
 		List<Location> locations = findLocationsByStringLocations(stringLocations);
 		Category category = priorityService.getHighestCategoryByLocations(locations);
-		return spotService.getSpotWithPicturePerLocations(locations, category);
+		return spotService.getSpotWithPictureTagPerLocations(locations, category);
 	}
 
 

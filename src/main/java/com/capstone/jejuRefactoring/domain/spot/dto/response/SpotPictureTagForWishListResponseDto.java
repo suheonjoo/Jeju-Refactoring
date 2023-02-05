@@ -3,7 +3,7 @@ package com.capstone.jejuRefactoring.domain.spot.dto.response;
 import java.util.List;
 
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.response.WishListResponseDto;
-import com.capstone.jejuRefactoring.infrastructure.spot.PictureUrlDto;
+import com.capstone.jejuRefactoring.infrastructure.spot.PictureTagUrlDto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -15,19 +15,19 @@ import lombok.Setter;
 @Setter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class SpotPictureForWishListResponseDto {
+public class SpotPictureTagForWishListResponseDto {
 
 	private Long wishListId;
 
 	private String wishListName;
 
-	private List<PictureUrlDto> pictureUrlDtos;
+	private List<PictureTagUrlDto> pictureTagUrlDtos;
 
-	public static SpotPictureForWishListResponseDto of(WishListResponseDto wishListResponseDto, List<PictureUrlDto> pictureUrlDtos) {
-		return SpotPictureForWishListResponseDto.builder()
+	public static SpotPictureTagForWishListResponseDto of(WishListResponseDto wishListResponseDto, List<PictureTagUrlDto> pictureTagUrlDtos) {
+		return SpotPictureTagForWishListResponseDto.builder()
 			.wishListId(wishListResponseDto.getWishListId())
 			.wishListName(wishListResponseDto.getWishListName())
-			.pictureUrlDtos(pictureUrlDtos)
+			.pictureTagUrlDtos(pictureTagUrlDtos)
 			.build();
 	}
 

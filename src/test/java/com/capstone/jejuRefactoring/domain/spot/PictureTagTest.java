@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.capstone.jejuRefactoring.infrastructure.spot.PictureJpaRepository;
+import com.capstone.jejuRefactoring.infrastructure.spot.PictureTagJpaRepository;
 import com.capstone.jejuRefactoring.infrastructure.spot.SpotJpaRepository;
 
 import jakarta.persistence.EntityManager;
@@ -17,13 +17,13 @@ import jakarta.persistence.PersistenceContext;
 
 @SpringBootTest
 @Transactional
-class PictureTest {
+class PictureTagTest {
 
 	@Autowired
 	SpotJpaRepository spotJpaRepository;
 
 	@Autowired
-	PictureJpaRepository pictureJpaRepository;
+	PictureTagJpaRepository pictureTagJpaRepository;
 
 	@PersistenceContext
 	EntityManager em;
@@ -42,12 +42,12 @@ class PictureTest {
 			.build();
 
 
-		Picture picture = Picture.builder()
+		PictureTag pictureTag = PictureTag.builder()
 			.spot(spot)
 			.url("url")
 			.build();
 
-		Picture picture1 = Picture.builder()
+		PictureTag pictureTag1 = PictureTag.builder()
 			.spot(spot1)
 			.url("url")
 			.build();
@@ -56,9 +56,9 @@ class PictureTest {
 
 		em.persist(spot);
 		em.persist(spot1);
-		em.persist(picture);
-		em.persist(picture1);
-		// em.persist(picture);
+		em.persist(pictureTag);
+		em.persist(pictureTag1);
+		// em.persist(pictureTag);
 		em.flush();
 		em.clear();
 
@@ -68,7 +68,7 @@ class PictureTest {
 
 		System.out.println("=========");
 
-		pictureJpaRepository.findBySpotIds(longs);
+		pictureTagJpaRepository.findBySpotIds(longs);
 
 		System.out.println("=========");
 

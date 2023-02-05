@@ -15,7 +15,7 @@ import com.capstone.jejuRefactoring.application.priority.PriorityFacade;
 import com.capstone.jejuRefactoring.common.exception.CommonResponse;
 import com.capstone.jejuRefactoring.domain.auth.Member;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotForRouteRecommendResponse;
-import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotPageWithPicturesResponse;
+import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotPageWithPictureTagsResponse;
 import com.capstone.jejuRefactoring.presentation.auth.LoginUser;
 import com.capstone.jejuRefactoring.presentation.priority.request.PriorityRequest;
 
@@ -32,17 +32,17 @@ public class PriorityController {
 	public ResponseEntity<CommonResponse> showPriority(@RequestBody final PriorityRequest priorityRequest,
 		Pageable pageable, @LoginUser Member member) {
 
-		SpotPageWithPicturesResponse spotPageWithPicturesResponse = priorityFacade.getSpotWithPicturesOrderByRank(
+		SpotPageWithPictureTagsResponse spotPageWithPictureTagsResponse = priorityFacade.getSpotWithPictureTagsOrderByRank(
 			member.getId(), priorityRequest.toPriorityWeightDto(),
 			priorityRequest.getDirection(), pageable);
 		return ResponseEntity.ok()
-			.body(CommonResponse.success(spotPageWithPicturesResponse));
+			.body(CommonResponse.success(spotPageWithPictureTagsResponse));
 	}
 
 	@GetMapping("/recommendTop10")
 	public ResponseEntity<CommonResponse> showRecommendTop10(@RequestParam final List<String> stringLocations) {
 
-		SpotForRouteRecommendResponse spotForRouteRecommendResponse = priorityFacade.getTenSpotsWithPicturesOrderByRankPerLocations(
+		SpotForRouteRecommendResponse spotForRouteRecommendResponse = priorityFacade.getTenSpotsWithPictureTagsOrderByRankPerLocations(
 			stringLocations);
 		return ResponseEntity.ok()
 			.body(CommonResponse.success(spotForRouteRecommendResponse));

@@ -1,6 +1,6 @@
-package com.capstone.jejuRefactoring.domain.spot.dto.response;
+package com.capstone.jejuRefactoring.domain.picture.dto;
 
-import com.capstone.jejuRefactoring.domain.spot.Picture;
+import com.capstone.jejuRefactoring.domain.picture.Picture;
 import com.capstone.jejuRefactoring.domain.spot.Spot;
 
 import lombok.Getter;

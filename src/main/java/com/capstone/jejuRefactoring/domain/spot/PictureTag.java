@@ -18,26 +18,25 @@ import lombok.Getter;
 @Entity
 @Getter
 @Builder
-@Table(name = "picture")
+@Table(name = "pictureTag")
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Picture {
+public class PictureTag {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "picture_id")
+	@Column(name = "pictureTag_id")
 	private Long id;
 
 	@Lob
-	@Column(name = "picture_url")
+	@Column(name = "pictureTag_url")
 	private String url;
 
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	// @Column(name = "picture_Spot")
-	@JoinColumn(name = "Spot_id")
+	@JoinColumn(name = "spot_id")
 	private Spot spot;
 
-	protected Picture() {
+	protected PictureTag() {
 
 	}
 }

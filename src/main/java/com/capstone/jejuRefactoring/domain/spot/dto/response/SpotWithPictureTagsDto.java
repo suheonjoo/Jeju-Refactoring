@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class SpotWithPicturesDto {
+public class SpotWithPictureTagsDto {
 
 	private Long id;
 
@@ -29,16 +29,16 @@ public class SpotWithPicturesDto {
 
 	private Location location;
 
-	private List<PictureResponse> pictureResponses;
+	private List<PictureTagResponse> pictureTagResponses;
 
-	public static SpotWithPicturesDto of(Spot spot, List<PictureResponse> pictureResponses) {
-		return SpotWithPicturesDto.builder()
+	public static SpotWithPictureTagsDto of(Spot spot, List<PictureTagResponse> pictureTagResponses) {
+		return SpotWithPictureTagsDto.builder()
 			.id(spot.getId())
 			.name(spot.getName())
 			.description(spot.getDescription())
 			.address(spot.getAddress())
 			.location(spot.getLocation())
-			.pictureResponses(pictureResponses)
+			.pictureTagResponses(pictureTagResponses)
 			.build();
 	}
 
