@@ -1,0 +1,95 @@
+
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.0.2'
+	id 'io.spring.dependency-management' version '1.1.0'
+
+	// querydsl관련 명령어를 gradle탭에 생성해준다. (권장사항)
+	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+}
+
+group = 'com.capstone'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// == 스프링 부트 3.0 이상 ==
+	// Querydsl 추가
+	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+
+
+	//쿼리 출력 중 ? 부분 자세한 설명 보여줌
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.8'
+
+	//재실행 없이 뷰파일 볼수 있음
+	implementation 'org.springframework.boot:spring-boot-devtools'
+
+	//validation 관련 라이브러리
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	//spring security 에서 jwt 사용, 2번째는 jwt 형식의 토큰 발행 및 검증에 필요한 모듈
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	//jwt 관련 bind 에러
+	implementation 'javax.xml.bind:jaxb-api:2.3.0'
+
+	//redis 의존성
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	// 만약 test 이외에도 embedded 사용하고 싶은 경우
+	implementation('it.ozimov:embedded-redis:0.7.3') {
+		exclude group: 'org.slf4j', module: 'slf4j-simple'
+	}
+
+	//테스트 코드에서 Sl4j 사용하기
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+// === Querydsl 빌드 옵션 (선택사항) ===
+def querydslDir = "$buildDir/generated/querydsl"
+
+querydsl {
+	jpa = true
+	querydslSourcesDir = querydslDir
+}
+
+sourceSets {
+	main.java.srcDir querydslDir
+}
+
+configurations {
+	querydsl.extendsFrom compileClasspath
+}
+
+compileQuerydsl {
+	options.annotationProcessorPath = configurations.querydsl
+}
