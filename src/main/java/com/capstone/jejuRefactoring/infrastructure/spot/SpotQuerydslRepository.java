@@ -1,8 +1,8 @@
 package com.capstone.jejuRefactoring.infrastructure.spot;
 
 import static com.capstone.jejuRefactoring.domain.priority.QScore.*;
-import static com.capstone.jejuRefactoring.domain.spot.QSpot.*;
 import static com.capstone.jejuRefactoring.domain.spot.QPictureTag.*;
+import static com.capstone.jejuRefactoring.domain.spot.QSpot.*;
 
 import java.util.List;
 
@@ -13,9 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.capstone.jejuRefactoring.common.support.RepositorySupport;
 import com.capstone.jejuRefactoring.domain.spot.Category;
 import com.capstone.jejuRefactoring.domain.spot.Location;
-import com.capstone.jejuRefactoring.domain.spot.QPictureTag;
 import com.capstone.jejuRefactoring.domain.spot.Spot;
-import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -34,26 +32,17 @@ public class SpotQuerydslRepository {
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize() + 1)
 			.fetch();
-		return RepositorySupport.toSlice(content,pageable);
-	}
-
-	public List<Spot> findByLocationAndCategory(Location location, Category category) {
-		return query.selectFrom(spot)
-			.where(spot.location.eq(location))
-			.leftJoin(score).on(score.spot.id.eq(spot.id))
-			.orderBy(getDoubleOrderSpecifier(category))
-			.limit(10)
-			.fetch();
+		return RepositorySupport.toSlice(content, pageable);
 	}
 
 	public List<SpotWithCategoryScoreDto> findWithCategoryScoreByLocation(List<Location> locations, Category category) {
 		return query.select(Projections.constructor(SpotWithCategoryScoreDto.class,
-				spot.id,
-				spot.name,
-				spot.address,
-				spot.description,
-				spot.location,
-				getFacilityRank(category)
+					spot.id,
+					spot.name,
+					spot.address,
+					spot.description,
+					spot.location,
+					getFacilityRank(category)
 				)
 			)
 			.from(spot)
@@ -62,7 +51,6 @@ public class SpotQuerydslRepository {
 			.fetchJoin()
 			.where(spot.location.in(locations))
 			.fetch();
-
 
 	}
 
@@ -73,16 +61,6 @@ public class SpotQuerydslRepository {
 			case FACILITY -> score.facilityScore;
 			case SURROUND -> score.surroundScore;
 			default -> score.rankAverage;
-		};
-	}
-
-	private OrderSpecifier<Double> getDoubleOrderSpecifier(Category category) {
-		return switch (category) {
-			case VIEW -> spot.score.viewScore.desc();
-			case PRICE -> spot.score.priceScore.desc();
-			case FACILITY -> spot.score.facilityScore.desc();
-			case SURROUND -> spot.score.surroundScore.desc();
-			default -> spot.score.rankAverage.asc();
 		};
 	}
 

@@ -27,7 +27,7 @@ public class AuthFacade {
 
 	public void join(JoinRequest joinRequest) {
 		Long memberId = authCommandUseCase.join(joinRequest);
-		List<Long> spotIds = spotService.getBySpotIds();
+		List<Long> spotIds = spotService.getAllSpotIds();
 		priorityService.createMemberSpotTages(memberId, spotIds);
 	}
 

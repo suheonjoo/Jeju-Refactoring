@@ -15,8 +15,6 @@ public interface SpotRepository {
 
 	Optional<Spot> findById(Long spotId);
 
-	List<Spot> findBySpotIds(List<Long> spotIds);
-
 	List<Spot> findBySpotIdsWithFetchJoin(List<Long> spotIds);
 
 	List<Long> findAllSpotIds();
@@ -24,8 +22,6 @@ public interface SpotRepository {
 	Slice<Spot> findPageBySpotIds(List<Long> spotIds, List<Location> location, Pageable pageable);
 
 	List<Long> findBySpotLocations(List<Location> locations);
-
-	List<Spot> findByLocationAndCategory(Location location, Category category);
 
 	List<SpotWithCategoryScoreDto> findWithCategoryScoreByLocation(List<Location> locations, Category category);
 }

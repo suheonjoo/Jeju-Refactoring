@@ -88,7 +88,7 @@ public class SpotService {
 		return spotForRouteRecommendDtos;
 	}
 
-	public List<Long> getBySpotIds() {
+	public List<Long> getAllSpotIds() {
 		return spotRepository.findAllSpotIds();
 	}
 

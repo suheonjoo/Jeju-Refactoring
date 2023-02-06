@@ -16,8 +16,7 @@ public interface SpotJpaRepository extends JpaRepository<Spot, Long> {
 
 	@Query(value = "select s from Spot s join fetch s.pictureTags where s.id in :spotIds")
 	List<Spot> findBySpotIdsWithFetchJoin(@Param("spotIds") List<Long> spotIds);
-
-	//커버링 인덱스 활용
+	
 	@Query(value = "select s.id from Spot s")
 	List<Long> findAllSpotId();
 
