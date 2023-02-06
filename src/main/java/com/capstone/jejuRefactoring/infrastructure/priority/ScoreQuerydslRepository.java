@@ -22,24 +22,19 @@ public class ScoreQuerydslRepository {
 	public List<ScoreWithSpotLocationDto> findScoreBySpotLocations(List<Location> locations) {
 
 		return query.select(Projections.constructor(ScoreWithSpotLocationDto.class,
-				score.viewScore,
-			score.priceScore,
-			score.facilityScore,
-			score.surroundScore,
-			score.spot.location,
-			score.spot.id
+					score.viewScore,
+					score.priceScore,
+					score.facilityScore,
+					score.surroundScore,
+					score.spot.location,
+					score.spot.id
 				)
 			)
 			.from(score)
-			.leftJoin(spot).on(spot.id.eq(score.id))
+			.leftJoin(score.spot, spot)
 			.where(spot.location.in(locations))
 			.fetch();
 
-
-
-
 	}
-
-
 
 }

@@ -46,10 +46,20 @@ public class SpotQuerydslRepository {
 				)
 			)
 			.from(spot)
-			.leftJoin(score).on(score.spot.id.eq(spot.id))
-			.leftJoin(spot.pictureTags, pictureTag)
-			.fetchJoin()
+			.leftJoin(spot.score,score)
 			.where(spot.location.in(locations))
+			.fetch();
+
+	}
+
+	public List<TestDto> test(Category category) {
+		return query.select(Projections.constructor(TestDto.class,
+					spot.id,
+					getFacilityRank(category)
+				)
+			)
+			.from(spot)
+			.leftJoin(spot.score,score)
 			.fetch();
 
 	}

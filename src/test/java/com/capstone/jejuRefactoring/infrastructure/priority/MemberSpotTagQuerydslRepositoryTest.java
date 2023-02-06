@@ -9,8 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.capstone.jejuRefactoring.domain.auth.Member;
 import com.capstone.jejuRefactoring.domain.priority.MemberSpotTag;
+import com.capstone.jejuRefactoring.domain.priority.Score;
+import com.capstone.jejuRefactoring.domain.spot.Category;
+import com.capstone.jejuRefactoring.domain.spot.PictureTag;
 import com.capstone.jejuRefactoring.domain.spot.Spot;
 import com.capstone.jejuRefactoring.infrastructure.auth.respository.MemberJpaRepository;
+import com.capstone.jejuRefactoring.infrastructure.spot.SpotQuerydslRepository;
+import com.capstone.jejuRefactoring.infrastructure.spot.SpotWithCategoryScoreDto;
+import com.capstone.jejuRefactoring.infrastructure.spot.TestDto;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -27,6 +33,9 @@ class MemberSpotTagQuerydslRepositoryTest {
 	@Autowired
 	MemberJpaRepository memberJpaRepository;
 
+	@Autowired
+	SpotQuerydslRepository spotQuerydslRepository;
+
 	@PersistenceContext
 	EntityManager em;
 
@@ -34,39 +43,13 @@ class MemberSpotTagQuerydslRepositoryTest {
 	public void 쿼리_테스트() throws Exception {
 		//given
 
-		Member member = Member.builder()
-			.email("email")
-			.build();
-
-		Spot spot1 = Spot.builder()
-			.address("1")
-			.description("ss")
-			.build();
-
-		Spot spot2 = Spot.builder()
-			.address("2")
-			.description("ss")
-			.build();
-
-		Spot spot3 = Spot.builder()
-			.address("3")
-			.description("ss")
-			.build();
-
-		MemberSpotTag memberSpotTag1 = MemberSpotTag.builder()
-			.spot(spot1)
-			.member(member)
-			.build();
-
-		MemberSpotTag memberSpotTag2 = MemberSpotTag.builder()
-			.spot(spot2)
-			.member(member)
-			.build();
-
-		MemberSpotTag memberSpotTag3 = MemberSpotTag.builder()
-			.spot(spot3)
-			.member(member)
-			.build();
+		Member member = createMember();
+		Spot spot1 = createSpot("1");
+		Spot spot2 = createSpot("2");
+		Spot spot3 = createSpot("3");
+		MemberSpotTag memberSpotTag1 = createMemberSpotTag(spot1, member);
+		MemberSpotTag memberSpotTag2 = createMemberSpotTag(spot2, member);
+		MemberSpotTag memberSpotTag3 = createMemberSpotTag(spot3, member);
 
 		em.persist(member);
 		em.persist(spot1);
@@ -85,5 +68,71 @@ class MemberSpotTagQuerydslRepositoryTest {
 			memberCo.getId());
 		log.info("memberSpotTageWithScoreAndSpot = {}", memberSpotTageWithScoreAndSpot);
 
+	}
+
+	@Test
+	public void findWithCategoryScoreByLocationTest() throws Exception{
+	    //given
+		Spot spot1 = createSpot("aaa");
+		Spot spot2 = createSpot("aaa");
+		Spot spot3 = createSpot("aaa");
+		Score score1 = createScore(spot1, 1d);
+		Score score2 = createScore(spot2,2d);
+		Score score3 = createScore(spot3,3d);
+		PictureTag pictureTag1 = createPictureTag(spot1, "111");
+		PictureTag pictureTag2 = createPictureTag(spot2, "111");
+		PictureTag pictureTag3 = createPictureTag(spot3, "111");
+
+		em.persist(spot1);
+		em.persist(spot2);
+		em.persist(spot3);
+		em.persist(score1);
+		em.persist(score2);
+		em.persist(score3);
+		em.persist(pictureTag1);
+		em.persist(pictureTag2);
+		em.persist(pictureTag3);
+
+		//when
+		List<TestDto> test = spotQuerydslRepository.test(Category.VIEW);
+
+		//then
+		test.stream().forEach(testDto -> {
+			System.out.println(testDto.getSpotId());
+		});
+	}
+
+	private PictureTag createPictureTag(Spot spot1, String url) {
+		return PictureTag.builder()
+			.spot(spot1)
+			.url(url)
+			.build();
+	}
+
+	private Score createScore(Spot spot, Double score) {
+		return Score.builder()
+			.viewScore(score)
+			.spot(spot)
+			.build();
+	}
+
+	private MemberSpotTag createMemberSpotTag(Spot spot1, Member member) {
+		return MemberSpotTag.builder()
+			.spot(spot1)
+			.member(member)
+			.build();
+	}
+
+	private Spot createSpot(String address) {
+		return Spot.builder()
+			.address(address)
+			.description("ss")
+			.build();
+	}
+
+	private Member createMember() {
+		return Member.builder()
+			.email("email")
+			.build();
 	}
 }

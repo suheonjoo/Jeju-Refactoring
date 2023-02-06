@@ -52,17 +52,15 @@ public class Spot {
 	private Location location;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "spot_score_id")
+	@JoinColumn(name = "score_id")
 	private Score score;
 
 	@OneToMany(mappedBy = "spot")
 	@Builder.Default
-	// @Column(name = "spot_reviews")
 	private List<Review> reviews = new ArrayList<>();
 
 	@OneToMany(mappedBy = "spot")
 	@Builder.Default
-	@Column(name = "spot_pictureTags")
 	private List<PictureTag> pictureTags = new ArrayList<>();
 
 

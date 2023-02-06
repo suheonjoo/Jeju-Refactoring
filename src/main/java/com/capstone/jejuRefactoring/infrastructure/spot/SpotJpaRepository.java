@@ -11,12 +11,9 @@ import com.capstone.jejuRefactoring.domain.spot.Spot;
 
 public interface SpotJpaRepository extends JpaRepository<Spot, Long> {
 
-	@Query(value = "select s from Spot s where s.id in :spotIds")
-	List<Spot> findBySpotIds(@Param("spotIds") List<Long> spotIds);
-
 	@Query(value = "select s from Spot s join fetch s.pictureTags where s.id in :spotIds")
 	List<Spot> findBySpotIdsWithFetchJoin(@Param("spotIds") List<Long> spotIds);
-	
+
 	@Query(value = "select s.id from Spot s")
 	List<Long> findAllSpotId();
 

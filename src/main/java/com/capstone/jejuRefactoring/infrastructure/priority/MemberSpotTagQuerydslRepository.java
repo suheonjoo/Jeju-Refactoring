@@ -2,6 +2,7 @@ package com.capstone.jejuRefactoring.infrastructure.priority;
 
 import static com.capstone.jejuRefactoring.domain.priority.QMemberSpotTag.*;
 import static com.capstone.jejuRefactoring.domain.priority.QScore.*;
+import static com.capstone.jejuRefactoring.domain.spot.QSpot.*;
 
 import java.util.List;
 
@@ -27,8 +28,8 @@ public class MemberSpotTagQuerydslRepository {
 			)
 		).
 			from(memberSpotTag)
-			//.leftJoin(spot).on(memberSpotTag.spot.id.eq(spot.id))
-			.leftJoin(score).on(score.spot.id.eq(memberSpotTag.spot.id))
+			.leftJoin(spot).on(memberSpotTag.spot.id.eq(spot.id))
+			.leftJoin(memberSpotTag.spot.score, score)
 			.where(memberSpotTag.member.id.eq(memberId))
 			.fetch();
 

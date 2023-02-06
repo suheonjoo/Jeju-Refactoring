@@ -12,5 +12,10 @@ public class MemberSpotTageWithScoreDto {
 	private MemberSpotTag memberSpotTag;
 	private Score score;
 
-
+	public MemberSpotTageWithScoreDto(Long spotId, MemberSpotTag memberSpotTag,
+		Score score) {
+		this.spotId = spotId;
+		this.memberSpotTag = memberSpotTag;
+		this.score = score;
+	}
 }

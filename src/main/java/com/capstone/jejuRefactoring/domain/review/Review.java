@@ -34,7 +34,6 @@ public class Review {
 	private String content;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	// @Column(name = "review_spot")
 	@JoinColumn(name = "spot_id")
 	private Spot spot;
 

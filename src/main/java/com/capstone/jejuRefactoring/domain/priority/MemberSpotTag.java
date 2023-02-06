@@ -27,10 +27,10 @@ public class MemberSpotTag implements Comparable<MemberSpotTag> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "member_spot_id")
+	@Column(name = "member_spot_tag_id")
 	private Long id;
 
-	@JoinColumn(name = "personal_score")
+	@Column(name = "personal_score")
 	private Double personalScore;
 
 	@ManyToOne(fetch = FetchType.LAZY)
