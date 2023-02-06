@@ -3,6 +3,7 @@ package com.capstone.jejuRefactoring.domain.spot.dto.response;
 import java.util.List;
 
 import com.capstone.jejuRefactoring.domain.spot.Location;
+import com.capstone.jejuRefactoring.infrastructure.spot.SpotWithCategoryScoreDto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -18,12 +19,12 @@ public class SpotForRouteRecommendDto {
 
 	private Location location;
 
-	private List<SpotForRouteDto> spotForRouteDtos;
+	private List<SpotWithCategoryScoreDto> spotWithCategoryScoreDtos;
 
-	public static SpotForRouteRecommendDto from(Location location, List<SpotForRouteDto> spotForRouteDtos) {
+	public static SpotForRouteRecommendDto from(Location location, List<SpotWithCategoryScoreDto> spotWithCategoryScoreDtos) {
 		return SpotForRouteRecommendDto.builder()
 			.location(location)
-			.spotForRouteDtos(spotForRouteDtos)
+			.spotWithCategoryScoreDtos(spotWithCategoryScoreDtos)
 			.build();
 	}
 }

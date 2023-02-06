@@ -2,6 +2,7 @@ package com.capstone.jejuRefactoring.infrastructure.spot;
 
 import static com.capstone.jejuRefactoring.domain.priority.QScore.*;
 import static com.capstone.jejuRefactoring.domain.spot.QSpot.*;
+import static com.capstone.jejuRefactoring.domain.spot.QPictureTag.*;
 
 import java.util.List;
 
@@ -12,8 +13,11 @@ import org.springframework.stereotype.Repository;
 import com.capstone.jejuRefactoring.common.support.RepositorySupport;
 import com.capstone.jejuRefactoring.domain.spot.Category;
 import com.capstone.jejuRefactoring.domain.spot.Location;
+import com.capstone.jejuRefactoring.domain.spot.QPictureTag;
 import com.capstone.jejuRefactoring.domain.spot.Spot;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -40,6 +44,36 @@ public class SpotQuerydslRepository {
 			.orderBy(getDoubleOrderSpecifier(category))
 			.limit(10)
 			.fetch();
+	}
+
+	public List<SpotWithCategoryScoreDto> findWithCategoryScoreByLocation(List<Location> locations, Category category) {
+		return query.select(Projections.constructor(SpotWithCategoryScoreDto.class,
+				spot.id,
+				spot.name,
+				spot.address,
+				spot.description,
+				spot.location,
+				getFacilityRank(category)
+				)
+			)
+			.from(spot)
+			.leftJoin(score).on(score.spot.id.eq(spot.id))
+			.leftJoin(spot.pictureTags, pictureTag)
+			.fetchJoin()
+			.where(spot.location.in(locations))
+			.fetch();
+
+
+	}
+
+	private NumberPath<Double> getFacilityRank(Category category) {
+		return switch (category) {
+			case VIEW -> score.viewScore;
+			case PRICE -> score.priceScore;
+			case FACILITY -> score.facilityScore;
+			case SURROUND -> score.surroundScore;
+			default -> score.rankAverage;
+		};
 	}
 
 	private OrderSpecifier<Double> getDoubleOrderSpecifier(Category category) {

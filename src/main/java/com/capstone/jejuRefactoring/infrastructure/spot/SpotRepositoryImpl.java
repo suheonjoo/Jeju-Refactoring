@@ -21,7 +21,6 @@ public class SpotRepositoryImpl implements SpotRepository {
 	private final SpotJpaRepository spotJpaRepository;
 	private final SpotQuerydslRepository spotQuerydslRepository;
 
-
 	@Override
 	public Optional<Spot> findById(Long spotId) {
 		return spotJpaRepository.findById(spotId);
@@ -30,6 +29,11 @@ public class SpotRepositoryImpl implements SpotRepository {
 	@Override
 	public List<Spot> findBySpotIds(List<Long> spotIds) {
 		return spotJpaRepository.findBySpotIds(spotIds);
+	}
+
+	@Override
+	public List<Spot> findBySpotIdsWithFetchJoin(List<Long> spotIds) {
+		return spotJpaRepository.findBySpotIdsWithFetchJoin(spotIds);
 	}
 
 	@Override
@@ -49,7 +53,13 @@ public class SpotRepositoryImpl implements SpotRepository {
 
 	@Override
 	public List<Spot> findByLocationAndCategory(Location location, Category category) {
-		return spotQuerydslRepository.findByLocationAndCategory(location,category);
+		return spotQuerydslRepository.findByLocationAndCategory(location, category);
 	}
+
+	@Override
+	public List<SpotWithCategoryScoreDto> findWithCategoryScoreByLocation(List<Location> locations, Category category) {
+		return spotQuerydslRepository.findWithCategoryScoreByLocation(locations, category);
+	}
+
 
 }

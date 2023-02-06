@@ -72,14 +72,19 @@ public class WishListService {
 		Map<Long, List<WishListSpotTagResponseDto>> wishlistSpotTagsMap) {
 		List<WishListResponseDto> wishListResponseDtos = new ArrayList<>();
 		for (WishList wishList : wishLists) {
-			List<Long> spotIds = wishlistSpotTagsMap.get(wishList.getId())
-				.stream()
-				.map(i -> i.getSpotId())
-				.limit(3)
-				.collect(Collectors.toList());
-			wishListResponseDtos.add(WishListResponseDto.of(wishList, spotIds));
+			addWishListResponseDtoInWishListResponseDtos(wishlistSpotTagsMap, wishListResponseDtos, wishList);
 		}
 		return WishListsResponseDto.of(memberId, wishListResponseDtos);
+	}
+
+	private void addWishListResponseDtoInWishListResponseDtos(Map<Long, List<WishListSpotTagResponseDto>> wishlistSpotTagsMap,
+		List<WishListResponseDto> wishListResponseDtos, WishList wishList) {
+		List<Long> spotIds = wishlistSpotTagsMap.get(wishList.getId())
+			.stream()
+			.map(i -> i.getSpotId())
+			.limit(3)
+			.collect(Collectors.toList());
+		wishListResponseDtos.add(WishListResponseDto.of(wishList, spotIds));
 	}
 
 	private Map<Long, List<WishListSpotTagResponseDto>> getWishListSpotTagesMap(List<WishList> wishLists) {

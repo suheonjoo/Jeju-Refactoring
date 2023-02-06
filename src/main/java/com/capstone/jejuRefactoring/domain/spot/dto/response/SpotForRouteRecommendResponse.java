@@ -20,8 +20,7 @@ public class SpotForRouteRecommendResponse {
 
 	private List<SpotForRouteRecommendDto> spotForRouteRecommendDtos;
 
-	public static SpotForRouteRecommendResponse from(Category category,
-		List<SpotForRouteRecommendDto> spotForRouteRecommendDtos) {
+	public static SpotForRouteRecommendResponse from(Category category,	List<SpotForRouteRecommendDto> spotForRouteRecommendDtos) {
 		return SpotForRouteRecommendResponse.builder()
 			.category(category)
 			.spotForRouteRecommendDtos(spotForRouteRecommendDtos)

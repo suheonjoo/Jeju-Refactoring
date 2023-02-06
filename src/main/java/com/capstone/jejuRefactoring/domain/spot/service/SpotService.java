@@ -16,6 +16,7 @@ import com.capstone.jejuRefactoring.common.exception.spot.SpotNotFoundException;
 import com.capstone.jejuRefactoring.domain.spot.Category;
 import com.capstone.jejuRefactoring.domain.spot.Location;
 import com.capstone.jejuRefactoring.domain.spot.Spot;
+import com.capstone.jejuRefactoring.domain.spot.dto.response.PictureTagDto;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.PictureTagResponse;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotForRouteDto;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotForRouteRecommendDto;
@@ -32,6 +33,7 @@ import com.capstone.jejuRefactoring.domain.wishList.service.dto.response.WishLis
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.response.WishListSpotIdsResponseDto;
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.response.WishListsResponseDto;
 import com.capstone.jejuRefactoring.infrastructure.spot.PictureTagUrlDto;
+import com.capstone.jejuRefactoring.infrastructure.spot.SpotWithCategoryScoreDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -43,62 +45,47 @@ public class SpotService {
 	private final SpotRepository spotRepository;
 	private final PictureTagRepository pictureTagRepository;
 
-
-
 	public SpotResponse getBySpotId(final Long spotId) {
 		Spot spot = spotRepository.findById(spotId).orElseThrow(() -> new SpotNotFoundException());
 		return SpotResponse.from(spot);
 	}
 
 	public SpotForRouteRecommendResponse getSpotWithPictureTagPerLocations(List<Location> locations, Category category) {
-		//필요한 spotId 들을 구하고 한번에 pictureTag 쿼리를 날린다
 		Set<Long> spotIdSet = new HashSet<>();
-		//category 기준으로 spot '들'을 정렬하고, 그중에 지역별로 10개씩 가져온다
-		List<SpotForRouteRecommendDto> spotForRouteRecommendDtos = getSpotForRouteRecommendDtos(locations, category, spotIdSet);
-		Map<Long, List<PictureTagUrlDto>> pictureTagUrlDtoBySpotIdMap = findPictureTagsGroupBySpotId(spotIdSet);
-		setPictureTagUrlDtoInSpotForRouteRecommendDtos(spotForRouteRecommendDtos, pictureTagUrlDtoBySpotIdMap);
+		Map<Location, List<SpotWithCategoryScoreDto>> spotsByLocationMap = spotRepository.findWithCategoryScoreByLocation(locations, category)
+			.stream()
+			.collect(Collectors.groupingBy(spotWithCategoryScoreDto -> spotWithCategoryScoreDto.getLocation()));
+		List<SpotForRouteRecommendDto> spotForRouteRecommendDtos = getSpotForRouteRecommendDtos(spotIdSet, spotsByLocationMap);
+		setPictureUrlDto(spotIdSet, spotForRouteRecommendDtos);
 		return SpotForRouteRecommendResponse.from(category, spotForRouteRecommendDtos);
-
 	}
 
-	private List<SpotForRouteRecommendDto> getSpotForRouteRecommendDtos(List<Location> locations, Category category,
-		Set<Long> spotIdSet) {
-		List<SpotForRouteRecommendDto> spotForRouteRecommendDtos = new ArrayList<>();
-		for (Location location : locations) {
-			//특정 location 에 category 기준으로 정렬된한것을
-			List<Spot> spots = spotRepository.findByLocationAndCategory(location, category);
-			spots.stream().forEach(spot -> spotIdSet.add(spot.getId()));
-			addSpotForRouteRecommendDto(spotForRouteRecommendDtos, location, spots);
+	private void setPictureUrlDto(Set<Long> spotIdSet, List<SpotForRouteRecommendDto> spotForRouteRecommendDtos) {
+		Map<Long, List<PictureTagUrlDto>> pictureTagUrlDtoBySpotIdMap = getPictureTagUrlDtoBySpotIdMap(spotIdSet);
+		for (SpotForRouteRecommendDto spotForRouteRecommendDto : spotForRouteRecommendDtos) {
+			spotForRouteRecommendDto.getSpotWithCategoryScoreDtos()
+				.stream()
+				.forEach(s->s.setPictureUrl(pictureTagUrlDtoBySpotIdMap.get(s.getId()).get(0)));
 		}
-		return spotForRouteRecommendDtos;
 	}
 
-	private Map<Long, List<PictureTagUrlDto>> findPictureTagsGroupBySpotId(Set<Long> spotIdSet) {
+	private Map<Long, List<PictureTagUrlDto>> getPictureTagUrlDtoBySpotIdMap(Set<Long> spotIdSet) {
 		List<Long> spotIds = spotIdSet.stream().toList();
-		Map<Long, List<PictureTagUrlDto>> pictureTagUrlDtoBySpotIdMap = pictureTagRepository.findNPictureTagForSpotIds(spotIds,
-				spotIds.size())
+		Map<Long, List<PictureTagUrlDto>> pictureTagUrlDtoBySpotIdMap = pictureTagRepository.findNPictureTagForSpotIds(
+				spotIds, spotIds.size())
 			.stream()
 			.collect(Collectors.groupingBy(pictureTagUrlDto -> pictureTagUrlDto.getSpotId()));
 		return pictureTagUrlDtoBySpotIdMap;
 	}
 
-	private void setPictureTagUrlDtoInSpotForRouteRecommendDtos(List<SpotForRouteRecommendDto> spotForRouteRecommendDtos,
-		Map<Long, List<PictureTagUrlDto>> pictureTagUrlDtoBySpotIdMap) {
-		for (SpotForRouteRecommendDto spotForRouteRecommendDto : spotForRouteRecommendDtos) {
-			spotForRouteRecommendDto.getSpotForRouteDtos()
-				.stream()
-				.forEach(spotForRouteDto -> spotForRouteDto.setPictureTagUrlDto(
-					pictureTagUrlDtoBySpotIdMap.get(spotForRouteDto.getId()).get(0)));
-
+	private List<SpotForRouteRecommendDto> getSpotForRouteRecommendDtos(Set<Long> spotIdSet,
+		Map<Location, List<SpotWithCategoryScoreDto>> spotsByLocationMap) {
+		List<SpotForRouteRecommendDto> spotForRouteRecommendDtos = new ArrayList<>();
+		for (Location location : spotsByLocationMap.keySet()) {
+			spotsByLocationMap.get(location).stream().sorted().limit(10).forEach(s -> spotIdSet.add(s.getId()));
+			SpotForRouteRecommendDto.from(location, spotsByLocationMap.get(location));
 		}
-	}
-
-	private void addSpotForRouteRecommendDto(List<SpotForRouteRecommendDto> spotForRouteRecommendDtos, Location location,
-		List<Spot> spots) {
-		List<SpotForRouteDto> spotForRouteDtos = spots.stream()
-			.map(spot -> SpotForRouteDto.from(spot))
-			.collect(Collectors.toList());
-		spotForRouteRecommendDtos.add(SpotForRouteRecommendDto.from(location, spotForRouteDtos));
+		return spotForRouteRecommendDtos;
 	}
 
 	public List<Long> getBySpotIds() {
@@ -122,14 +109,21 @@ public class SpotService {
 		Map<Long, List<Spot>> spotContentsBySpotIdMap, Map<Long, List<PictureTagResponse>> pictureResponseBySpotIdMap) {
 		List<SpotWithPictureTagsDto> spotWithPictureTagsDtos = new ArrayList<>();
 		for (Long spotId : spotIds) {
-			List<PictureTagResponse> pictureTagResponse = pictureResponseBySpotIdMap.get(spotId)
-				.stream()
-				.limit(3)
-				.collect(Collectors.toList());
-			spotWithPictureTagsDtos.add(
-				SpotWithPictureTagsDto.of(spotContentsBySpotIdMap.get(spotId).get(0), pictureTagResponse));
+			addSpotWithPictureTagsDtoInSpotWithPictureTagsDtos(spotContentsBySpotIdMap, pictureResponseBySpotIdMap,
+				spotWithPictureTagsDtos, spotId);
 		}
 		return spotWithPictureTagsDtos;
+	}
+
+	private void addSpotWithPictureTagsDtoInSpotWithPictureTagsDtos(Map<Long, List<Spot>> spotContentsBySpotIdMap,
+		Map<Long, List<PictureTagResponse>> pictureResponseBySpotIdMap,
+		List<SpotWithPictureTagsDto> spotWithPictureTagsDtos, Long spotId) {
+		List<PictureTagResponse> pictureTagResponse = pictureResponseBySpotIdMap.get(spotId)
+			.stream()
+			.limit(3)
+			.collect(Collectors.toList());
+		spotWithPictureTagsDtos.add(
+			SpotWithPictureTagsDto.of(spotContentsBySpotIdMap.get(spotId).get(0), pictureTagResponse));
 	}
 
 	private Map<Long, List<Spot>> getBySpotIdMap(Slice<Spot> spotSlice) {
@@ -150,15 +144,10 @@ public class SpotService {
 	public SpotsForRouteDto getSpotInfoBySpotIdsForRoute(WishListSpotIdsResponseDto wishListSpotIdsResponseDto) {
 		//1. spotId 리스트들 기반으로 관광지 사진 1개, 관광지 이름, location, address 를 가져온다
 		List<Long> spotIds = wishListSpotIdsResponseDto.getSpotIds();
-		List<Spot> spots = spotRepository.findBySpotIds(spotIds);
-		Map<Long, List<PictureTagUrlDto>> pictureTagUrlDtoBySpotIdMap = pictureTagRepository.findNPictureTagForSpotIds(spotIds,
-				spotIds.size())
-			.stream()
-			.collect(Collectors.groupingBy(p -> p.getSpotId()));
+		List<Spot> spots = spotRepository.findBySpotIdsWithFetchJoin(spotIds);
 		return SpotsForRouteDto.of(wishListSpotIdsResponseDto.getWishListId(), spots.stream()
-			.map(spot -> SpotForRouteDto.of(spot, pictureTagUrlDtoBySpotIdMap.get(spot.getId()).get(0)))
+			.map(spot -> SpotForRouteDto.of(spot, PictureTagDto.from(spot.getPictureTags().get(0))))
 			.collect(Collectors.toList()));
-
 	}
 
 	public WishListsWithPictureTagsResponseDto getPictureTagsForWishLists(WishListsResponseDto wishListsResponseDto) {

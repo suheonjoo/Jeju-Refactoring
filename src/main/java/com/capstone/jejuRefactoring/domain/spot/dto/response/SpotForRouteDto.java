@@ -29,26 +29,16 @@ public class SpotForRouteDto {
 	private Location location;
 
 	@Lob
-	private PictureTagUrlDto pictureTagUrlDto;
+	private PictureTagDto pictureTagDto;
 
-	public static SpotForRouteDto of(Spot spot, PictureTagUrlDto pictureTagUrlDto) {
+	public static SpotForRouteDto of(Spot spot, PictureTagDto pictureTagDto) {
 		return SpotForRouteDto.builder()
 			.id(spot.getId())
 			.name(spot.getName())
 			.description(spot.getDescription())
 			.address(spot.getAddress())
 			.location(spot.getLocation())
-			.pictureTagUrlDto(pictureTagUrlDto)
-			.build();
-	}
-
-	public static SpotForRouteDto from(Spot spot) {
-		return SpotForRouteDto.builder()
-			.id(spot.getId())
-			.name(spot.getName())
-			.description(spot.getDescription())
-			.address(spot.getAddress())
-			.location(spot.getLocation())
+			.pictureTagDto(pictureTagDto)
 			.build();
 	}
 

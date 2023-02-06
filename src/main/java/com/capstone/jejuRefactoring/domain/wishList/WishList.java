@@ -32,7 +32,7 @@ public class WishList {
 	@Column(name = "wishlist_id")
 	private Long id;
 
-	@Column(name = "wishlist")
+	@Column(name = "wishlist_name")
 	private String name;
 
 	@ManyToOne(fetch = FetchType.LAZY)
