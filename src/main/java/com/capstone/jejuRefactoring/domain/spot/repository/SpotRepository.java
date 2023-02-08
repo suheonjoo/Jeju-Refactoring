@@ -20,7 +20,7 @@ public interface SpotRepository {
 
 	List<Long> findAllSpotIds();
 
-	Slice<Spot> findPageBySpotIds(List<Long> spotIds, List<Location> location, Pageable pageable);
+	List<Spot> findByLocationsAndSpotIds(List<Long> spotIds, List<Location> location);
 
 	List<Long> findBySpotLocations(List<Location> locations);
 

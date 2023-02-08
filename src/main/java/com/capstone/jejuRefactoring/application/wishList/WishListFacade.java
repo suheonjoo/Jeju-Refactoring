@@ -1,6 +1,7 @@
 package com.capstone.jejuRefactoring.application.wishList;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotsForRouteDto;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.WishListsWithPictureTagsResponseDto;
@@ -16,19 +17,23 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class WishListFacade {
 
 	private final WishListService wishListService;
 	private final SpotService spotService;
 
+	@Transactional
 	public void saveWishList(WishListSaveRequestDto wishListSaveRequestDto) {
 		wishListService.saveWishList(wishListSaveRequestDto);
 	}
 
+	@Transactional
 	public void deleteWishList(WishListDeleteRequestDto wishListDeleteRequestDto) {
 		wishListService.deleteWishList(wishListDeleteRequestDto);
 	}
 
+	@Transactional
 	public void reviseWishListName(WishListModifyRequestDto wishListModifyRequestDto) {
 		wishListService.changeWishListName(wishListModifyRequestDto);
 	}

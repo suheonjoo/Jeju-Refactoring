@@ -2,6 +2,7 @@ package com.capstone.jejuRefactoring.application.spot;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.capstone.jejuRefactoring.domain.priority.service.PriorityService;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotPageResponse;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class SpotFacade {
 	private final SpotService spotService;
 	private final PriorityService priorityService;

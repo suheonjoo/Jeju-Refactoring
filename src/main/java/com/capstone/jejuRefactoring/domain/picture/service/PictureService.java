@@ -12,7 +12,7 @@ import com.capstone.jejuRefactoring.domain.picture.repsoitory.PictureRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class PictureService {
 

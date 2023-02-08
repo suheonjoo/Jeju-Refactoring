@@ -31,13 +31,10 @@ public class SpotQuerydslRepository {
 
 	private final JPAQueryFactory query;
 
-	public Slice<Spot> findPageBySpotIds(List<Long> spotIds, List<Location> locations, Pageable pageable) {
-		List<Spot> content = query.selectFrom(spot)
-			.where(spot.id.in(spotIds).and(spot.location.in(locations)))
-			.offset(pageable.getOffset())
-			.limit(pageable.getPageSize() + 1)
+	public List<Spot> findByLocationsAndSpotIds(List<Long> spotIds, List<Location> locations) {
+		return query.selectFrom(spot)
+			.where(spot.location.in(locations), spot.id.in(spotIds))
 			.fetch();
-		return RepositorySupport.toSlice(content, pageable);
 	}
 
 	public List<SpotWithCategoryScoreDto> findWithCategoryScoreByLocation(List<Location> locations, Category category) {
@@ -80,6 +77,7 @@ public class SpotQuerydslRepository {
 	}
 
 	// 쿼리 최적화 커버링 인덱스로 빠르게 땡겨오고 필요한 필드만 dto로 조회함과 동시에 이미 알고 있는 필드는 as 표현식
+	// 쿼리최적화 no offset
 	public Slice<SpotPageResponse> findPageBySpotName(String spotName, Long lastSpotId, Pageable pageable) {
 
 		List<Long> ids = query
@@ -88,7 +86,7 @@ public class SpotQuerydslRepository {
 			.where(spot.name.like(spotName + "%"),
 				ltSpotId(lastSpotId))
 			.orderBy(spot.id.asc())
-			.limit(pageable.getPageSize() + 1)
+			.limit(pageable.getPageSize() + 1) //// limit보다 데이터를 1개 더 들고와서, 해당 데이터가 있다면 hasNext 변수에 true 를 넣어 알린다
 			.fetch();
 
 		// 1-1) 대상이 없을 경우 추가 쿼리 수행 할 필요 없이 바로 반환

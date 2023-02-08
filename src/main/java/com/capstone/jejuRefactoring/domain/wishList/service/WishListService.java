@@ -32,6 +32,7 @@ public class WishListService {
 	private final WishListRepository wishListRepository;
 	private final WishListSpotTagRepository wishListSpotTagRepository;
 
+	@Transactional
 	public void saveWishList(WishListSaveRequestDto wishListSaveRequestDto) {
 		validWishListName(wishListSaveRequestDto.getWishListName(), wishListSaveRequestDto.getMemberId());
 		wishListRepository.saveWishList(wishListSaveRequestDto.toEntity());
@@ -45,12 +46,14 @@ public class WishListService {
 		}
 	}
 
+	@Transactional
 	public void changeWishListName(WishListModifyRequestDto wishListModifyRequestDto) {
 		validWishListName(wishListModifyRequestDto.getWishListName(), wishListModifyRequestDto.getMemberId());
 		wishListRepository.updateWishListNameByWishListIdAndMemberId(wishListModifyRequestDto.getWishListName(),
 			wishListModifyRequestDto.getWishListId(), wishListModifyRequestDto.getMemberId());
 	}
 
+	@Transactional
 	public void deleteWishList(WishListDeleteRequestDto wishListDeleteRequestDto) {
 		//1. memberId, spotid가 동일한 wishListTag '들'을 삭제한다
 		wishListSpotTagRepository.deleteByWishListIdAndSpotId(wishListDeleteRequestDto.getWishListId(),

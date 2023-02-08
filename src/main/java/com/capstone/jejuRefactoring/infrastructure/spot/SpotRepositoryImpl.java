@@ -38,8 +38,8 @@ public class SpotRepositoryImpl implements SpotRepository {
 	}
 
 	@Override
-	public Slice<Spot> findPageBySpotIds(List<Long> spotIds, List<Location> locations, Pageable pageable) {
-		return spotQuerydslRepository.findPageBySpotIds(spotIds, locations, pageable);
+	public List<Spot> findByLocationsAndSpotIds(List<Long> spotIds, List<Location> locations) {
+		return spotQuerydslRepository.findByLocationsAndSpotIds(spotIds, locations);
 	}
 
 	@Override

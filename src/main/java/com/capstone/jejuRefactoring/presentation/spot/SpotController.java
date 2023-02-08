@@ -30,7 +30,7 @@ public class SpotController {
 
 	@GetMapping("/{spotName}")
 	public ResponseEntity<CommonResponse> searchSpotBySpotName(@PathVariable final String spotName,
-		@RequestParam("lastSpotId") Long lastSpotId, Pageable pageable) {
+		@RequestParam(value = "lastSpotId", required = false) Long lastSpotId, Pageable pageable) {
 		return ResponseEntity.ok()
 			.body(CommonResponse.success(spotFacade.getSpotBySpotName(spotName, lastSpotId, pageable)));
 	}
