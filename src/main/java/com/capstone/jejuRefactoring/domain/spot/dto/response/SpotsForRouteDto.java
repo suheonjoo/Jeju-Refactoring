@@ -16,12 +16,12 @@ public class SpotsForRouteDto {
 
 	private Long wishListId;
 
-	private List<SpotForRouteDto> spotForRouteDtos;
+	private List<SpotWithPictureTagDto> spotWithPictureTagDtos;
 
-	public static SpotsForRouteDto of(Long wishListId, List<SpotForRouteDto> spotForRouteDtos) {
+	public static SpotsForRouteDto of(Long wishListId, List<SpotWithPictureTagDto> spotWithPictureTagDtos) {
 		return SpotsForRouteDto.builder()
 			.wishListId(wishListId)
-			.spotForRouteDtos(spotForRouteDtos)
+			.spotWithPictureTagDtos(spotWithPictureTagDtos)
 			.build();
 	}
 }

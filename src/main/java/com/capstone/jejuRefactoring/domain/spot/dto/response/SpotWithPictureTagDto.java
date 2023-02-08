@@ -2,7 +2,6 @@ package com.capstone.jejuRefactoring.domain.spot.dto.response;
 
 import com.capstone.jejuRefactoring.domain.spot.Location;
 import com.capstone.jejuRefactoring.domain.spot.Spot;
-import com.capstone.jejuRefactoring.infrastructure.spot.PictureTagUrlDto;
 
 import jakarta.persistence.Lob;
 import lombok.AccessLevel;
@@ -15,7 +14,7 @@ import lombok.Setter;
 @Setter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class SpotForRouteDto {
+public class SpotWithPictureTagDto {
 
 	private Long id;
 
@@ -31,8 +30,8 @@ public class SpotForRouteDto {
 	@Lob
 	private PictureTagDto pictureTagDto;
 
-	public static SpotForRouteDto of(Spot spot, PictureTagDto pictureTagDto) {
-		return SpotForRouteDto.builder()
+	public static SpotWithPictureTagDto of(Spot spot, PictureTagDto pictureTagDto) {
+		return SpotWithPictureTagDto.builder()
 			.id(spot.getId())
 			.name(spot.getName())
 			.description(spot.getDescription())

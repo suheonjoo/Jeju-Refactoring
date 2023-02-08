@@ -28,7 +28,7 @@ public class AuthFacade {
 	public void join(JoinRequest joinRequest) {
 		Long memberId = authCommandUseCase.join(joinRequest);
 		List<Long> spotIds = spotService.getAllSpotIds();
-		priorityService.createMemberSpotTages(memberId, spotIds);
+		priorityService.createMemberSpotTags(memberId, spotIds);
 	}
 
 	public void deleteMember(Member member, String accessToken, String refreshToken) {

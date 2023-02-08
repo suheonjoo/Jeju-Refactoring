@@ -9,6 +9,7 @@ import org.springframework.data.domain.Slice;
 import com.capstone.jejuRefactoring.domain.spot.Category;
 import com.capstone.jejuRefactoring.domain.spot.Location;
 import com.capstone.jejuRefactoring.domain.spot.Spot;
+import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotPageResponse;
 import com.capstone.jejuRefactoring.infrastructure.spot.SpotWithCategoryScoreDto;
 
 public interface SpotRepository {
@@ -24,4 +25,6 @@ public interface SpotRepository {
 	List<Long> findBySpotLocations(List<Location> locations);
 
 	List<SpotWithCategoryScoreDto> findWithCategoryScoreByLocation(List<Location> locations, Category category);
+
+	Slice<SpotPageResponse> findPageBySpotName(String spotName, Long lastSpotId, Pageable pageable);
 }

@@ -29,17 +29,23 @@ public class PriorityService {
 	private final MemberSpotTagRepository memberSpotTagRepository;
 	private final ScoreRepository scoreRepository;
 
-	public void createMemberSpotTages(Long memberId, List<Long> spotIds) {
+	public void createMemberSpotTags(Long memberId, List<Long> spotIds) {
 		List<MemberSpotTag> memberSpotTags = spotIds.stream()
 			.map(spotId -> MemberSpotTag.of(memberId, spotId))
 			.collect(Collectors.toList());
 		memberSpotTagRepository.saveAll(memberSpotTags);
 	}
 
-	public Category getHighestCategoryByLocations(List<Location> locations){
+	public Category getHighestCategoryByLocations(List<Location> locations) {
 
 		List<ScoreWithSpotLocationDto> scoreBySpotLocationDtos = scoreRepository.findScoreBySpotLocations(locations);
 		double view = 0, price = 0, facility = 0, surround = 0;
+		return getHighestCategory(scoreBySpotLocationDtos, view, price, facility, surround);
+
+	}
+
+	private Category getHighestCategory(List<ScoreWithSpotLocationDto> scoreBySpotLocationDtos, double view, double price,
+		double facility, double surround) {
 		for (ScoreWithSpotLocationDto scoreBySpotLocationDto : scoreBySpotLocationDtos) {
 			view += scoreBySpotLocationDto.getViewScore();
 			price += scoreBySpotLocationDto.getPriceScore();
@@ -47,24 +53,19 @@ public class PriorityService {
 			surround += scoreBySpotLocationDto.getSurroundScore();
 		}
 		double max = Math.max(view, Math.max(Math.max(price, facility), surround));
-		if(max == view)
+		if (max == view)
 			return Category.VIEW;
-		else if (max== price)
+		else if (max == price)
 			return Category.PRICE;
-		else if (max== facility)
+		else if (max == facility)
 			return Category.FACILITY;
-		else if(max==surround)
+		else if (max == surround)
 			return Category.SURROUND;
 		else
 			return Category.ALL;
-
 	}
 
-
-
-
-
-	public List<Long>updateMemberSpotScore(Long memberId, List<Long> spotIds, PriorityWeightDto priorityWeightDto) {
+	public List<Long> updateMemberSpotScore(Long memberId, List<Long> spotIds, PriorityWeightDto priorityWeightDto) {
 		//member
 		List<MemberSpotTag> memberSpotTags = memberSpotTagRepository.findByMemberIdAndSpotIds(memberId, spotIds);
 

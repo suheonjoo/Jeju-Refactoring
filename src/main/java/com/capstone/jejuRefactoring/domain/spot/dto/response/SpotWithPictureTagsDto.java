@@ -1,5 +1,6 @@
 package com.capstone.jejuRefactoring.domain.spot.dto.response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.capstone.jejuRefactoring.domain.spot.Location;
@@ -42,6 +43,14 @@ public class SpotWithPictureTagsDto {
 			.build();
 	}
 
-
-
+	public static SpotWithPictureTagsDto of(SpotPageResponse spotPageResponse) {
+		return SpotWithPictureTagsDto.builder()
+			.id(spotPageResponse.getId())
+			.name(spotPageResponse.getName())
+			.description(spotPageResponse.getDescription())
+			.address(spotPageResponse.getAddress())
+			.location(spotPageResponse.getLocation())
+			.pictureTagResponses(new ArrayList<>())
+			.build();
+	}
 }

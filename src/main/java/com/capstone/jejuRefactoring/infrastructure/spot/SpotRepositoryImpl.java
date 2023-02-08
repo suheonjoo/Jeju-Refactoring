@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.capstone.jejuRefactoring.domain.spot.Category;
 import com.capstone.jejuRefactoring.domain.spot.Location;
 import com.capstone.jejuRefactoring.domain.spot.Spot;
+import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotPageResponse;
 import com.capstone.jejuRefactoring.domain.spot.repository.SpotRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -49,6 +50,11 @@ public class SpotRepositoryImpl implements SpotRepository {
 	@Override
 	public List<SpotWithCategoryScoreDto> findWithCategoryScoreByLocation(List<Location> locations, Category category) {
 		return spotQuerydslRepository.findWithCategoryScoreByLocation(locations, category);
+	}
+
+	@Override
+	public Slice<SpotPageResponse> findPageBySpotName(String spotName, Long lastSpotId, Pageable pageable) {
+		return spotQuerydslRepository.findPageBySpotName(spotName, lastSpotId, pageable);
 	}
 
 }
