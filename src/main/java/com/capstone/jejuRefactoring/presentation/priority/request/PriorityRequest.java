@@ -12,6 +12,7 @@ public class PriorityRequest {
 	private Integer priceWeight;
 	private Integer facilityWeight;
 	private Integer surroundWeight;
+	private boolean isSameWeight;
 
 	public PriorityWeightDto toPriorityWeightDto() {
 		return PriorityWeightDto.builder()
@@ -19,6 +20,7 @@ public class PriorityRequest {
 			.priceWeight(priceWeight)
 			.facilityWeight(facilityWeight)
 			.surroundWeight(surroundWeight)
+			.isSameWeight(isSameWeight)
 			.build();
 	}
 

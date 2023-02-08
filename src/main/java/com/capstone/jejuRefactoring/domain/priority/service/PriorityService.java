@@ -74,12 +74,23 @@ public class PriorityService {
 	public SpotIdsWithPageInfoDto updateMemberSpotScore(Long memberId, List<Long> spotIds, PriorityWeightDto priorityWeightDto,
 		Pageable pageable) {
 		List<MemberSpotTag> memberSpotTags = memberSpotTagRepository.findByMemberIdAndSpotIds(memberId, spotIds);
+		if (priorityWeightDto.isSameWeight() == true) {
+			updateMemberSpotScore(spotIds, priorityWeightDto, memberSpotTags);
+		}
+		Collections.sort(memberSpotTags);
+		return getSpotIdsWithPageInfoDto(pageable, memberSpotTags);
+	}
+
+	private void updateMemberSpotScore(List<Long> spotIds, PriorityWeightDto priorityWeightDto,
+		List<MemberSpotTag> memberSpotTags) {
 		Map<Long, List<Score>> scoresBySpotIdMap = scoreRepository.findBySpotIds(spotIds)
 			.stream()
 			.collect(Collectors.groupingBy(score -> score.getSpot().getId()));
-		sortingMemberSpotTagsByScore(priorityWeightDto, memberSpotTags, scoresBySpotIdMap);
-
-		return getSpotIdsWithPageInfoDto(pageable, memberSpotTags);
+		for (MemberSpotTag memberSpotTag : memberSpotTags) {
+			Score score = scoresBySpotIdMap.get(memberSpotTag.getSpot().getId()).get(0);
+			Double memberPersonalScore = calculatePersonalScore(priorityWeightDto, score);
+			memberSpotTag.update(memberPersonalScore);
+		}
 	}
 
 	//페이징를 디비에서 하지 않고 필요한 관광지 id만 뽑도록 하였습니다
@@ -99,16 +110,6 @@ public class PriorityService {
 			return true;
 		}
 		return false;
-	}
-
-	private void sortingMemberSpotTagsByScore(PriorityWeightDto priorityWeightDto, List<MemberSpotTag> memberSpotTags,
-		Map<Long, List<Score>> scoresBySpotIdMap) {
-		for (MemberSpotTag memberSpotTag : memberSpotTags) {
-			Score score = scoresBySpotIdMap.get(memberSpotTag.getSpot().getId()).get(0);
-			Double memberPersonalScore = calculatePersonalScore(priorityWeightDto, score);
-			memberSpotTag.update(memberPersonalScore);
-		}
-		Collections.sort(memberSpotTags);
 	}
 
 	private Double calculatePersonalScore(PriorityWeightDto priorityWeightDto, Score score) {
