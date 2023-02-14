@@ -34,8 +34,8 @@ import com.capstone.jejuRefactoring.domain.spot.repository.SpotRepository;
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.response.WishListResponseDto;
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.response.WishListSpotIdsResponseDto;
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.response.WishListsResponseDto;
-import com.capstone.jejuRefactoring.infrastructure.spot.PictureTagUrlDto;
-import com.capstone.jejuRefactoring.infrastructure.spot.SpotWithCategoryScoreDto;
+import com.capstone.jejuRefactoring.infrastructure.spot.dto.PictureTagUrlDto;
+import com.capstone.jejuRefactoring.infrastructure.spot.dto.SpotWithCategoryScoreDto;
 
 import lombok.RequiredArgsConstructor;
 

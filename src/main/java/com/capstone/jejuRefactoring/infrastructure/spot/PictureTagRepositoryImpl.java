@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.capstone.jejuRefactoring.domain.spot.PictureTag;
 import com.capstone.jejuRefactoring.domain.spot.repository.PictureTagRepository;
+import com.capstone.jejuRefactoring.infrastructure.spot.dto.PictureTagUrlDto;
 
 import lombok.RequiredArgsConstructor;
 

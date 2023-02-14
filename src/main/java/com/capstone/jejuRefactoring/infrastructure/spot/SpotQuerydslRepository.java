@@ -17,6 +17,8 @@ import com.capstone.jejuRefactoring.domain.spot.Category;
 import com.capstone.jejuRefactoring.domain.spot.Location;
 import com.capstone.jejuRefactoring.domain.spot.Spot;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotPageResponse;
+import com.capstone.jejuRefactoring.infrastructure.spot.dto.SpotWithCategoryScoreDto;
+import com.capstone.jejuRefactoring.infrastructure.spot.dto.TestDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;

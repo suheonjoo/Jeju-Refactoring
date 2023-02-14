@@ -3,7 +3,7 @@ package com.capstone.jejuRefactoring.domain.priority.repository;
 import java.util.List;
 
 import com.capstone.jejuRefactoring.domain.priority.MemberSpotTag;
-import com.capstone.jejuRefactoring.infrastructure.priority.MemberSpotTageWithScoreDto;
+import com.capstone.jejuRefactoring.infrastructure.priority.dto.MemberSpotTageWithScoreDto;
 
 public interface MemberSpotTagRepository {
 	void saveAll(List<MemberSpotTag> memberSpotTags);

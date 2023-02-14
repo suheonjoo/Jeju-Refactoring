@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.capstone.jejuRefactoring.domain.priority.Score;
 import com.capstone.jejuRefactoring.domain.priority.repository.ScoreRepository;
 import com.capstone.jejuRefactoring.domain.spot.Location;
+import com.capstone.jejuRefactoring.infrastructure.priority.dto.ScoreWithSpotLocationDto;
 
 import lombok.RequiredArgsConstructor;
 

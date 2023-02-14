@@ -19,7 +19,7 @@ import com.capstone.jejuRefactoring.domain.spot.Category;
 import com.capstone.jejuRefactoring.domain.spot.Location;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.ScoreResponse;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotResponse;
-import com.capstone.jejuRefactoring.infrastructure.priority.ScoreWithSpotLocationDto;
+import com.capstone.jejuRefactoring.infrastructure.priority.dto.ScoreWithSpotLocationDto;
 
 import lombok.RequiredArgsConstructor;
 

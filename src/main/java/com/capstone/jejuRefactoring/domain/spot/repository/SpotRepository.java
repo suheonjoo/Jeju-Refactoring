@@ -10,7 +10,7 @@ import com.capstone.jejuRefactoring.domain.spot.Category;
 import com.capstone.jejuRefactoring.domain.spot.Location;
 import com.capstone.jejuRefactoring.domain.spot.Spot;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotPageResponse;
-import com.capstone.jejuRefactoring.infrastructure.spot.SpotWithCategoryScoreDto;
+import com.capstone.jejuRefactoring.infrastructure.spot.dto.SpotWithCategoryScoreDto;
 
 public interface SpotRepository {
 

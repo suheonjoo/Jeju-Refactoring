@@ -3,7 +3,7 @@ package com.capstone.jejuRefactoring.domain.spot.dto.response;
 import java.util.List;
 
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.response.WishListResponseDto;
-import com.capstone.jejuRefactoring.infrastructure.spot.PictureTagUrlDto;
+import com.capstone.jejuRefactoring.infrastructure.spot.dto.PictureTagUrlDto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

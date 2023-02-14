@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.capstone.jejuRefactoring.domain.priority.MemberSpotTag;
 import com.capstone.jejuRefactoring.domain.priority.repository.MemberSpotTagRepository;
+import com.capstone.jejuRefactoring.infrastructure.priority.dto.MemberSpotTageWithScoreDto;
 
 import lombok.RequiredArgsConstructor;
 

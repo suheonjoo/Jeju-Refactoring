@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.capstone.jejuRefactoring.domain.priority.Score;
 import com.capstone.jejuRefactoring.domain.spot.Location;
-import com.capstone.jejuRefactoring.infrastructure.priority.ScoreWithSpotLocationDto;
+import com.capstone.jejuRefactoring.infrastructure.priority.dto.ScoreWithSpotLocationDto;
 
 public interface ScoreRepository {
 

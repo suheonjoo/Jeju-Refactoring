@@ -1,0 +1,23 @@
+spring:
+  profiles:
+    include:
+      - jwt
+    active: test
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+
+#  sql:
+#    init:
+#      data-locations: classpath:data.sql
+#      username:
+#      password:
+#      mode: never
+  data:
+    redis:
+      port: 6379
+      host: localhost

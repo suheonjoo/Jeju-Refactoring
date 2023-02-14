@@ -14,12 +14,12 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.capstone.jejuRefactoring.security.filter.JwtAuthenticationFilter;
-import com.capstone.jejuRefactoring.security.filter.LoginProcessingAuthenticationFilter;
-import com.capstone.jejuRefactoring.security.handler.LoginFailureHandler;
-import com.capstone.jejuRefactoring.security.handler.LoginSuccessHandler;
-import com.capstone.jejuRefactoring.security.handler.RestAccessDeniedHandler;
-import com.capstone.jejuRefactoring.security.handler.RestAuthenticationEntryPoint;
+import com.capstone.jejuRefactoring.config.security.filter.JwtAuthenticationFilter;
+import com.capstone.jejuRefactoring.config.security.filter.LoginProcessingAuthenticationFilter;
+import com.capstone.jejuRefactoring.config.security.handler.LoginFailureHandler;
+import com.capstone.jejuRefactoring.config.security.handler.LoginSuccessHandler;
+import com.capstone.jejuRefactoring.config.security.handler.RestAccessDeniedHandler;
+import com.capstone.jejuRefactoring.config.security.handler.RestAuthenticationEntryPoint;
 
 import lombok.RequiredArgsConstructor;
 

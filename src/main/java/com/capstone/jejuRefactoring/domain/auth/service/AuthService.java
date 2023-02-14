@@ -18,8 +18,8 @@ import com.capstone.jejuRefactoring.domain.auth.dto.LoginResult;
 import com.capstone.jejuRefactoring.domain.auth.repository.TokenRepository;
 import com.capstone.jejuRefactoring.infrastructure.auth.respository.MemberJpaRepository;
 import com.capstone.jejuRefactoring.presentation.auth.dto.request.JoinRequest;
-import com.capstone.jejuRefactoring.security.provider.JwtExpirationEnums;
-import com.capstone.jejuRefactoring.security.provider.JwtTokenProvider;
+import com.capstone.jejuRefactoring.config.security.provider.JwtExpirationEnums;
+import com.capstone.jejuRefactoring.config.security.provider.JwtTokenProvider;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

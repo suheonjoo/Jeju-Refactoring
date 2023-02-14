@@ -3,7 +3,7 @@ package com.capstone.jejuRefactoring.domain.spot.dto.response;
 import java.util.List;
 
 import com.capstone.jejuRefactoring.domain.spot.Location;
-import com.capstone.jejuRefactoring.infrastructure.spot.SpotWithCategoryScoreDto;
+import com.capstone.jejuRefactoring.infrastructure.spot.dto.SpotWithCategoryScoreDto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
