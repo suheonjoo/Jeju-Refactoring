@@ -11,6 +11,7 @@ import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.capstone.jejuRefactoring.common.exception.priority.NotLockException;
@@ -139,6 +140,7 @@ public class PriorityService {
 		return SpotResponse.of(spotBySpotId, ScoreResponse.from(scoreRepository.findBySpotId(spotId)));
 	}
 
+	@Transactional
 	public LikeFlipResponse flipSpotLike(Long spotId, Long memberId, Integer key) {
 		boolean isSpotLikeExist = memberSpotTagRepository.isSpotLikExistByMemberIdAndSpotId(spotId, memberId);
 		RLock lock = redissonClient.getLock(key.toString());
@@ -161,13 +163,14 @@ public class PriorityService {
 		}
 	}
 
-	private void updateSpotLike(Long spotId, Long memberId, boolean isSpotLikeExist) {
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void updateSpotLike(Long spotId, Long memberId, boolean isSpotLikeExist) {
 		if (isSpotLikeExist) {
 			memberSpotTagRepository.deleteSpotLikeByMemberIdAndSpotId(spotId, memberId);
 			spotLikeTagRepository.decreaseLikeCount(spotId);
 			return;
 		}
-		spotLikeTagRepository.increaseLikeCount(spotId);
 		memberSpotTagRepository.createSpotLikeByMemberIdAndSpotId(spotId, memberId);
+		spotLikeTagRepository.increaseLikeCount(spotId);
 	}
 }
