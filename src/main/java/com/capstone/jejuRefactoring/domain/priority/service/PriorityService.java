@@ -3,23 +3,31 @@ package com.capstone.jejuRefactoring.domain.priority.service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.capstone.jejuRefactoring.common.exception.priority.NotLockException;
 import com.capstone.jejuRefactoring.domain.priority.MemberSpotTag;
 import com.capstone.jejuRefactoring.domain.priority.Score;
+import com.capstone.jejuRefactoring.domain.priority.SpotLikeTag;
 import com.capstone.jejuRefactoring.domain.priority.dto.request.PriorityWeightDto;
 import com.capstone.jejuRefactoring.domain.priority.dto.response.SpotIdsWithPageInfoDto;
 import com.capstone.jejuRefactoring.domain.priority.repository.MemberSpotTagRepository;
 import com.capstone.jejuRefactoring.domain.priority.repository.ScoreRepository;
+import com.capstone.jejuRefactoring.domain.priority.repository.SpotLikeTagRepository;
 import com.capstone.jejuRefactoring.domain.spot.Category;
 import com.capstone.jejuRefactoring.domain.spot.Location;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.ScoreResponse;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotResponse;
 import com.capstone.jejuRefactoring.infrastructure.priority.dto.ScoreWithSpotLocationDto;
+import com.capstone.jejuRefactoring.presentation.spot.dto.LikeFlipResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,6 +38,8 @@ public class PriorityService {
 
 	private final MemberSpotTagRepository memberSpotTagRepository;
 	private final ScoreRepository scoreRepository;
+	private final RedissonClient redissonClient;
+	private final SpotLikeTagRepository spotLikeTagRepository;
 
 	@Transactional
 	public void createMemberSpotTags(Long memberId, List<Long> spotIds) {
@@ -127,5 +137,37 @@ public class PriorityService {
 
 	public SpotResponse getScoreBySpotId(SpotResponse spotBySpotId, Long spotId) {
 		return SpotResponse.of(spotBySpotId, ScoreResponse.from(scoreRepository.findBySpotId(spotId)));
+	}
+
+	public LikeFlipResponse flipSpotLike(Long spotId, Long memberId, Integer key) {
+		boolean isSpotLikeExist = memberSpotTagRepository.isSpotLikExistByMemberIdAndSpotId(spotId, memberId);
+		RLock lock = redissonClient.getLock(key.toString());
+		try {
+			boolean available = lock.tryLock(10, 1, TimeUnit.SECONDS);
+			validatedLock(available);
+			updateSpotLike(spotId, memberId, isSpotLikeExist);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		} finally {
+			lock.unlock();
+		}
+		Optional<SpotLikeTag> spot = spotLikeTagRepository.findBySpotId(spotId);
+		return LikeFlipResponse.of(spot.get().getLikeCount(), isSpotLikeExist) ;
+	}
+
+	private void validatedLock(boolean available) {
+		if (!available) {
+			throw new NotLockException();
+		}
+	}
+
+	private void updateSpotLike(Long spotId, Long memberId, boolean isSpotLikeExist) {
+		if (isSpotLikeExist) {
+			memberSpotTagRepository.deleteSpotLikeByMemberIdAndSpotId(spotId, memberId);
+			spotLikeTagRepository.decreaseLikeCount(spotId);
+			return;
+		}
+		spotLikeTagRepository.increaseLikeCount(spotId);
+		memberSpotTagRepository.createSpotLikeByMemberIdAndSpotId(spotId, memberId);
 	}
 }

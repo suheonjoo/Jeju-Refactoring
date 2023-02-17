@@ -1,6 +1,7 @@
 package com.capstone.jejuRefactoring.infrastructure.priority;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -30,5 +31,20 @@ public class MemberSpotTagRepositoryImpl implements MemberSpotTagRepository {
 	@Override
 	public List<MemberSpotTageWithScoreDto> findMemberSpotTageWithScoreAndSpot(Long memberId) {
 		return memberSpotTagQuerydslRepository.findMemberSpotTageWithScoreAndSpot(memberId);
+	}
+
+	@Override
+	public boolean isSpotLikExistByMemberIdAndSpotId(Long spotId, Long memberId) {
+		return memberSpotTagJpaRepository.isSpotLikExistByMemberIdAndSpotId(spotId, memberId);
+	}
+
+	@Override
+	public void deleteSpotLikeByMemberIdAndSpotId(Long spotId, Long memberId) {
+		memberSpotTagJpaRepository.deleteSpotLikeByMemberIdAndSpotId(spotId, memberId);
+	}
+
+	@Override
+	public void createSpotLikeByMemberIdAndSpotId(Long spotId, Long memberId) {
+		memberSpotTagJpaRepository.createSpotLikeByMemberIdAndSpotId(spotId, memberId);
 	}
 }

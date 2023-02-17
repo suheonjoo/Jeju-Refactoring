@@ -27,4 +27,8 @@ public interface SpotRepository {
 	List<SpotWithCategoryScoreDto> findWithCategoryScoreByLocation(List<Location> locations, Category category);
 
 	Slice<SpotPageResponse> findPageBySpotName(String spotName, Long lastSpotId, Pageable pageable);
+
+	void increaseLikeCount(Long spotId);
+
+	void decreaseLikeCount(Long spotId);
 }

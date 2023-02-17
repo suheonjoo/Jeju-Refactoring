@@ -56,6 +56,8 @@ public class Spot {
 	@JoinColumn(name = "score_id")
 	private Score score;
 
+	private Integer likeCount;
+
 	@OneToMany(mappedBy = "spot")
 	@Builder.Default
 	private List<Review> reviews = new ArrayList<>();

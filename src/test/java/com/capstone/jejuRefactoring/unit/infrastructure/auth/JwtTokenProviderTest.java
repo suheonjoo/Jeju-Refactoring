@@ -1,21 +1,12 @@
 package com.capstone.jejuRefactoring.unit.infrastructure.auth;
 
-
 import static com.capstone.jejuRefactoring.support.helper.MemberGivenHelper.*;
 import static org.assertj.core.api.Assertions.*;
-
-import java.util.Arrays;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import com.capstone.jejuRefactoring.config.security.dto.AccountContext;
 import com.capstone.jejuRefactoring.config.security.provider.JwtTokenProvider;
 import com.capstone.jejuRefactoring.domain.auth.Member;
 

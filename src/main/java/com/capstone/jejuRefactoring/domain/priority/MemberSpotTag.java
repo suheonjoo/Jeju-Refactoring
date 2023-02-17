@@ -41,6 +41,8 @@ public class MemberSpotTag implements Comparable<MemberSpotTag> {
 	@JoinColumn(name = "spot_id")
 	private Spot spot;
 
+	private Boolean like;
+
 	protected MemberSpotTag() {
 	}
 
