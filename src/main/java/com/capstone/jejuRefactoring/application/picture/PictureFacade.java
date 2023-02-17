@@ -16,7 +16,6 @@ public class PictureFacade {
 
 	private final PictureService pictureService;
 
-
 	public PicturePageResponse getPicturesBySpotId(final Long spotId, Pageable pageable) {
 		return pictureService.getPicturesBySpotId(spotId, pageable);
 	}

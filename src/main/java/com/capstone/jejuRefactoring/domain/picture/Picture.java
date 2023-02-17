@@ -33,7 +33,6 @@ public class Picture {
 	@Column(name = "picture_url")
 	private String url;
 
-
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "spot_id")
 	private Spot spot;

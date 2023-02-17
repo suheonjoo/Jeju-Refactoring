@@ -18,12 +18,12 @@ public class WishListsWithPictureTagsResponseDto {
 
 	private List<SpotPictureTagForWishListResponseDto> wishListResponseDtos;
 
-	public static WishListsWithPictureTagsResponseDto of(Long memberId, List<SpotPictureTagForWishListResponseDto> wishListResponseDtos) {
+	public static WishListsWithPictureTagsResponseDto of(Long memberId,
+		List<SpotPictureTagForWishListResponseDto> wishListResponseDtos) {
 		return WishListsWithPictureTagsResponseDto.builder()
 			.memberId(memberId)
 			.wishListResponseDtos(wishListResponseDtos)
 			.build();
 	}
-
 
 }

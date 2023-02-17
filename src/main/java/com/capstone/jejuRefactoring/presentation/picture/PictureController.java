@@ -13,7 +13,6 @@ import com.capstone.jejuRefactoring.domain.picture.dto.PicturePageResponse;
 
 import lombok.RequiredArgsConstructor;
 
-
 @RestController
 @RequestMapping("/api/v1/spots")
 @RequiredArgsConstructor

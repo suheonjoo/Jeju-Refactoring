@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.capstone.jejuRefactoring.application.priority.PriorityFacade;
 import com.capstone.jejuRefactoring.common.exception.CommonResponse;
 import com.capstone.jejuRefactoring.domain.auth.Member;
+import com.capstone.jejuRefactoring.domain.priority.dto.response.LikeFlipResponse;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotForRouteRecommendResponse;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotPageWithPictureTagsResponse;
 import com.capstone.jejuRefactoring.presentation.auth.LoginUser;
@@ -46,6 +49,13 @@ public class PriorityController {
 			stringLocations);
 		return ResponseEntity.ok()
 			.body(CommonResponse.success(spotForRouteRecommendResponse));
+	}
+
+	@PutMapping("/{spotId}/like")
+	public ResponseEntity<LikeFlipResponse> flipSpotLike(@PathVariable("id") final Long spotId,
+		@LoginUser Member member) {
+		LikeFlipResponse likeFlipResponse = priorityFacade.flipSpotLike(spotId, member.getId());
+		return ResponseEntity.ok(likeFlipResponse);
 	}
 
 }

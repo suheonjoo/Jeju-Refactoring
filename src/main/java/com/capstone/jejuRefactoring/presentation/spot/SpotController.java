@@ -4,7 +4,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,9 +12,6 @@ import com.capstone.jejuRefactoring.application.spot.SpotFacade;
 import com.capstone.jejuRefactoring.common.exception.CommonResponse;
 import com.capstone.jejuRefactoring.common.metaDataBuilder.DefaultMetaDataBuilder;
 import com.capstone.jejuRefactoring.common.metaDataBuilder.MetaDataDirector;
-import com.capstone.jejuRefactoring.domain.auth.Member;
-import com.capstone.jejuRefactoring.presentation.auth.LoginUser;
-import com.capstone.jejuRefactoring.presentation.spot.dto.LikeFlipResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -45,13 +41,6 @@ public class SpotController {
 		MetaDataDirector metaDataDirector = new MetaDataDirector(new DefaultMetaDataBuilder());
 		return ResponseEntity.ok()
 			.body(CommonResponse.success(metaDataDirector));
-	}
-
-	@PutMapping("/{spotId}/like")
-	public ResponseEntity<LikeFlipResponse> flipSpotLike(@PathVariable("id") final Long spotId,
-		@LoginUser Member member) {
-		LikeFlipResponse likeFlipResponse = spotFacade.flipSpotLike(spotId, member.getId());
-		return ResponseEntity.ok(likeFlipResponse);
 	}
 
 }

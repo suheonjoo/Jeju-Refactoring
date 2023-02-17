@@ -1,7 +1,6 @@
 package com.capstone.jejuRefactoring.domain.priority.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.capstone.jejuRefactoring.domain.priority.MemberSpotTag;
 import com.capstone.jejuRefactoring.infrastructure.priority.dto.MemberSpotTageWithScoreDto;

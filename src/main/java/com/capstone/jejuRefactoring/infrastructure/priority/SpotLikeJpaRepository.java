@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.capstone.jejuRefactoring.domain.priority.SpotLikeTag;
-import com.capstone.jejuRefactoring.domain.spot.Spot;
 
 public interface SpotLikeJpaRepository extends JpaRepository<SpotLikeTag, Long> {
 

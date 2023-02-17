@@ -13,7 +13,7 @@ public interface WishListSpotTagJpaRepository extends JpaRepository<WishListSpot
 
 	@Modifying(clearAutomatically = true)
 	@Query(value = "delete from WishListSpotTag wt where wt.wishList.id = :wishListId and wt.spot.id = :spotId ")
-	void deleteByWishListIdAndSpotId(@Param("wishListId") Long wishListId, @Param("spotId")  Long spotId);
+	void deleteByWishListIdAndSpotId(@Param("wishListId") Long wishListId, @Param("spotId") Long spotId);
 
 	@Query(value = "select wt from WishListSpotTag wt where wt.wishList.id IN :wishListIds")
 	List<WishListSpotTag> findByWishListIds(@Param("wishListIds") List<Long> wishListIds);

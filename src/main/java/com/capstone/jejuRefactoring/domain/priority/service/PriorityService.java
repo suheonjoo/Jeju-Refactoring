@@ -18,6 +18,7 @@ import com.capstone.jejuRefactoring.domain.priority.MemberSpotTag;
 import com.capstone.jejuRefactoring.domain.priority.Score;
 import com.capstone.jejuRefactoring.domain.priority.SpotLikeTag;
 import com.capstone.jejuRefactoring.domain.priority.dto.request.PriorityWeightDto;
+import com.capstone.jejuRefactoring.domain.priority.dto.response.LikeFlipResponse;
 import com.capstone.jejuRefactoring.domain.priority.dto.response.SpotIdsWithPageInfoDto;
 import com.capstone.jejuRefactoring.domain.priority.repository.MemberSpotTagRepository;
 import com.capstone.jejuRefactoring.domain.priority.repository.ScoreRepository;
@@ -27,7 +28,6 @@ import com.capstone.jejuRefactoring.domain.spot.Location;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.ScoreResponse;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotResponse;
 import com.capstone.jejuRefactoring.infrastructure.priority.dto.ScoreWithSpotLocationDto;
-import com.capstone.jejuRefactoring.presentation.spot.dto.LikeFlipResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -81,7 +81,8 @@ public class PriorityService {
 	}
 
 	@Transactional
-	public SpotIdsWithPageInfoDto updateMemberSpotScore(Long memberId, List<Long> spotIds, PriorityWeightDto priorityWeightDto,
+	public SpotIdsWithPageInfoDto updateMemberSpotScore(Long memberId, List<Long> spotIds,
+		PriorityWeightDto priorityWeightDto,
 		Pageable pageable) {
 		List<MemberSpotTag> memberSpotTags = memberSpotTagRepository.findByMemberIdAndSpotIds(memberId, spotIds);
 		if (priorityWeightDto.isSameWeight() == true) {
@@ -113,7 +114,6 @@ public class PriorityService {
 			.collect(Collectors.toList());
 		return SpotIdsWithPageInfoDto.of(hasNext(pageable, memberSpotTags), spotIdOrderByScore);
 	}
-
 
 	private Boolean hasNext(Pageable pageable, List<MemberSpotTag> memberSpotTags) {
 		if (memberSpotTags.size() > (pageable.getPageNumber() + 1) * pageable.getPageSize()) {
@@ -152,7 +152,7 @@ public class PriorityService {
 			lock.unlock();
 		}
 		Optional<SpotLikeTag> spot = spotLikeTagRepository.findBySpotId(spotId);
-		return LikeFlipResponse.of(spot.get().getLikeCount(), isSpotLikeExist) ;
+		return LikeFlipResponse.of(spot.get().getLikeCount(), isSpotLikeExist);
 	}
 
 	private void validatedLock(boolean available) {

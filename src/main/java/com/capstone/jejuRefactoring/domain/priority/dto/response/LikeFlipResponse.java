@@ -1,4 +1,4 @@
-package com.capstone.jejuRefactoring.presentation.spot.dto;
+package com.capstone.jejuRefactoring.domain.priority.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -9,12 +9,6 @@ public class LikeFlipResponse {
 
 	private int likeCount;
 	private boolean like;
-
-	private LikeFlipResponse() {
-	}
-
-
-
 
 	public static LikeFlipResponse of(int likeCount, boolean like) {
 		return LikeFlipResponse.builder()

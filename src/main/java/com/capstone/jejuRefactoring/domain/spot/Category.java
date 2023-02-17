@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import com.capstone.jejuRefactoring.common.exception.spot.CategoryNotFoundException;
 
-
 public enum Category {
 	VIEW("뷰"),
 	PRICE("가격"),

@@ -58,14 +58,4 @@ public class SpotRepositoryImpl implements SpotRepository {
 		return spotQuerydslRepository.findPageBySpotName(spotName, lastSpotId, pageable);
 	}
 
-	@Override
-	public void increaseLikeCount(Long spotId) {
-		spotJpaRepository.increaseLikeCount(spotId);
-	}
-
-	@Override
-	public void decreaseLikeCount(Long spotId) {
-		spotJpaRepository.decreaseLikeCount(spotId);
-	}
-
 }

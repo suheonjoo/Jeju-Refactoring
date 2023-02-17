@@ -37,6 +37,7 @@ public class Review {
 	@JoinColumn(name = "spot_id")
 	private Spot spot;
 
-	protected Review(){}
+	protected Review() {
+	}
 
 }

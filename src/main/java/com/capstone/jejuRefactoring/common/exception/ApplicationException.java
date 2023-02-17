@@ -6,7 +6,7 @@ import org.springframework.validation.BindingResult;
 import lombok.Getter;
 
 @Getter
-public abstract class ApplicationException extends RuntimeException{
+public abstract class ApplicationException extends RuntimeException {
 
 	private final String errorCode;
 	private final HttpStatus httpStatus;
@@ -19,7 +19,7 @@ public abstract class ApplicationException extends RuntimeException{
 	}
 
 	protected ApplicationException(String errorCode, HttpStatus httpStatus, String message, Throwable cause) {
-		super(message,cause);
+		super(message, cause);
 		this.errorCode = errorCode;
 		this.httpStatus = httpStatus;
 	}
@@ -31,13 +31,13 @@ public abstract class ApplicationException extends RuntimeException{
 		this.errors = errors;
 	}
 
-	protected ApplicationException(String errorCode, HttpStatus httpStatus, String message, BindingResult errors, Throwable cause) {
-		super(message,cause);
+	protected ApplicationException(String errorCode, HttpStatus httpStatus, String message, BindingResult errors,
+		Throwable cause) {
+		super(message, cause);
 		this.errorCode = errorCode;
 		this.httpStatus = httpStatus;
 		this.errors = errors;
 	}
-
 
 }
 

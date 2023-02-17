@@ -22,7 +22,8 @@ public class PictureTagResponse {
 
 	public static PictureTagResponse of(final PictureTag pictureTag, final Long spotId) {
 		final Spot spot = pictureTag.getSpot();
-		return new PictureTagResponse(pictureTag.getId(), spot.isSameId(spotId), pictureTag.getUrl(), pictureTag.getSpot().getId());
+		return new PictureTagResponse(pictureTag.getId(), spot.isSameId(spotId), pictureTag.getUrl(),
+			pictureTag.getSpot().getId());
 	}
 
 }

@@ -1,6 +1,5 @@
 package com.capstone.jejuRefactoring.infrastructure.spot;
 
-
 import static com.capstone.jejuRefactoring.domain.spot.QPictureTag.*;
 
 import java.util.List;
@@ -12,7 +11,6 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
-
 
 @Repository
 @RequiredArgsConstructor
@@ -34,7 +32,5 @@ public class PictureTagQuerydslRepository {
 			.fetch();
 
 	}
-
-
 
 }

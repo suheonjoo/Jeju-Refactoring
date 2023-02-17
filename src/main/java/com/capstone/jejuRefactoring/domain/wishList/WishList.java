@@ -43,7 +43,8 @@ public class WishList {
 	@OneToMany(mappedBy = "wishList")
 	private List<WishListSpotTag> wishListSpotTages = new ArrayList<>();
 
-	protected WishList() {}
+	protected WishList() {
+	}
 
 	// public static WishList of(String wishListName) {
 	// 	return WishList.builder()
@@ -51,7 +52,6 @@ public class WishList {
 	// 		.wishListSpotTages()
 	// 		.build();
 	// }
-
 
 }
 

@@ -14,7 +14,6 @@ import com.capstone.jejuRefactoring.domain.auth.Role;
 
 public class MemberGivenHelper {
 
-
 	public static Member givenMember() {
 		return Member.builder()
 			.email("suheon95@gmail.com")
@@ -39,6 +38,5 @@ public class MemberGivenHelper {
 		return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null,
 			userDetails.getAuthorities());
 	}
-
 
 }

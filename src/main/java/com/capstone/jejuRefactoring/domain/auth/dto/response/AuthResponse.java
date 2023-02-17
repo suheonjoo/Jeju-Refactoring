@@ -1,6 +1,5 @@
 package com.capstone.jejuRefactoring.domain.auth.dto.response;
 
-
 import com.capstone.jejuRefactoring.domain.auth.dto.AuthResponseDto;
 
 import lombok.Getter;

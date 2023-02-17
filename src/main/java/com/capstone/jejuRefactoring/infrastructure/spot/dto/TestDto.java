@@ -1,11 +1,5 @@
 package com.capstone.jejuRefactoring.infrastructure.spot.dto;
 
-import java.net.SocketOption;
-
-import com.capstone.jejuRefactoring.domain.spot.Location;
-import com.capstone.jejuRefactoring.domain.spot.Spot;
-
-import jakarta.persistence.Lob;
 import lombok.Data;
 
 @Data

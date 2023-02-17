@@ -12,8 +12,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.capstone.jejuRefactoring.common.exception.security.TokenAuthenticationFilterException;
-import com.capstone.jejuRefactoring.domain.auth.repository.TokenRepository;
 import com.capstone.jejuRefactoring.config.security.provider.JwtTokenProvider;
+import com.capstone.jejuRefactoring.domain.auth.repository.TokenRepository;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -27,10 +27,10 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+	private static String TOKEN_HEADER = "ACCESS-TOKEN";
 	private final JwtTokenProvider jwtTokenProvider;
 	private final TokenRepository tokenRepository;
 	private final UserDetailsService userDetailsService;
-	private static String TOKEN_HEADER = "ACCESS-TOKEN";
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
@@ -39,7 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			String jwt = getJwtFromRequest(request);
 			if (isValidToken(jwt)) {
 				UserDetails userDetails = userDetailsService.loadUserByUsername(jwtTokenProvider.getUserPk(jwt));
-				Authentication authentication = (Authentication) new UsernamePasswordAuthenticationToken(
+				Authentication authentication = (Authentication)new UsernamePasswordAuthenticationToken(
 					userDetails, null, userDetails.getAuthorities());
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 			}

@@ -80,7 +80,8 @@ public class WishListService {
 		return WishListsResponseDto.of(memberId, wishListResponseDtos);
 	}
 
-	private void addWishListResponseDtoInWishListResponseDtos(Map<Long, List<WishListSpotTagResponseDto>> wishlistSpotTagsMap,
+	private void addWishListResponseDtoInWishListResponseDtos(
+		Map<Long, List<WishListSpotTagResponseDto>> wishlistSpotTagsMap,
 		List<WishListResponseDto> wishListResponseDtos, WishList wishList) {
 		List<Long> spotIds = wishlistSpotTagsMap.get(wishList.getId())
 			.stream()

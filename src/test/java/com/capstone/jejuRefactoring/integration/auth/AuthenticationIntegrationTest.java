@@ -52,7 +52,6 @@ public class AuthenticationIntegrationTest extends IntegrationTest {
 		String refreshToken = tokenProvider.createRefreshToken(authentication);
 		ResponseCookie cookie = tokenProvider.createCookie(refreshToken);
 
-
 		//when then
 		mockMvc.perform(MockMvcRequestBuilders.get(URL + "logout")
 				.header(ACCESS_TOKEN, TOKEN_TYPE + accessToken)
@@ -61,7 +60,6 @@ public class AuthenticationIntegrationTest extends IntegrationTest {
 			.andExpect(status().isOk())
 		;
 	}
-
 
 	@Test
 	void Refresh토큰이_아직_reissue_time이_남아있는_경우_토큰_재발급() throws Exception {

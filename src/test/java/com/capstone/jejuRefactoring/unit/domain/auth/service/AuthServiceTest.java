@@ -27,13 +27,13 @@ public class AuthServiceTest {
 	TokenRepository tokenRepository;
 
 	@Test
-	void 로그아웃() throws Exception{
+	void 로그아웃() throws Exception {
 		//given
 		String accessToken = "Bearer accessToken";
 		String refreshToken = "Bearer accessToken";
 
 		//when
-		authService.logout(accessToken,refreshToken);
+		authService.logout(accessToken, refreshToken);
 
 		//then
 		then(tokenRepository).should().saveLogoutAccessToken(any());
@@ -41,7 +41,7 @@ public class AuthServiceTest {
 	}
 
 	@Test
-	void 토큰이_redis에_없는_경우() throws Exception{
+	void 토큰이_redis에_없는_경우() throws Exception {
 		//given
 		String refreshToken = "refreshToken";
 		given(tokenRepository.existsRefreshTokenById(any())).willReturn(false);
@@ -52,7 +52,7 @@ public class AuthServiceTest {
 	}
 
 	@Test
-	void Refresh토큰이_아직_reissue_time이_남아있는_경우() throws Exception{
+	void Refresh토큰이_아직_reissue_time이_남아있는_경우() throws Exception {
 		//given
 		String refreshToken = "refreshToken";
 		String accessToken = "accessToken";
@@ -71,7 +71,7 @@ public class AuthServiceTest {
 	}
 
 	@Test
-	void Refresh토큰이_reissue_time보다_적게_남은_경우() throws Exception{
+	void Refresh토큰이_reissue_time보다_적게_남은_경우() throws Exception {
 		//given
 		String refreshToken = "refreshToken";
 		String accessToken = "accessToken";

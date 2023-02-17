@@ -16,7 +16,6 @@ import com.capstone.jejuRefactoring.infrastructure.spot.SpotJpaRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
-
 @SpringBootTest
 @Transactional
 class PictureTagTest {
@@ -43,7 +42,6 @@ class PictureTagTest {
 			.description("ss")
 			.build();
 
-
 		PictureTag pictureTag = PictureTag.builder()
 			.spot(spot)
 			.url("url")
@@ -53,8 +51,6 @@ class PictureTagTest {
 			.spot(spot1)
 			.url("url")
 			.build();
-
-
 
 		em.persist(spot);
 		em.persist(spot1);

@@ -23,13 +23,13 @@ public class SpotPictureTagForWishListResponseDto {
 
 	private List<PictureTagUrlDto> pictureTagUrlDtos;
 
-	public static SpotPictureTagForWishListResponseDto of(WishListResponseDto wishListResponseDto, List<PictureTagUrlDto> pictureTagUrlDtos) {
+	public static SpotPictureTagForWishListResponseDto of(WishListResponseDto wishListResponseDto,
+		List<PictureTagUrlDto> pictureTagUrlDtos) {
 		return SpotPictureTagForWishListResponseDto.builder()
 			.wishListId(wishListResponseDto.getWishListId())
 			.wishListName(wishListResponseDto.getWishListName())
 			.pictureTagUrlDtos(pictureTagUrlDtos)
 			.build();
 	}
-
 
 }

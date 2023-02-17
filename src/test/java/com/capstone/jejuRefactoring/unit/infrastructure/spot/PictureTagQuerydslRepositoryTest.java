@@ -32,14 +32,12 @@ class PictureTagQuerydslRepositoryTest {
 	EntityManager em;
 
 	@Test
-	public void 쿼리_테스트() throws Exception{
-	    //given
+	public void 쿼리_테스트() throws Exception {
+		//given
 		Spot spot = Spot.builder()
 			.address("ss")
 			.description("ss")
 			.build();
-
-
 
 		PictureTag pictureTag1 = PictureTag.builder()
 			.spot(spot)
@@ -56,13 +54,10 @@ class PictureTagQuerydslRepositoryTest {
 			.url("url")
 			.build();
 
-
 		Spot spot2 = Spot.builder()
 			.address("ss")
 			.description("ss")
 			.build();
-
-
 
 		PictureTag pictureTag4 = PictureTag.builder()
 			.spot(spot2)
@@ -79,8 +74,6 @@ class PictureTagQuerydslRepositoryTest {
 			.url("url")
 			.build();
 
-
-
 		em.persist(spot);
 		em.persist(pictureTag1);
 		em.persist(pictureTag2);
@@ -88,11 +81,10 @@ class PictureTagQuerydslRepositoryTest {
 		em.flush();
 		em.clear();
 
-	    //when
+		//when
 		List<Long> spotIds = spotJpaRepository.findAll().stream().map(s -> s.getId()).collect(Collectors.toList());
 		// List<PictureUrlDto> nPictureForEachSpotId = pictureQuerydslRepository.getNPictureForEachSpotId(spotIds);
 		// log.info("nPictureForEachSpotId = {}", nPictureForEachSpotId);
-
 
 		//then
 	}

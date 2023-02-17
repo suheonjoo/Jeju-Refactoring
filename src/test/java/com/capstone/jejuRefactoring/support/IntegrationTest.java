@@ -33,10 +33,13 @@ public abstract class IntegrationTest {
 
 	@Autowired
 	protected MockMvc mockMvc;
-	@Autowired protected ObjectMapper objectMapper;
-	@Autowired protected EntityManager em;
+	@Autowired
+	protected ObjectMapper objectMapper;
+	@Autowired
+	protected EntityManager em;
 
-	@Autowired protected JwtTokenProvider tokenProvider;
+	@Autowired
+	protected JwtTokenProvider tokenProvider;
 	@Autowired
 	MemberJpaRepository memberJpaRepository;
 	@Autowired
@@ -46,9 +49,8 @@ public abstract class IntegrationTest {
 	@Autowired
 	UserDetailsService userDetailsService;
 
-
 	@BeforeEach
-	void clearUser(){
+	void clearUser() {
 		memberJpaRepository.deleteAllInBatch();
 		logoutAccessTokenRedisRepository.deleteAll();
 		logoutRefreshTokenRedisRepository.deleteAll();
@@ -76,13 +78,13 @@ public abstract class IntegrationTest {
 		return authentication;
 	}
 
-	protected void flushAndClear(){
+	protected void flushAndClear() {
 		em.flush();
 		em.clear();
 	}
 
 	protected ResultMatcher[] expectCommonSuccess() {
-		return new ResultMatcher[]{jsonPath("$.result", is("SUCCESS")),
+		return new ResultMatcher[] {jsonPath("$.result", is("SUCCESS")),
 			jsonPath("$.message").isEmpty(),
 			jsonPath("$.code").isEmpty(),
 			jsonPath("$.errors").isEmpty()};

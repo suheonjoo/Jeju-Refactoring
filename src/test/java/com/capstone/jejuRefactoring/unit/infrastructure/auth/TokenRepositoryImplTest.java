@@ -17,74 +17,74 @@ import com.capstone.jejuRefactoring.support.RedisRepositoryTest;
 
 public class TokenRepositoryImplTest extends RedisRepositoryTest {
 
-    @Autowired
-    LogoutAccessTokenRedisRepository logoutAccessTokenRedisRepository;
-    @Autowired
-    LogoutRefreshTokenRedisRepository logoutRefreshTokenRedisRepository;
-    @Autowired
-    RefreshTokenRedisRepository refreshTokenRedisRepository;
-    TokenRepository tokenRepository;
+	@Autowired
+	LogoutAccessTokenRedisRepository logoutAccessTokenRedisRepository;
+	@Autowired
+	LogoutRefreshTokenRedisRepository logoutRefreshTokenRedisRepository;
+	@Autowired
+	RefreshTokenRedisRepository refreshTokenRedisRepository;
+	TokenRepository tokenRepository;
 
-    @BeforeEach
-    void setup(){
-        tokenRepository = new TokenRepositoryImpl(logoutAccessTokenRedisRepository,logoutRefreshTokenRedisRepository,refreshTokenRedisRepository);
-    }
+	@BeforeEach
+	void setup() {
+		tokenRepository = new TokenRepositoryImpl(logoutAccessTokenRedisRepository, logoutRefreshTokenRedisRepository,
+			refreshTokenRedisRepository);
+	}
 
-    @BeforeEach
-    void teardown(){
-        logoutAccessTokenRedisRepository.deleteAll();
-        logoutRefreshTokenRedisRepository.deleteAll();
-    }
+	@BeforeEach
+	void teardown() {
+		logoutAccessTokenRedisRepository.deleteAll();
+		logoutRefreshTokenRedisRepository.deleteAll();
+	}
 
-    @Test
-    void LogoutAccessToken_저장() throws Exception{
+	@Test
+	void LogoutAccessToken_저장() throws Exception {
 
-        //given
-        String accessToken = "accessToken";
-        long expiration = 3600000L;
+		//given
+		String accessToken = "accessToken";
+		long expiration = 3600000L;
 
-        //when
-        tokenRepository.saveLogoutAccessToken(LogoutAccessToken.of(accessToken, expiration));
+		//when
+		tokenRepository.saveLogoutAccessToken(LogoutAccessToken.of(accessToken, expiration));
 
-        //then
-        assertThat(tokenRepository.existsLogoutAccessTokenById(accessToken)).isTrue();
-    }
+		//then
+		assertThat(tokenRepository.existsLogoutAccessTokenById(accessToken)).isTrue();
+	}
 
-    @Test
-    void LogoutRefreshToken_저장() throws Exception{
-        //given
-        String refreshToken = "refreshToken";
-        long expiration = 3600000L;
+	@Test
+	void LogoutRefreshToken_저장() throws Exception {
+		//given
+		String refreshToken = "refreshToken";
+		long expiration = 3600000L;
 
-        //when
-        tokenRepository.saveLogoutRefreshToken(LogoutRefreshToken.of(refreshToken, expiration));
+		//when
+		tokenRepository.saveLogoutRefreshToken(LogoutRefreshToken.of(refreshToken, expiration));
 
+		//then
+		assertThat(tokenRepository.existsLogoutRefreshTokenById(refreshToken)).isTrue();
+	}
 
-        //then
-        assertThat(tokenRepository.existsLogoutRefreshTokenById(refreshToken)).isTrue();
-    }
+	@Test
+	void accessToken이_저장되어_있는지_확인() throws Exception {
 
-    @Test
-    void accessToken이_저장되어_있는지_확인() throws Exception{
+		//given
+		String accessToken = "accessToken";
+		long expiration = 3600000L;
+		tokenRepository.saveLogoutAccessToken(LogoutAccessToken.of(accessToken, expiration));
 
-        //given
-        String accessToken = "accessToken";
-        long expiration = 3600000L;
-        tokenRepository.saveLogoutAccessToken(LogoutAccessToken.of(accessToken, expiration));
+		//when then
+		assertThat(tokenRepository.existsLogoutAccessTokenById(accessToken)).isTrue();
+	}
 
-        //when then
-        assertThat(tokenRepository.existsLogoutAccessTokenById(accessToken)).isTrue();
-    }
+	@Test
+	void refreshToken이_저장되어_있는지_확인() throws Exception {
 
-    @Test
-    void refreshToken이_저장되어_있는지_확인() throws Exception{
+		//given
+		String refreshToken = "refreshToken";
+		long expiration = 3600000L;
+		tokenRepository.saveLogoutRefreshToken(LogoutRefreshToken.of(refreshToken, expiration));
 
-        //given
-        String refreshToken = "refreshToken";
-        long expiration = 3600000L;
-        tokenRepository.saveLogoutRefreshToken(LogoutRefreshToken.of(refreshToken, expiration));
-
-        //when then
-        assertThat(tokenRepository.existsLogoutRefreshTokenById(refreshToken)).isTrue();
-    }
+		//when then
+		assertThat(tokenRepository.existsLogoutRefreshTokenById(refreshToken)).isTrue();
+	}
 }

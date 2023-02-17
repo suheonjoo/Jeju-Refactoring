@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -37,7 +36,6 @@ import com.capstone.jejuRefactoring.domain.wishList.service.dto.response.WishLis
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.response.WishListsResponseDto;
 import com.capstone.jejuRefactoring.infrastructure.spot.dto.PictureTagUrlDto;
 import com.capstone.jejuRefactoring.infrastructure.spot.dto.SpotWithCategoryScoreDto;
-import com.capstone.jejuRefactoring.presentation.spot.dto.LikeFlipResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -109,8 +107,9 @@ public class SpotService {
 		List<Spot> spots = spotRepository.findByLocationsAndSpotIds(spotIds, locations);
 		Map<Long, List<Spot>> spotContentsBySpotIdMap = getBySpotIdMap(spots);
 		Map<Long, List<PictureTagResponse>> pictureTagResponseBySpotIdMap = getPictureTagResponseBySpotIdMap(spotIds);
-		return SpotPageWithPictureTagsResponse.of(spotIdsWithPageInfoDto.isHasNext(), getSpotWithPictureTagsDtosOrderByRank(
-			spotIds, spotContentsBySpotIdMap, pictureTagResponseBySpotIdMap));
+		return SpotPageWithPictureTagsResponse.of(spotIdsWithPageInfoDto.isHasNext(),
+			getSpotWithPictureTagsDtosOrderByRank(
+				spotIds, spotContentsBySpotIdMap, pictureTagResponseBySpotIdMap));
 	}
 
 	private List<SpotWithPictureTagsDto> getSpotWithPictureTagsDtosOrderByRank(List<Long> spotIds,
@@ -191,14 +190,5 @@ public class SpotService {
 			spotWithPictureTagsDtos.add(spotWithPictureTagsDto);
 		}
 		return SpotPageWithPictureTagsResponse.of(bySpotName.hasNext(), spotWithPictureTagsDtos);
-	}
-
-	public LikeFlipResponse flipSpotLike(Long spotId, boolean spotLikeExist) {
-		if (spotLikeExist) {
-			spotRepository.increaseLikeCount(spotId);
-		}
-		spotRepository.decreaseLikeCount(spotId);
-		Optional<Spot> spot = spotRepository.findById(spotId);
-		return LikeFlipResponse.of(spot.get().getLikeCount(), spotLikeExist);
 	}
 }

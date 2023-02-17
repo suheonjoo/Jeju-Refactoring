@@ -40,8 +40,7 @@ public class Score {
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "score")
 	private Spot spot;
 
-	protected Score(){}
-
-
+	protected Score() {
+	}
 
 }

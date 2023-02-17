@@ -61,6 +61,6 @@ public class MemberSpotTag implements Comparable<MemberSpotTag> {
 
 	@Override
 	public int compareTo(MemberSpotTag o) {
-		return (int) (o.personalScore - this.personalScore);
+		return (int)(o.personalScore - this.personalScore);
 	}
 }

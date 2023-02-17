@@ -29,7 +29,7 @@ import lombok.Getter;
 @Entity
 @Getter
 @Builder
-@Table(name = "spot", indexes = {@Index(name = "spot_name_index",columnList = "spot_name")})
+@Table(name = "spot", indexes = {@Index(name = "spot_name_index", columnList = "spot_name")})
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Spot {
 
@@ -66,8 +66,8 @@ public class Spot {
 	@Builder.Default
 	private List<PictureTag> pictureTags = new ArrayList<>();
 
-
-	protected Spot(){}
+	protected Spot() {
+	}
 
 	public boolean isSameId(final Long id) {
 		return Objects.equals(id, this.id);

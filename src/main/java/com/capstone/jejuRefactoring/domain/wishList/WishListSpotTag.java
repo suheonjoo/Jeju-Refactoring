@@ -36,7 +36,6 @@ public class WishListSpotTag {
 		generator = "WISHLIST_SPOT_TAG_GENERATOR")
 	private Long id;
 
-
 	@Column(name = "wishList_name")
 	private String name;
 
@@ -60,7 +59,5 @@ public class WishListSpotTag {
 			.spot(Spot.builder().id(spotId).build())
 			.build();
 	}
-
-
 
 }

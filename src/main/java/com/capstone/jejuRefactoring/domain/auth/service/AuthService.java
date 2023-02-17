@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.capstone.jejuRefactoring.common.exception.security.NotExistsRefreshTokenException;
 import com.capstone.jejuRefactoring.common.exception.user.UserNotFoundException;
+import com.capstone.jejuRefactoring.config.security.provider.JwtExpirationEnums;
+import com.capstone.jejuRefactoring.config.security.provider.JwtTokenProvider;
 import com.capstone.jejuRefactoring.domain.auth.LogoutAccessToken;
 import com.capstone.jejuRefactoring.domain.auth.LogoutRefreshToken;
 import com.capstone.jejuRefactoring.domain.auth.Member;
@@ -18,8 +20,6 @@ import com.capstone.jejuRefactoring.domain.auth.dto.LoginResult;
 import com.capstone.jejuRefactoring.domain.auth.repository.TokenRepository;
 import com.capstone.jejuRefactoring.infrastructure.auth.respository.MemberJpaRepository;
 import com.capstone.jejuRefactoring.presentation.auth.dto.request.JoinRequest;
-import com.capstone.jejuRefactoring.config.security.provider.JwtExpirationEnums;
-import com.capstone.jejuRefactoring.config.security.provider.JwtTokenProvider;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

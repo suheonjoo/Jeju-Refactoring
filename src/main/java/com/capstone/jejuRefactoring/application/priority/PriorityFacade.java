@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 import com.capstone.jejuRefactoring.common.exception.spot.LocationGroupNotFoundException;
 import com.capstone.jejuRefactoring.common.exception.spot.LocationNotFoundException;
 import com.capstone.jejuRefactoring.domain.priority.dto.request.PriorityWeightDto;
+import com.capstone.jejuRefactoring.domain.priority.dto.response.LikeFlipResponse;
 import com.capstone.jejuRefactoring.domain.priority.dto.response.SpotIdsWithPageInfoDto;
 import com.capstone.jejuRefactoring.domain.priority.service.PriorityService;
 import com.capstone.jejuRefactoring.domain.spot.Category;
@@ -30,7 +31,8 @@ public class PriorityFacade {
 	private final PriorityService priorityService;
 
 	@Transactional
-	public SpotPageWithPictureTagsResponse getSpotWithPictureTagsOrderByRank(Long memberId, PriorityWeightDto priorityWeightDto, String direction, Pageable pageable) {
+	public SpotPageWithPictureTagsResponse getSpotWithPictureTagsOrderByRank(Long memberId,
+		PriorityWeightDto priorityWeightDto, String direction, Pageable pageable) {
 		List<Location> locations = findLocationsByLocationGroup(direction);
 		List<Long> spotIdsBySpotLocations = spotService.getBySpotLocations(locations);
 		SpotIdsWithPageInfoDto spotIdsWithPageInfoDto = priorityService.updateMemberSpotScore(memberId,
@@ -38,12 +40,12 @@ public class PriorityFacade {
 		return spotService.getSpotWithPictureTagLimit3(spotIdsWithPageInfoDto, locations);
 	}
 
-	public SpotForRouteRecommendResponse getTenSpotsWithPictureTagsOrderByRankPerLocations(List<String> stringLocations) {
+	public SpotForRouteRecommendResponse getTenSpotsWithPictureTagsOrderByRankPerLocations(
+		List<String> stringLocations) {
 		List<Location> locations = findLocationsByStringLocations(stringLocations);
 		Category category = priorityService.getHighestCategoryByLocations(locations);
 		return spotService.getSpotWithPictureTagPerLocations(locations, category);
 	}
-
 
 	private List<Location> findLocationsByLocationGroup(String direction) {
 		if (!StringUtils.hasText(direction)) {
@@ -59,7 +61,9 @@ public class PriorityFacade {
 		return Location.getLocations(locations);
 	}
 
-
-
+	@Transactional
+	public LikeFlipResponse flipSpotLike(Long spotId, Long memberId) {
+		return priorityService.flipSpotLike(spotId, memberId, 1);
+	}
 
 }

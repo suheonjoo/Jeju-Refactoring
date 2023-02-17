@@ -21,7 +21,8 @@ public class SpotForRouteRecommendDto {
 
 	private List<SpotWithCategoryScoreDto> spotWithCategoryScoreDtos;
 
-	public static SpotForRouteRecommendDto from(Location location, List<SpotWithCategoryScoreDto> spotWithCategoryScoreDtos) {
+	public static SpotForRouteRecommendDto from(Location location,
+		List<SpotWithCategoryScoreDto> spotWithCategoryScoreDtos) {
 		return SpotForRouteRecommendDto.builder()
 			.location(location)
 			.spotWithCategoryScoreDtos(spotWithCategoryScoreDtos)

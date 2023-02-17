@@ -50,7 +50,7 @@ public class SpotQuerydslRepository {
 				)
 			)
 			.from(spot)
-			.leftJoin(spot.score,score)
+			.leftJoin(spot.score, score)
 			.where(spot.location.in(locations))
 			.fetch();
 
@@ -63,7 +63,7 @@ public class SpotQuerydslRepository {
 				)
 			)
 			.from(spot)
-			.leftJoin(spot.score,score)
+			.leftJoin(spot.score, score)
 			.fetch();
 
 	}
@@ -111,7 +111,7 @@ public class SpotQuerydslRepository {
 			.limit(pageable.getPageSize() + 1)
 			.fetch();
 
-		return RepositorySupport.toSlice(content,pageable);
+		return RepositorySupport.toSlice(content, pageable);
 	}
 
 	private BooleanExpression ltSpotId(Long lastSpotId) {

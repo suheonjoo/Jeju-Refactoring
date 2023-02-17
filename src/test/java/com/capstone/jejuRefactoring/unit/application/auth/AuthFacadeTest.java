@@ -25,7 +25,7 @@ public class AuthFacadeTest {
 	@Test
 	void 토큰_재발급() {
 		//given
-		String refreshToken= "Bearer refresh";
+		String refreshToken = "Bearer refresh";
 		String accessToken = "Bearer access";
 		AuthResponseDto authResponseDto = AuthResponseDto.of(accessToken, refreshToken);
 		given(authCommandUseCase.reissue(any())).willReturn(authResponseDto);

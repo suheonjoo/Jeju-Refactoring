@@ -72,14 +72,14 @@ class MemberSpotTagQuerydslRepositoryTest {
 	}
 
 	@Test
-	public void findWithCategoryScoreByLocationTest() throws Exception{
-	    //given
+	public void findWithCategoryScoreByLocationTest() throws Exception {
+		//given
 		Spot spot1 = createSpot("aaa");
 		Spot spot2 = createSpot("aaa");
 		Spot spot3 = createSpot("aaa");
 		Score score1 = createScore(spot1, 1d);
-		Score score2 = createScore(spot2,2d);
-		Score score3 = createScore(spot3,3d);
+		Score score2 = createScore(spot2, 2d);
+		Score score3 = createScore(spot3, 3d);
 		PictureTag pictureTag1 = createPictureTag(spot1, "111");
 		PictureTag pictureTag2 = createPictureTag(spot2, "111");
 		PictureTag pictureTag3 = createPictureTag(spot3, "111");

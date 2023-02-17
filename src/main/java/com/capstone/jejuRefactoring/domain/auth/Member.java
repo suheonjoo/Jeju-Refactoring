@@ -13,7 +13,6 @@ import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 
-
 @Entity
 @Builder
 @Getter
@@ -39,7 +38,8 @@ public class Member extends BaseEntity {
 	@Column(name = "role", nullable = false)
 	private Role role = Role.USER;
 
-	protected Member() {}
+	protected Member() {
+	}
 
 	private Member(final Long id, final String username, final String email, final String password,
 		final Role role) {

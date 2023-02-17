@@ -14,6 +14,4 @@ public class ScoreWithSpotLocationDto {
 	private Location location;
 	private Long spotId;
 
-
-
 }

@@ -8,7 +8,6 @@ import com.capstone.jejuRefactoring.domain.priority.service.PriorityService;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotPageWithPictureTagsResponse;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotResponse;
 import com.capstone.jejuRefactoring.domain.spot.service.SpotService;
-import com.capstone.jejuRefactoring.presentation.spot.dto.LikeFlipResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,7 +20,6 @@ public class SpotFacade {
 
 	public SpotResponse getBySpotId(final Long spotId) {
 		SpotResponse spotBySpotId = spotService.getBySpotId(spotId);
-		// Todo: 2. SpotResponse 에 score 정보도 넣어주기
 		return priorityService.getScoreBySpotId(spotBySpotId, spotId);
 	}
 
@@ -29,8 +27,4 @@ public class SpotFacade {
 		return spotService.getSpotsBySpotName(spotName, lastSpotId, pageable);
 	}
 
-	@Transactional
-	public LikeFlipResponse flipSpotLike(Long spotId, Long memberId) {
-		return priorityService.flipSpotLike(spotId, memberId, 1);
-	}
 }

@@ -1,7 +1,5 @@
 package com.capstone.jejuRefactoring.infrastructure.spot.dto;
 
-
-
 import jakarta.persistence.Lob;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +19,5 @@ public class PictureTagUrlDto {
 		this.url = url;
 		this.idMin = idMin;
 	}
-
 
 }

@@ -28,7 +28,4 @@ public interface SpotRepository {
 
 	Slice<SpotPageResponse> findPageBySpotName(String spotName, Long lastSpotId, Pageable pageable);
 
-	void increaseLikeCount(Long spotId);
-
-	void decreaseLikeCount(Long spotId);
 }

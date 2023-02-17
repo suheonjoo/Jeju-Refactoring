@@ -22,9 +22,6 @@ public class GlobalExceptionHandler {
 	private static final String LOG_FIELD_FORMAT = "Class : {}, field : {} ,Message : {}";
 	private static final String LOG_CODE_FIELD_FORMAT = "Class : {}, Code : {}, field : {} ,Message : {}";
 
-
-
-
 	/**
 	 * 개발자가 예상 가능한 예외
 	 */
@@ -48,7 +45,6 @@ public class GlobalExceptionHandler {
 			.status(e.getHttpStatus())
 			.body(errorResponse);
 	}
-
 
 	/**
 	 * 요청 binding validation 에러
@@ -76,9 +72,9 @@ public class GlobalExceptionHandler {
 		final String code = MISSING_REQUEST_VALUE.getCode();
 		final String message = MISSING_REQUEST_VALUE.getMessage();
 
-		log.info(LOG_CODE_FORMAT, e.getClass().getSimpleName(), code, message,e);
+		log.info(LOG_CODE_FORMAT, e.getClass().getSimpleName(), code, message, e);
 
-		CommonResponse response = CommonResponse.failOf(message,code);
+		CommonResponse response = CommonResponse.failOf(message, code);
 		return ResponseEntity
 			.status(HttpStatus.BAD_REQUEST)
 			.body(response);
@@ -101,9 +97,9 @@ public class GlobalExceptionHandler {
 			.body(response);
 	}
 
-
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-	public ResponseEntity<CommonResponse> httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
+	public ResponseEntity<CommonResponse> httpRequestMethodNotSupportedException(
+		HttpRequestMethodNotSupportedException e) {
 
 		log.info(LOG_FORMAT,
 			e.getClass().getSimpleName(),
@@ -114,8 +110,6 @@ public class GlobalExceptionHandler {
 			.status(HttpStatus.METHOD_NOT_ALLOWED)
 			.body(response);
 	}
-
-
 
 }
 

@@ -8,7 +8,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import com.capstone.jejuRefactoring.config.security.dto.AccountContext;
 import com.capstone.jejuRefactoring.config.security.provider.JwtTokenProvider;
 import com.capstone.jejuRefactoring.domain.auth.dto.LoginResult;
 import com.capstone.jejuRefactoring.domain.auth.dto.response.LoginResponse;

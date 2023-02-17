@@ -6,13 +6,8 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.server.Cookie;
 import org.springframework.http.ResponseCookie;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
-
-import com.capstone.jejuRefactoring.config.security.dto.AccountContext;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -54,7 +49,7 @@ public class JwtTokenProvider {
 	}
 
 	private String createToken(Authentication authentication, long accessTokenExpirationTimeInMilliSeconds) {
-		String principal = (String) authentication.getPrincipal();
+		String principal = (String)authentication.getPrincipal();
 
 		Date now = new Date();
 		Date expiryDate = new Date(now.getTime() + accessTokenExpirationTimeInMilliSeconds);

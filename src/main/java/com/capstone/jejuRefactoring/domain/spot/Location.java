@@ -38,7 +38,7 @@ public enum Location {
 	}
 
 	public static List<Location> getLocations(List<String> locations) {
-		 return locations.stream()
+		return locations.stream()
 			.map(location -> Location.getLocationByKrName(location))
 			.collect(Collectors.toList());
 	}

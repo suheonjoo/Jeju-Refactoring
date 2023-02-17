@@ -23,18 +23,16 @@ public class MemberSpotTagQuerydslRepository {
 	public List<MemberSpotTageWithScoreDto> findMemberSpotTageWithScoreAndSpot(Long memberId) {
 
 		return query.select(Projections.constructor(MemberSpotTageWithScoreDto.class,
-				score.spot.id,
-				memberSpotTag,
-				score
-			)
-		).
+					score.spot.id,
+					memberSpotTag,
+					score
+				)
+			).
 			from(memberSpotTag)
 			.leftJoin(spot).on(memberSpotTag.spot.id.eq(spot.id))
 			.leftJoin(memberSpotTag.spot.score, score)
 			.where(memberSpotTag.member.id.eq(memberId))
 			.fetch();
-
-
 
 	}
 }

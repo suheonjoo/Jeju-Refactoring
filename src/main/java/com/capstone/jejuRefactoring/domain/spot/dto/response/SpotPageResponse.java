@@ -26,5 +26,4 @@ public class SpotPageResponse {
 
 	private Location location;
 
-
 }

@@ -15,7 +15,6 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
 	private final ReviewQuerydslRepository reviewQuerydslRepository;
 
-
 	@Override
 	public Slice<Review> findReviewsBySpotId(Long spotId, Pageable pageable) {
 		return reviewQuerydslRepository.findPageBySpotId(spotId, pageable);

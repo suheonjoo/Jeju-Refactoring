@@ -13,6 +13,4 @@ public class PriorityWeightDto {
 	private Integer surroundWeight;
 	private boolean isSameWeight;
 
-
-
 }

@@ -35,6 +35,6 @@ import com.capstone.jejuRefactoring.infrastructure.wishList.WishListSpotTagRepos
 	WishListRepositoryImpl.class,
 	WishListSpotTagRepositoryImpl.class
 })
-public abstract class QuerydslRepositoryTest extends JpaRepositoryTest{
+public abstract class QuerydslRepositoryTest extends JpaRepositoryTest {
 }
 

@@ -51,7 +51,4 @@ public class WishListFacade {
 		return spotService.getSpotInfoBySpotIdsForRoute(wishListSpotIds);
 	}
 
-
-
-
 }
