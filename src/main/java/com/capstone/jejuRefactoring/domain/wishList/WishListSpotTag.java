@@ -27,17 +27,9 @@ import lombok.NoArgsConstructor;
 public class WishListSpotTag {
 
 	@Id
-	@TableGenerator(
-		name = "WISHLIST_SPOT_TAG_GENERATOR",
-		table = "WISHLIST_SPOT_TAG_SEQUENCE",
-		pkColumnName = "WISHLIST_SPOT_TAG_SEQ"
-	)
-	@GeneratedValue(strategy = GenerationType.TABLE,
-		generator = "WISHLIST_SPOT_TAG_GENERATOR")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "wishList_spot_tag_id")
 	private Long id;
-
-	@Column(name = "wishList_name")
-	private String name;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "wishList_id")

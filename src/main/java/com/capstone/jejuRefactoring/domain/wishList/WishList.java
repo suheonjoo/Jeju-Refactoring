@@ -18,6 +18,7 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Cleanup;
 import lombok.Getter;
 
 @Entity
@@ -29,10 +30,9 @@ public class WishList {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "wishlist_id")
+	@Column(name = "wishList_id")
 	private Long id;
 
-	@Column(name = "wishlist_name")
 	private String name;
 
 	@ManyToOne(fetch = FetchType.LAZY)

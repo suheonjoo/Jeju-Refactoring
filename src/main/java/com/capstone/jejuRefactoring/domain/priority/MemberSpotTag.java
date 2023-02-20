@@ -23,7 +23,7 @@ import lombok.Getter;
 @Builder
 @Table(name = "member_spot_tag", indexes = @Index(name = "idx_member_id", columnList = "member_id"))
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class MemberSpotTag implements Comparable<MemberSpotTag> {
+public class MemberSpotTag {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,7 +41,7 @@ public class MemberSpotTag implements Comparable<MemberSpotTag> {
 	@JoinColumn(name = "spot_id")
 	private Spot spot;
 
-	private Boolean like;
+	private Boolean IsLikeExist;
 
 	protected MemberSpotTag() {
 	}
@@ -57,10 +57,5 @@ public class MemberSpotTag implements Comparable<MemberSpotTag> {
 		if (memberPersonalScore != null) {
 			this.personalScore = memberPersonalScore;
 		}
-	}
-
-	@Override
-	public int compareTo(MemberSpotTag o) {
-		return (int)(o.personalScore - this.personalScore);
 	}
 }

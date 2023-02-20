@@ -1,0 +1,12 @@
+POST http://localhost:8080/api/v1/spots/priority
+Content-Type: application/json
+accessToken: "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjNAbmF2ZXIuY29tIiwiaWF0IjoxNjc2ODYwOTgwLCJleHAiOjE2NzY4ODI1ODB9.eTn84hWzmQ-_A8t613LDq41ufGf-4T8DqsZTLQxIUOl0Y2Dz8sN1hVHsM8_cZFfrhe8XZWplOdPVYJe6MpiR4g"
+
+{
+  "direction": "북부",
+  "viewWeight": 1,
+  "priceWeight": 1,
+  "facilityWeight": 2,
+  "surroundWeight": 3,
+  "isSameWeight" : true
+}

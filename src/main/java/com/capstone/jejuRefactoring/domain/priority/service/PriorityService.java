@@ -20,6 +20,7 @@ import com.capstone.jejuRefactoring.domain.priority.Score;
 import com.capstone.jejuRefactoring.domain.priority.SpotLikeTag;
 import com.capstone.jejuRefactoring.domain.priority.dto.request.PriorityWeightDto;
 import com.capstone.jejuRefactoring.domain.priority.dto.response.LikeFlipResponse;
+import com.capstone.jejuRefactoring.domain.priority.dto.response.MemberSpotTagDto;
 import com.capstone.jejuRefactoring.domain.priority.dto.response.SpotIdsWithPageInfoDto;
 import com.capstone.jejuRefactoring.domain.priority.repository.MemberSpotTagRepository;
 import com.capstone.jejuRefactoring.domain.priority.repository.ScoreRepository;
@@ -89,8 +90,9 @@ public class PriorityService {
 		if (priorityWeightDto.isSameWeight() == true) {
 			updateMemberSpotScore(spotIds, priorityWeightDto, memberSpotTags);
 		}
-		Collections.sort(memberSpotTags);
-		return getSpotIdsWithPageInfoDto(pageable, memberSpotTags);
+		List<MemberSpotTagDto> memberSpotTagDtos = memberSpotTags.stream().map(MemberSpotTagDto::from).toList();
+		Collections.sort(memberSpotTagDtos);
+		return getSpotIdsWithPageInfoDto(pageable, memberSpotTagDtos);
 	}
 
 	private void updateMemberSpotScore(List<Long> spotIds, PriorityWeightDto priorityWeightDto,
@@ -106,18 +108,17 @@ public class PriorityService {
 	}
 
 	//페이징를 디비에서 하지 않고 필요한 관광지 id만 뽑도록 하였습니다
-	private SpotIdsWithPageInfoDto getSpotIdsWithPageInfoDto(Pageable pageable, List<MemberSpotTag> memberSpotTags) {
-		hasNext(pageable, memberSpotTags);
-		List<Long> spotIdOrderByScore = memberSpotTags.stream()
-			.map(memberSpotTag -> memberSpotTag.getSpot().getId())
+	private SpotIdsWithPageInfoDto getSpotIdsWithPageInfoDto(Pageable pageable, List<MemberSpotTagDto> memberSpotTagDtos) {
+		List<Long> spotIdOrderByScore = memberSpotTagDtos.stream()
+			.map(memberSpotTag -> memberSpotTag.getSpotId())
 			.skip(pageable.getOffset())
 			.limit(pageable.getPageSize())
 			.collect(Collectors.toList());
-		return SpotIdsWithPageInfoDto.of(hasNext(pageable, memberSpotTags), spotIdOrderByScore);
+		return SpotIdsWithPageInfoDto.of(hasNext(pageable, memberSpotTagDtos), spotIdOrderByScore);
 	}
 
-	private Boolean hasNext(Pageable pageable, List<MemberSpotTag> memberSpotTags) {
-		if (memberSpotTags.size() > (pageable.getPageNumber() + 1) * pageable.getPageSize()) {
+	private Boolean hasNext(Pageable pageable, List<MemberSpotTagDto> memberSpotTagDtos) {
+		if (memberSpotTagDtos.size() > (pageable.getPageNumber() + 1) * pageable.getPageSize()) {
 			return true;
 		}
 		return false;
