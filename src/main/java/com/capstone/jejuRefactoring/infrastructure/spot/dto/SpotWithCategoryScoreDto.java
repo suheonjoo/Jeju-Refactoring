@@ -19,9 +19,17 @@ public class SpotWithCategoryScoreDto implements Comparable<SpotWithCategoryScor
 
 	private Location location;
 
-	private Double CategoryScore;
+	private Double categoryScore;
 
-	private PictureTagUrlDto pictureUrl = null;
+	public SpotWithCategoryScoreDto(Long id, String name, String address, String description,
+		Location location, Double categoryScore) {
+		this.id = id;
+		this.name = name;
+		this.address = address;
+		this.description = description;
+		this.location = location;
+		this.categoryScore = categoryScore;
+	}
 
 	@Override
 	public int compareTo(SpotWithCategoryScoreDto o) {

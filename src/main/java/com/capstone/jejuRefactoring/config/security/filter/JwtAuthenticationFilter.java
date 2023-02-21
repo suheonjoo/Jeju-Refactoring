@@ -1,5 +1,7 @@
 package com.capstone.jejuRefactoring.config.security.filter;
 
+import static com.capstone.jejuRefactoring.config.security.provider.JwtTokenProvider.*;
+
 import java.io.IOException;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,7 +29,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-	private static String TOKEN_HEADER = "ACCESS-TOKEN";
 	private final JwtTokenProvider jwtTokenProvider;
 	private final TokenRepository tokenRepository;
 	private final UserDetailsService userDetailsService;
@@ -56,7 +57,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	}
 
 	private String getJwtFromRequest(HttpServletRequest request) {
-		String bearerToken = request.getHeader(TOKEN_HEADER);
+		String bearerToken = request.getHeader(ACCESS_TOKEN);
 		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(jwtTokenProvider.TOKEN_TYPE)) {
 			return bearerToken.substring(7);
 		}

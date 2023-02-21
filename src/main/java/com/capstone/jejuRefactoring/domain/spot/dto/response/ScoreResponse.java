@@ -1,6 +1,6 @@
 package com.capstone.jejuRefactoring.domain.spot.dto.response;
 
-import com.capstone.jejuRefactoring.domain.priority.Score;
+import com.capstone.jejuRefactoring.domain.preference.Score;
 
 import lombok.Getter;
 

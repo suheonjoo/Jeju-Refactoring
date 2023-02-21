@@ -18,16 +18,9 @@ public class JwtTokenProviderTest {
 
 	@BeforeEach
 	void setup() {
-		jwtTokenProvider = new JwtTokenProvider("secret", 21600000L, 259200000L, 604800000L);
+		jwtTokenProvider = new JwtTokenProvider("secret", 21600000L,
+			259200000L, 604800000L);
 	}
-
-	// private Authentication createAuthentication(Member member) {
-	//     // UserDetails userDetails = userDetailsService.loadUserByUsername(member.getEmail());
-	//     List<SimpleGrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority(member.getRole()));
-	//     UserDetails userDetails = new AccountContext(member, authorities);
-	//     return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null,
-	//         userDetails.getAuthorities());
-	// }
 
 	@Test
 	void accessToken_만들기() throws Exception {

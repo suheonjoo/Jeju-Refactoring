@@ -1,6 +1,6 @@
 package com.capstone.jejuRefactoring.infrastructure.spot;
 
-import static com.capstone.jejuRefactoring.domain.priority.QScore.*;
+import static com.capstone.jejuRefactoring.domain.preference.QScore.*;
 import static com.capstone.jejuRefactoring.domain.spot.QSpot.*;
 
 import java.util.ArrayList;
@@ -21,7 +21,6 @@ import com.capstone.jejuRefactoring.infrastructure.spot.dto.SpotWithCategoryScor
 import com.capstone.jejuRefactoring.infrastructure.spot.dto.TestDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -46,7 +45,8 @@ public class SpotQuerydslRepository {
 					spot.address,
 					spot.description,
 					spot.location,
-					getFacilityRank(category)
+					// score.surroundScore
+					getCategoryScore(category)
 				)
 			)
 			.from(spot)
@@ -59,7 +59,7 @@ public class SpotQuerydslRepository {
 	public List<TestDto> test(Category category) {
 		return query.select(Projections.constructor(TestDto.class,
 					spot.id,
-					getFacilityRank(category)
+					getCategoryScore(category)
 				)
 			)
 			.from(spot)
@@ -68,7 +68,7 @@ public class SpotQuerydslRepository {
 
 	}
 
-	private NumberPath<Double> getFacilityRank(Category category) {
+	private NumberPath<Double> getCategoryScore(Category category) {
 		return switch (category) {
 			case VIEW -> score.viewScore;
 			case PRICE -> score.priceScore;
@@ -98,9 +98,9 @@ public class SpotQuerydslRepository {
 
 		// 2)
 		List<SpotPageResponse> content = query
-			.select(Projections.fields(SpotPageResponse.class,
+			.select(Projections.constructor(SpotPageResponse.class,
 				spot.id.as("spotId"),
-				Expressions.asString(spotName).as("spotName"),
+				spot.name,
 				spot.address,
 				spot.description,
 				spot.location))

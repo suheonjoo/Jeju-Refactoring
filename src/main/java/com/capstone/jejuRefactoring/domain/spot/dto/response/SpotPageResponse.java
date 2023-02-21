@@ -12,7 +12,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class SpotPageResponse {
 
 	private Long id;
@@ -26,4 +25,12 @@ public class SpotPageResponse {
 
 	private Location location;
 
+	public SpotPageResponse(Long id, String name, String address, String description,
+		Location location) {
+		this.id = id;
+		this.name = name;
+		this.address = address;
+		this.description = description;
+		this.location = location;
+	}
 }

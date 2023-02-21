@@ -33,7 +33,6 @@ public class AuthService implements AuthCommandUseCase {
 	private final MemberJpaRepository memberJpaRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final TokenRepository tokenRepository;
-
 	private final JwtTokenProvider jwtTokenProvider;
 
 	@Transactional

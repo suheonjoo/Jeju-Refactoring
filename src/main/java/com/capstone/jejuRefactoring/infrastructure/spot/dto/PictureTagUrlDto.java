@@ -12,9 +12,9 @@ public class PictureTagUrlDto {
 	@Lob
 	private String url;
 
-	private Integer idMin;
+	private Long idMin;
 
-	public PictureTagUrlDto(Long spotId, String url, Integer idMin) {
+	public PictureTagUrlDto(Long spotId, String url, Long idMin) {
 		this.spotId = spotId;
 		this.url = url;
 		this.idMin = idMin;

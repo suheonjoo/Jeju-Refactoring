@@ -23,7 +23,7 @@ import com.capstone.jejuRefactoring.config.security.handler.RestAuthenticationEn
 
 import lombok.RequiredArgsConstructor;
 
-//Spring Security를 사용하기 위해서는 Spring Security Filter Chain 을 사용한다는 것을 명시해 주기 위해 @EnableWebSecurity 사용
+//Spring Security 를 사용하기 위해서는 Spring Security Filter Chain 을 사용한다는 것을 명시해 주기 위해 @EnableWebSecurity 사용
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity

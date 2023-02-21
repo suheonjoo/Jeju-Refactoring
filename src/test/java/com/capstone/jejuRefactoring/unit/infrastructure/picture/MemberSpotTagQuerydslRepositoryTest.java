@@ -8,14 +8,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.capstone.jejuRefactoring.domain.auth.Member;
-import com.capstone.jejuRefactoring.domain.priority.MemberSpotTag;
-import com.capstone.jejuRefactoring.domain.priority.Score;
+import com.capstone.jejuRefactoring.domain.preference.MemberSpotTag;
+import com.capstone.jejuRefactoring.domain.preference.Score;
 import com.capstone.jejuRefactoring.domain.spot.Category;
 import com.capstone.jejuRefactoring.domain.spot.PictureTag;
 import com.capstone.jejuRefactoring.domain.spot.Spot;
 import com.capstone.jejuRefactoring.infrastructure.auth.respository.MemberJpaRepository;
-import com.capstone.jejuRefactoring.infrastructure.priority.MemberSpotTagQuerydslRepository;
-import com.capstone.jejuRefactoring.infrastructure.priority.dto.MemberSpotTageWithScoreDto;
+import com.capstone.jejuRefactoring.infrastructure.preference.MemberSpotTagQuerydslRepository;
+import com.capstone.jejuRefactoring.infrastructure.preference.dto.MemberSpotTageWithScoreDto;
 import com.capstone.jejuRefactoring.infrastructure.spot.SpotQuerydslRepository;
 import com.capstone.jejuRefactoring.infrastructure.spot.dto.TestDto;
 

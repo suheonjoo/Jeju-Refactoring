@@ -18,6 +18,6 @@ public interface SpotJpaRepository extends JpaRepository<Spot, Long> {
 	List<Long> findAllSpotId();
 
 	@Query(value = "select s.id from Spot s where s.location in :locations")
-	List<Long> findBySpotLocations(@Param("locations") List<Location> locations);
+	List<Long> findSpotIdsByLocations(@Param("locations") List<Location> locations);
 
 }

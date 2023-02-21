@@ -22,7 +22,7 @@ public interface SpotRepository {
 
 	List<Spot> findByLocationsAndSpotIds(List<Long> spotIds, List<Location> location);
 
-	List<Long> findBySpotLocations(List<Location> locations);
+	List<Long> findSpotIdsByLocations(List<Location> locations);
 
 	List<SpotWithCategoryScoreDto> findWithCategoryScoreByLocation(List<Location> locations, Category category);
 

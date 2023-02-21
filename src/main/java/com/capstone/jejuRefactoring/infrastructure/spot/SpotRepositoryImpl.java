@@ -44,8 +44,8 @@ public class SpotRepositoryImpl implements SpotRepository {
 	}
 
 	@Override
-	public List<Long> findBySpotLocations(List<Location> locations) {
-		return spotJpaRepository.findBySpotLocations(locations);
+	public List<Long> findSpotIdsByLocations(List<Location> locations) {
+		return spotJpaRepository.findSpotIdsByLocations(locations);
 	}
 
 	@Override

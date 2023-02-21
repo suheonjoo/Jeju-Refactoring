@@ -32,7 +32,6 @@ public class MemberGivenHelper {
 	}
 
 	public static Authentication createAuthentication(Member member) {
-		// UserDetails userDetails = userDetailsService.loadUserByUsername(member.getEmail());
 		List<SimpleGrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority(member.getRole()));
 		UserDetails userDetails = new AccountContext(member, authorities);
 		return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null,

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import com.capstone.jejuRefactoring.domain.priority.Score;
+import com.capstone.jejuRefactoring.domain.preference.Score;
 import com.capstone.jejuRefactoring.domain.review.Review;
 
 import jakarta.persistence.Column;
@@ -52,11 +52,8 @@ public class Spot {
 	@Column(name = "spot_location")
 	private Location location;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "score_id")
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "spot")
 	private Score score;
-
-	private Integer likeCount;
 
 	@OneToMany(mappedBy = "spot")
 	@Builder.Default

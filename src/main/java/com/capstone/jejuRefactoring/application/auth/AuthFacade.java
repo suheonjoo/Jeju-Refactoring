@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.capstone.jejuRefactoring.domain.auth.Member;
 import com.capstone.jejuRefactoring.domain.auth.dto.AuthResponseDto;
 import com.capstone.jejuRefactoring.domain.auth.service.AuthCommandUseCase;
-import com.capstone.jejuRefactoring.domain.priority.service.PriorityService;
+import com.capstone.jejuRefactoring.domain.preference.service.PreferenceService;
 import com.capstone.jejuRefactoring.domain.spot.service.SpotService;
 import com.capstone.jejuRefactoring.presentation.auth.dto.request.JoinRequest;
 
@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class AuthFacade {
 
 	private final AuthCommandUseCase authCommandUseCase;
-	private final PriorityService priorityService;
+	private final PreferenceService preferenceService;
 	private final SpotService spotService;
 
 	public void logout(String accessToken, String refreshToken) {
@@ -28,7 +28,7 @@ public class AuthFacade {
 	public void join(JoinRequest joinRequest) {
 		Long memberId = authCommandUseCase.join(joinRequest);
 		List<Long> spotIds = spotService.getAllSpotIds();
-		priorityService.createMemberSpotTags(memberId, spotIds);
+		preferenceService.createMemberSpotTags(memberId, spotIds);
 	}
 
 	public void deleteMember(Member member, String accessToken, String refreshToken) {

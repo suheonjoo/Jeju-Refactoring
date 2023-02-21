@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.capstone.jejuRefactoring.common.exception.spot.SpotNotFoundException;
-import com.capstone.jejuRefactoring.domain.priority.dto.response.SpotIdsWithPageInfoDto;
+import com.capstone.jejuRefactoring.domain.preference.dto.response.SpotIdsWithPageInfoDto;
 import com.capstone.jejuRefactoring.domain.spot.Category;
 import com.capstone.jejuRefactoring.domain.spot.Location;
 import com.capstone.jejuRefactoring.domain.spot.Spot;
@@ -35,7 +35,7 @@ import com.capstone.jejuRefactoring.domain.wishList.service.dto.response.WishLis
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.response.WishListSpotIdsResponseDto;
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.response.WishListsResponseDto;
 import com.capstone.jejuRefactoring.infrastructure.spot.dto.PictureTagUrlDto;
-import com.capstone.jejuRefactoring.infrastructure.spot.dto.SpotWithCategoryScoreDto;
+import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotWithCategoryScoreAndPictureTagUrlDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -55,10 +55,11 @@ public class SpotService {
 	public SpotForRouteRecommendResponse getSpotWithPictureTagPerLocations(List<Location> locations,
 		Category category) {
 		Set<Long> spotIdSet = new HashSet<>();
-		Map<Location, List<SpotWithCategoryScoreDto>> spotsByLocationMap = spotRepository.findWithCategoryScoreByLocation(
+		Map<Location, List<SpotWithCategoryScoreAndPictureTagUrlDto>> spotsByLocationMap = spotRepository.findWithCategoryScoreByLocation(
 				locations, category)
 			.stream()
-			.collect(Collectors.groupingBy(spotWithCategoryScoreDto -> spotWithCategoryScoreDto.getLocation()));
+			.map(SpotWithCategoryScoreAndPictureTagUrlDto::from)
+			.collect(Collectors.groupingBy(s -> s.getLocation()));
 		List<SpotForRouteRecommendDto> spotForRouteRecommendDtos = getSpotForRouteRecommendDtos(spotIdSet,
 			spotsByLocationMap);
 		setPictureUrlDto(spotIdSet, spotForRouteRecommendDtos);
@@ -68,7 +69,7 @@ public class SpotService {
 	private void setPictureUrlDto(Set<Long> spotIdSet, List<SpotForRouteRecommendDto> spotForRouteRecommendDtos) {
 		Map<Long, List<PictureTagUrlDto>> pictureTagUrlDtoBySpotIdMap = getPictureTagUrlDtoBySpotIdMap(spotIdSet);
 		for (SpotForRouteRecommendDto spotForRouteRecommendDto : spotForRouteRecommendDtos) {
-			spotForRouteRecommendDto.getSpotWithCategoryScoreDtos()
+			spotForRouteRecommendDto.getSpotWithCategoryScoreAndPictureTagUrlDtos()
 				.stream()
 				.forEach(s -> s.setPictureUrl(pictureTagUrlDtoBySpotIdMap.get(s.getId()).get(0)));
 		}
@@ -84,7 +85,7 @@ public class SpotService {
 	}
 
 	private List<SpotForRouteRecommendDto> getSpotForRouteRecommendDtos(Set<Long> spotIdSet,
-		Map<Location, List<SpotWithCategoryScoreDto>> spotsByLocationMap) {
+		Map<Location, List<SpotWithCategoryScoreAndPictureTagUrlDto>> spotsByLocationMap) {
 		List<SpotForRouteRecommendDto> spotForRouteRecommendDtos = new ArrayList<>();
 		for (Location location : spotsByLocationMap.keySet()) {
 			spotsByLocationMap.get(location).stream().sorted().limit(10).forEach(s -> spotIdSet.add(s.getId()));
@@ -98,7 +99,7 @@ public class SpotService {
 	}
 
 	public List<Long> getBySpotLocations(List<Location> locations) {
-		return spotRepository.findBySpotLocations(locations);
+		return spotRepository.findSpotIdsByLocations(locations);
 	}
 
 	public SpotPageWithPictureTagsResponse getSpotWithPictureTagLimit3(SpotIdsWithPageInfoDto spotIdsWithPageInfoDto,
