@@ -9,6 +9,7 @@ import com.capstone.jejuRefactoring.infrastructure.preference.MemberSpotTagQuery
 import com.capstone.jejuRefactoring.infrastructure.preference.MemberSpotTagRepositoryImpl;
 import com.capstone.jejuRefactoring.infrastructure.preference.ScoreQuerydslRepository;
 import com.capstone.jejuRefactoring.infrastructure.preference.ScoreRepositoryImpl;
+import com.capstone.jejuRefactoring.infrastructure.preference.SpotLikeTagRepositoryImpl;
 import com.capstone.jejuRefactoring.infrastructure.review.ReviewQuerydslRepository;
 import com.capstone.jejuRefactoring.infrastructure.review.ReviewRepositoryImpl;
 import com.capstone.jejuRefactoring.infrastructure.spot.PictureTagQuerydslRepository;
@@ -33,6 +34,7 @@ import com.capstone.jejuRefactoring.infrastructure.wishList.WishListSpotTagRepos
 	PictureTagRepositoryImpl.class,
 	SpotQuerydslRepository.class,
 	SpotRepositoryImpl.class,
+	SpotLikeTagRepositoryImpl.class,
 	WishListRepositoryImpl.class,
 	WishListSpotTagRepositoryImpl.class
 })

@@ -10,6 +10,6 @@ public interface WishListSpotTagRepository {
 
 	List<WishListSpotTag> findByWishListIds(List<Long> wishListIds);
 
-	List<Long> findByWishListId(Long wishListId);
+	List<Long> findSpotIdsByWishListId(Long wishListId);
 
 }

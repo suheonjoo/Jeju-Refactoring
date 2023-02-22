@@ -23,8 +23,8 @@ public class WishListSpotTagRepositoryImpl implements WishListSpotTagRepository 
 		return wishListSpotTagJpaRepository.findByWishListIds(wishListIds);
 	}
 
-	public List<Long> findByWishListId(Long wishListId) {
-		return wishListSpotTagJpaRepository.findByWishListId(wishListId);
+	public List<Long> findSpotIdsByWishListId(Long wishListId) {
+		return wishListSpotTagJpaRepository.findSpotIdsByWishListId(wishListId);
 	}
 
 }

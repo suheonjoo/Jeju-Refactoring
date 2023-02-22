@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.capstone.jejuRefactoring.infrastructure.preference.dto.MemberSpotTageWithScoreDto;
+import com.capstone.jejuRefactoring.infrastructure.preference.dto.MemberSpotTagWithScoreDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -20,9 +20,9 @@ public class MemberSpotTagQuerydslRepository {
 
 	private final JPAQueryFactory query;
 
-	public List<MemberSpotTageWithScoreDto> findMemberSpotTageWithScoreAndSpot(Long memberId) {
+	public List<MemberSpotTagWithScoreDto> findMemberSpotTagsWithScoreAndSpot(Long memberId) {
 
-		return query.select(Projections.constructor(MemberSpotTageWithScoreDto.class,
+		return query.select(Projections.constructor(MemberSpotTagWithScoreDto.class,
 					score.spot.id,
 					memberSpotTag,
 					score

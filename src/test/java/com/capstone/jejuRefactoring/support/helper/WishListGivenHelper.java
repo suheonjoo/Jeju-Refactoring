@@ -6,16 +6,16 @@ import com.capstone.jejuRefactoring.domain.wishList.WishList;
 import com.capstone.jejuRefactoring.domain.wishList.WishListSpotTag;
 
 public class WishListGivenHelper {
-	public static WishList givenWishList(Member member) {
+	public static WishList givenWishList(Long memberId) {
 		return WishList.builder()
+			.member(Member.builder().id(memberId).build())
 			.name("위시리스트1")
-			.member(member)
 			.build();
 	}
-	public static WishListSpotTag givenWishListSpotTag(Spot spot, WishList wishList) {
+	public static WishListSpotTag givenWishListSpotTag(Long spotId, Long wishListId) {
 		return WishListSpotTag.builder()
-			.spot(spot)
-			.wishList(wishList)
+			.spot(Spot.builder().id(spotId).build())
+			.wishList(WishList.builder().id(wishListId).build())
 			.build();
 	}
 }

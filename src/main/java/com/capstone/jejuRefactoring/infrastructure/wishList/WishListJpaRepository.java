@@ -28,7 +28,7 @@ public interface WishListJpaRepository extends JpaRepository<WishList, Long> {
 	@Query(value = "select w from WishList w join fetch w.wishListSpotTages where w.member.id = :memberId ")
 	List<WishList> findByMemberIdWithWishListSpotTags(@Param("memberId") Long memberId);
 
-	@Query(value = "select w from WishList w where w.member.id = : memberId")
+	@Query(value = "select w from WishList w where w.member.id = :memberId")
 	List<WishList> findByMemberId(@Param("memberId") Long memberId);
 
 }

@@ -17,8 +17,8 @@ public class WishListRepositoryImpl implements WishListRepository {
 	private final WishListJpaRepository wishListJpaRepository;
 
 	@Override
-	public void saveWishList(WishList wishList) {
-		wishListJpaRepository.save(wishList);
+	public WishList saveWishList(WishList wishList) {
+		return wishListJpaRepository.save(wishList);
 	}
 
 	@Override

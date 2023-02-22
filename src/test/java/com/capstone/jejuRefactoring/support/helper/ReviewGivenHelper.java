@@ -5,9 +5,9 @@ import com.capstone.jejuRefactoring.domain.spot.Spot;
 
 public class ReviewGivenHelper {
 
-	public static Review givenReview(Spot spot) {
+	public static Review givenReview(Long spotId) {
 		return Review.builder()
-			.spot(spot)
+			.spot(Spot.builder().id(spotId).build())
 			.content("관광지가 너무 좋았어요")
 			.build();
 	}

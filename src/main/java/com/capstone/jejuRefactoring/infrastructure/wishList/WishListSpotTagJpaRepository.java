@@ -18,7 +18,6 @@ public interface WishListSpotTagJpaRepository extends JpaRepository<WishListSpot
 	@Query(value = "select wt from WishListSpotTag wt where wt.wishList.id IN :wishListIds")
 	List<WishListSpotTag> findByWishListIds(@Param("wishListIds") List<Long> wishListIds);
 
-	//커버링 인덱스 활용
 	@Query(value = "select wt.spot.id from WishListSpotTag wt where wt.wishList.id = :wishListId")
-	List<Long> findByWishListId(@Param("wishListId") Long wishListId);
+	List<Long> findSpotIdsByWishListId(@Param("wishListId") Long wishListId);
 }

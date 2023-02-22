@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.capstone.jejuRefactoring.domain.preference.SpotLikeTag;
 
-public interface SpotLikeJpaRepository extends JpaRepository<SpotLikeTag, Long> {
+public interface SpotLikeTagJpaRepository extends JpaRepository<SpotLikeTag, Long> {
 
 	@Modifying(clearAutomatically = true)
 	@Query(value = "update SpotLikeTag slt set slt.likeCount = slt.likeCount + 1 where slt.spot.id = :spotId")

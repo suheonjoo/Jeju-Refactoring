@@ -22,19 +22,28 @@ public class PreferenceGivenHelper {
 			.build();
 	}
 
-	public static MemberSpotTag givenMemberSpotTag(Spot spot, Member member) {
+	public static MemberSpotTag givenMemberSpotTag(Long spotId, Long memberId) {
 		return MemberSpotTag.builder()
-			.spot(spot)
-			.member(member)
+			.spot(Spot.builder().id(spotId).build())
+			.member(Member.builder().id(memberId).build())
 			.IsLikeExist(false)
 			.personalScore(4d)
 			.build();
 	}
 
-	public static SpotLikeTag givenSpotLikeTag(Spot spot) {
+	public static MemberSpotTag givenMemberSpotTagWithSpotLike(Long spotId, Long memberId, boolean isLikeExist) {
+		return MemberSpotTag.builder()
+			.spot(Spot.builder().id(spotId).build())
+			.member(Member.builder().id(memberId).build())
+			.personalScore(4d)
+			.IsLikeExist(isLikeExist)
+			.build();
+	}
+
+	public static SpotLikeTag givenSpotLikeTag(Long spotId, int count) {
 		return SpotLikeTag.builder()
-			.likeCount(0)
-			.spot(spot)
+			.likeCount(count)
+			.spot(Spot.builder().id(spotId).build())
 			.build();
 	}
 }

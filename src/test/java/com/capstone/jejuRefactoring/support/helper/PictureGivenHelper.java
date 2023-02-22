@@ -4,9 +4,9 @@ import com.capstone.jejuRefactoring.domain.picture.Picture;
 import com.capstone.jejuRefactoring.domain.spot.Spot;
 
 public class PictureGivenHelper {
-	public static Picture givenPicture(Spot spot) {
+	public static Picture givenPicture(Long spotId) {
 		return Picture.builder()
-			.spot(spot)
+			.spot(Spot.builder().id(spotId).build())
 			.url("http:~~~")
 			.build();
 	}

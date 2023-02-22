@@ -14,4 +14,13 @@ public class ScoreWithSpotLocationDto {
 	private Location location;
 	private Long spotId;
 
+	public ScoreWithSpotLocationDto(Double viewScore, Double priceScore, Double facilityScore,
+		Double surroundScore, Location location, Long spotId) {
+		this.viewScore = viewScore;
+		this.priceScore = priceScore;
+		this.facilityScore = facilityScore;
+		this.surroundScore = surroundScore;
+		this.location = location;
+		this.spotId = spotId;
+	}
 }

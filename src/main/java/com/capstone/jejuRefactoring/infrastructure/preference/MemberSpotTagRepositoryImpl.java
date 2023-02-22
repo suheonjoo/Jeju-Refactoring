@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.capstone.jejuRefactoring.domain.preference.MemberSpotTag;
 import com.capstone.jejuRefactoring.domain.preference.repository.MemberSpotTagRepository;
-import com.capstone.jejuRefactoring.infrastructure.preference.dto.MemberSpotTageWithScoreDto;
+import com.capstone.jejuRefactoring.infrastructure.preference.dto.MemberSpotTagWithScoreDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,8 +18,8 @@ public class MemberSpotTagRepositoryImpl implements MemberSpotTagRepository {
 	private final MemberSpotTagQuerydslRepository memberSpotTagQuerydslRepository;
 
 	@Override
-	public void saveAll(List<MemberSpotTag> memberSpotTags) {
-		memberSpotTagJpaRepository.saveAllAndFlush(memberSpotTags);
+	public List<MemberSpotTag> saveAll(List<MemberSpotTag> memberSpotTags) {
+		return memberSpotTagJpaRepository.saveAllAndFlush(memberSpotTags);
 	}
 
 	@Override
@@ -27,10 +27,6 @@ public class MemberSpotTagRepositoryImpl implements MemberSpotTagRepository {
 		return memberSpotTagJpaRepository.findByMemberIdAndSpotIds(memberId, spotIds);
 	}
 
-	@Override
-	public List<MemberSpotTageWithScoreDto> findMemberSpotTageWithScoreAndSpot(Long memberId) {
-		return memberSpotTagQuerydslRepository.findMemberSpotTageWithScoreAndSpot(memberId);
-	}
 
 	@Override
 	public boolean isSpotLikExistByMemberIdAndSpotId(Long spotId, Long memberId) {

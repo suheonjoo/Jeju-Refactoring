@@ -13,20 +13,20 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SpotLikeTagRepositoryImpl implements SpotLikeTagRepository {
 
-	private final SpotLikeJpaRepository spotLikeJpaRepository;
+	private final SpotLikeTagJpaRepository spotLikeTagJpaRepository;
 
 	@Override
 	public void increaseLikeCount(Long spotId) {
-		spotLikeJpaRepository.increaseLikeCount(spotId);
+		spotLikeTagJpaRepository.increaseLikeCount(spotId);
 	}
 
 	@Override
 	public void decreaseLikeCount(Long spotId) {
-		spotLikeJpaRepository.decreaseLikeCount(spotId);
+		spotLikeTagJpaRepository.decreaseLikeCount(spotId);
 	}
 
 	@Override
 	public Optional<SpotLikeTag> findBySpotId(Long spotId) {
-		return spotLikeJpaRepository.findBySpotId(spotId);
+		return spotLikeTagJpaRepository.findBySpotId(spotId);
 	}
 }

@@ -6,13 +6,13 @@ import com.capstone.jejuRefactoring.domain.preference.Score;
 import lombok.Data;
 
 @Data
-public class MemberSpotTageWithScoreDto {
+public class MemberSpotTagWithScoreDto {
 
 	private Long spotId;
 	private MemberSpotTag memberSpotTag;
 	private Score score;
 
-	public MemberSpotTageWithScoreDto(Long spotId, MemberSpotTag memberSpotTag,
+	public MemberSpotTagWithScoreDto(Long spotId, MemberSpotTag memberSpotTag,
 		Score score) {
 		this.spotId = spotId;
 		this.memberSpotTag = memberSpotTag;

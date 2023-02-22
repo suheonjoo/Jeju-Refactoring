@@ -102,7 +102,7 @@ public class WishListService {
 
 	public WishListSpotIdsResponseDto findWishListSpotIds(Long wishListId) {
 		//1. wishListId 와 동일한 wishListTag 의 spotId '들'을 불러온다
-		List<Long> spotIds = wishListSpotTagRepository.findByWishListId(wishListId);
+		List<Long> spotIds = wishListSpotTagRepository.findSpotIdsByWishListId(wishListId);
 		return WishListSpotIdsResponseDto.of(wishListId, spotIds);
 	}
 

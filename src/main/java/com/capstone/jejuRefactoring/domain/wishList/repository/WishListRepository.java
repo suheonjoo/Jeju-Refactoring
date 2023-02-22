@@ -7,7 +7,7 @@ import com.capstone.jejuRefactoring.domain.wishList.WishList;
 
 public interface WishListRepository {
 
-	void saveWishList(WishList wishList);
+	WishList saveWishList(WishList wishList);
 
 	void updateWishListNameByWishListIdAndMemberId(String wishListName, Long wishListId, Long memberId);
 
