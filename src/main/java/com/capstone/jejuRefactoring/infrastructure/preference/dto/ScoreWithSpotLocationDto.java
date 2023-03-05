@@ -2,8 +2,10 @@ package com.capstone.jejuRefactoring.infrastructure.preference.dto;
 
 import com.capstone.jejuRefactoring.domain.spot.Location;
 
+import lombok.Builder;
 import lombok.Getter;
 
+@Builder
 @Getter
 public class ScoreWithSpotLocationDto {
 

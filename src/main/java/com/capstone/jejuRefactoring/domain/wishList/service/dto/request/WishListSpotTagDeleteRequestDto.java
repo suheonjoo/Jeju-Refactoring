@@ -10,9 +10,9 @@ import lombok.Setter;
 @Setter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class WishListDeleteRequestDto {
-
+public class WishListSpotTagDeleteRequestDto {
 	private Long wishListId;
+	private Long spotId;
 	private Long memberId;
 
 }

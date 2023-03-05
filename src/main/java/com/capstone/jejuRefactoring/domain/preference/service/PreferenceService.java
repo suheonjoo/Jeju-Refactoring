@@ -48,7 +48,7 @@ public class PreferenceService {
 		List<MemberSpotTag> memberSpotTags = spotIds.stream()
 			.map(spotId -> MemberSpotTag.of(memberId, spotId))
 			.collect(Collectors.toList());
-		memberSpotTagRepository.saveAll(memberSpotTags);
+		 memberSpotTagRepository.saveAll(memberSpotTags);
 	}
 
 	public Category getHighestCategoryByLocations(List<Location> locations) {

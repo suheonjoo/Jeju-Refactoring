@@ -52,9 +52,6 @@ public class Spot {
 	@Column(name = "spot_location")
 	private Location location;
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "spot")
-	private Score score;
-
 	@OneToMany(mappedBy = "spot")
 	@Builder.Default
 	private List<Review> reviews = new ArrayList<>();
@@ -84,4 +81,17 @@ public class Spot {
 	public int hashCode() {
 		return Objects.hash(id);
 	}
+
+	@Override
+	public String toString() {
+		return "Spot{" +
+			"id=" + id +
+			", name='" + name + '\'' +
+			", address='" + address + '\'' +
+			", description='" + description + '\'' +
+			", location=" + location +
+			'}';
+	}
+
+
 }

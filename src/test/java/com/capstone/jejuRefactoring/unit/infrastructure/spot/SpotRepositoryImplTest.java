@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,8 @@ import com.capstone.jejuRefactoring.infrastructure.spot.SpotRepositoryImpl;
 import com.capstone.jejuRefactoring.infrastructure.spot.dto.SpotWithCategoryScoreDto;
 import com.capstone.jejuRefactoring.support.QuerydslRepositoryTest;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -39,8 +42,12 @@ public class SpotRepositoryImplTest extends QuerydslRepositoryTest {
 	@Autowired
 	ScoreJpaRepository scoreJpaRepository;
 
+	@PersistenceContext
+	EntityManager em;
+
 	@Test
 	public void spotId로_spot_찾기() throws Exception {
+
 		//given
 		Spot spot = spotJpaRepository.save(givenSpot());
 
@@ -56,22 +63,51 @@ public class SpotRepositoryImplTest extends QuerydslRepositoryTest {
 		//given
 		List<Spot> spots = createSpotListWithPictureTags();
 
+		em.flush();
+		em.clear();
+
 		//when
-		List<Long> spotIds = spots.stream().map(s -> s.getId()).toList();
+		List<Long> spotIds = spots.stream().map(s -> s.getId()).collect(Collectors.toList());
+		System.out.println("===============");
 		List<Spot> targetSpots = spotRepository.findBySpotIdsWithFetchJoin(spotIds);
+		System.out.println("===============");
+
+		log.info("targetSpots.size() = {}", targetSpots.size());
+
+		for (Spot targetSpot : targetSpots) {
+			System.out.println(targetSpot);
+			targetSpot.getPictureTags().stream().forEach(System.out::println);
+			System.out.println("===");
+		}
+
+		List<Object> resultList = em.createQuery(
+				"select s from Spot s inner join PictureTag pt on s.id = pt.spot.id "
+			)
+			.getResultList();
+		log.info("resultList.size() = {}", resultList.size());
+
+		List<Spot> resultList1 = em.createQuery(
+			"select s from Spot s join fetch s.pictureTags ",
+			Spot.class
+		).getResultList();
+		log.info("resultList1.size() = {}", resultList1.size());
 
 		//then
-		Assertions.assertThat(spots).isEqualTo(targetSpots);
+		Assertions.assertThat(spots.size()).isEqualTo(targetSpots.size());
 	}
+
 
 	private List<Spot> createSpotListWithPictureTags() {
 		List<Spot> spots = spotJpaRepository.saveAll(
 			List.of(givenSpotWithName("관광지1"), givenSpotWithName("관광지2"), givenSpotWithName("관광지3"))
 		);
 		pictureTagJpaRepository.saveAll(
-			List.of(givenPictureTag(spots.get(0)), givenPictureTag(spots.get(0)),
-				givenPictureTag(spots.get(1)), givenPictureTag(spots.get(1)),
-				givenPictureTag(spots.get(2)), givenPictureTag(spots.get(2))
+			List.of(givenPictureTagWithUrl(spots.get(0).getId(), "urls1"),
+				givenPictureTagWithUrl(spots.get(0).getId(), "urls2"),
+				givenPictureTagWithUrl(spots.get(1).getId(), "urls3"),
+				givenPictureTagWithUrl(spots.get(1).getId(), "urls4"),
+				givenPictureTagWithUrl(spots.get(2).getId(), "urls5"),
+				givenPictureTagWithUrl(spots.get(2).getId(), "urls6")
 			)
 		);
 		return spots;

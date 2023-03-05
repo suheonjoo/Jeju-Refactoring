@@ -1,5 +1,7 @@
 package com.capstone.jejuRefactoring.domain.preference;
 
+import java.util.Objects;
+
 import com.capstone.jejuRefactoring.domain.auth.Member;
 import com.capstone.jejuRefactoring.domain.spot.Spot;
 
@@ -56,5 +58,20 @@ public class MemberSpotTag {
 		if (memberPersonalScore != null) {
 			this.personalScore = memberPersonalScore;
 		}
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		MemberSpotTag that = (MemberSpotTag)o;
+		return Objects.equals(getId(), that.getId());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getId());
 	}
 }

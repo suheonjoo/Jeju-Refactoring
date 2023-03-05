@@ -50,23 +50,12 @@ public class SpotQuerydslRepository {
 				)
 			)
 			.from(spot)
-			.leftJoin(spot.score, score)
+			.leftJoin(score).on(spot.id.eq(score.spot.id))
 			.where(spot.location.in(locations))
 			.fetch();
 
 	}
 
-	public List<TestDto> test(Category category) {
-		return query.select(Projections.constructor(TestDto.class,
-					spot.id,
-					getCategoryScore(category)
-				)
-			)
-			.from(spot)
-			.leftJoin(spot.score, score)
-			.fetch();
-
-	}
 
 	private NumberPath<Double> getCategoryScore(Category category) {
 		return switch (category) {

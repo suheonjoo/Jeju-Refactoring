@@ -17,13 +17,16 @@ import com.capstone.jejuRefactoring.domain.wishList.repository.WishListSpotTagRe
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.request.WishListDeleteRequestDto;
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.request.WishListModifyRequestDto;
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.request.WishListSaveRequestDto;
+import com.capstone.jejuRefactoring.domain.wishList.service.dto.request.WishListSpotTagDeleteRequestDto;
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.response.WishListResponseDto;
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.response.WishListSpotIdsResponseDto;
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.response.WishListSpotTagResponseDto;
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.response.WishListsResponseDto;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -33,9 +36,9 @@ public class WishListService {
 	private final WishListSpotTagRepository wishListSpotTagRepository;
 
 	@Transactional
-	public void saveWishList(WishListSaveRequestDto wishListSaveRequestDto) {
+	public WishList saveWishList(WishListSaveRequestDto wishListSaveRequestDto) {
 		validWishListName(wishListSaveRequestDto.getWishListName(), wishListSaveRequestDto.getMemberId());
-		wishListRepository.saveWishList(wishListSaveRequestDto.toEntity());
+		return wishListRepository.saveWishList(wishListSaveRequestDto.toEntity());
 	}
 
 	private void validWishListName(String wishListName, Long memberId) {
@@ -55,12 +58,21 @@ public class WishListService {
 
 	@Transactional
 	public void deleteWishList(WishListDeleteRequestDto wishListDeleteRequestDto) {
-		//1. memberId, spotid가 동일한 wishListTag '들'을 삭제한다
-		wishListSpotTagRepository.deleteByWishListIdAndSpotId(wishListDeleteRequestDto.getWishListId(),
-			wishListDeleteRequestDto.getSpotId());
+		//위시리스트 안에 있는 spotid를 모두 조회하고, 모두 삭제한다
+		List<Long> spotIdsByWishListId = wishListSpotTagRepository.findSpotIdsByWishListId(
+			wishListDeleteRequestDto.getWishListId());
+		wishListSpotTagRepository.deleteByWishListIdAndSpotIds(wishListDeleteRequestDto.getWishListId(), spotIdsByWishListId);
 		//2. memberId, wishListId가 동일한 WishList 를 삭제한다
 		wishListRepository.deleteWishListByWishListIdAndMemberId(wishListDeleteRequestDto.getWishListId(),
 			wishListDeleteRequestDto.getMemberId());
+	}
+
+	@Transactional
+	public void deleteWishListSpotTagInWishList(WishListSpotTagDeleteRequestDto wishListSpotTagDeleteRequestDto) {
+		wishListSpotTagRepository.deleteByWishListIdAndSpotId(wishListSpotTagDeleteRequestDto.getWishListId(),
+			wishListSpotTagDeleteRequestDto.getSpotId());
+		wishListRepository.deleteWishListByWishListIdAndMemberId(wishListSpotTagDeleteRequestDto.getWishListId(),
+			wishListSpotTagDeleteRequestDto.getMemberId());
 	}
 
 	public WishListsResponseDto findWishLists(Long memberId) {
@@ -75,6 +87,9 @@ public class WishListService {
 		Map<Long, List<WishListSpotTagResponseDto>> wishlistSpotTagsMap) {
 		List<WishListResponseDto> wishListResponseDtos = new ArrayList<>();
 		for (WishList wishList : wishLists) {
+			log.info("wishList = {}",wishList);
+			log.info("wishlistSpotTagsMap = {}",wishlistSpotTagsMap);
+			log.info("wishListResponseDtos = {}",wishListResponseDtos);
 			addWishListResponseDtoInWishListResponseDtos(wishlistSpotTagsMap, wishListResponseDtos, wishList);
 		}
 		return WishListsResponseDto.of(memberId, wishListResponseDtos);

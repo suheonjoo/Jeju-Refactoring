@@ -10,6 +10,7 @@ import com.capstone.jejuRefactoring.domain.wishList.service.WishListService;
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.request.WishListDeleteRequestDto;
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.request.WishListModifyRequestDto;
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.request.WishListSaveRequestDto;
+import com.capstone.jejuRefactoring.domain.wishList.service.dto.request.WishListSpotTagDeleteRequestDto;
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.response.WishListSpotIdsResponseDto;
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.response.WishListsResponseDto;
 
@@ -31,6 +32,11 @@ public class WishListFacade {
 	@Transactional
 	public void deleteWishList(WishListDeleteRequestDto wishListDeleteRequestDto) {
 		wishListService.deleteWishList(wishListDeleteRequestDto);
+	}
+
+	@Transactional
+	public void deleteWishListSpotTagInWishList(WishListSpotTagDeleteRequestDto wishListSpotTagDeleteRequestDto) {
+		wishListService.deleteWishListSpotTagInWishList(wishListSpotTagDeleteRequestDto);
 	}
 
 	@Transactional

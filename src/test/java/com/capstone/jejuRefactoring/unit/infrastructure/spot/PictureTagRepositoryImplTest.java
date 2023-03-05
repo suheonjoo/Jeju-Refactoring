@@ -44,9 +44,9 @@ public class PictureTagRepositoryImplTest extends QuerydslRepositoryTest {
 			List.of(givenSpotWithName("관광지1"), givenSpotWithName("관광지2"), givenSpotWithName("관광지3"))
 		);
 		pictureTagJpaRepository.saveAll(
-			List.of(givenPictureTag(spots.get(0)), givenPictureTag(spots.get(0)),
-				givenPictureTag(spots.get(1)), givenPictureTag(spots.get(1)),
-				givenPictureTag(spots.get(2)), givenPictureTag(spots.get(2))
+			List.of(givenPictureTag(spots.get(0).getId()), givenPictureTag(spots.get(0).getId()),
+				givenPictureTag(spots.get(1).getId()), givenPictureTag(spots.get(1).getId()),
+				givenPictureTag(spots.get(2).getId()), givenPictureTag(spots.get(2).getId())
 			)
 		);
 		return spots;

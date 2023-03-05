@@ -30,7 +30,7 @@ public class MemberSpotTagQuerydslRepository {
 			).
 			from(memberSpotTag)
 			.leftJoin(spot).on(memberSpotTag.spot.id.eq(spot.id))
-			.leftJoin(memberSpotTag.spot.score, score)
+			.leftJoin(score).on(memberSpotTag.spot.id.eq(score.spot.id))
 			.where(memberSpotTag.member.id.eq(memberId))
 			.fetch();
 

@@ -7,6 +7,9 @@ import org.springframework.data.domain.Slice;
 
 import com.capstone.jejuRefactoring.domain.review.Review;
 
+import lombok.Data;
+
+@Data
 public class ReviewPageResponse {
 
 	private final boolean hasNext;

@@ -1,6 +1,7 @@
 package com.capstone.jejuRefactoring.presentation.wishList.dto.request;
 
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.request.WishListDeleteRequestDto;
+import com.capstone.jejuRefactoring.domain.wishList.service.dto.request.WishListSpotTagDeleteRequestDto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -14,15 +15,16 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class WishListDeleteRequest {
-
+public class WishListSpotTagDeleteRequest {
 	private Long wishListId;
+	private Long spotId;
 	private Long memberId;
 
-	public WishListDeleteRequestDto toWishListDeleteRequestDto(Long memberId) {
-		return WishListDeleteRequestDto.builder()
+	public WishListSpotTagDeleteRequestDto toWishListSpotTagDeleteRequestDto(Long memberId) {
+		return WishListSpotTagDeleteRequestDto.builder()
 			.wishListId(wishListId)
 			.memberId(memberId)
+			.spotId(spotId)
 			.build();
 	}
 

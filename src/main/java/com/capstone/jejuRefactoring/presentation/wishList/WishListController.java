@@ -19,6 +19,7 @@ import com.capstone.jejuRefactoring.presentation.auth.LoginUser;
 import com.capstone.jejuRefactoring.presentation.wishList.dto.request.WishListDeleteRequest;
 import com.capstone.jejuRefactoring.presentation.wishList.dto.request.WishListModifyRequest;
 import com.capstone.jejuRefactoring.presentation.wishList.dto.request.WishListSaveRequest;
+import com.capstone.jejuRefactoring.presentation.wishList.dto.request.WishListSpotTagDeleteRequest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -42,6 +43,16 @@ public class WishListController {
 		@Validated @RequestBody WishListDeleteRequest wishListDeleteRequest, @LoginUser Member member,
 		@PathVariable final Long wishListId) {
 		wishListFacade.deleteWishList(wishListDeleteRequest.toWishListDeleteRequestDto(member.getId()));
+		return ResponseEntity.ok()
+			.body(CommonResponse.success());
+	}
+
+	@DeleteMapping("/{memberId}/wishLists/{wishListId}/{spotId}")
+	public ResponseEntity<CommonResponse> deleteWishListSpotTagInWishList(
+		@Validated @RequestBody WishListSpotTagDeleteRequest wishListSpotTagDeleteRequest, @LoginUser Member member,
+		@PathVariable final Long wishListId, @PathVariable final Long spotId) {
+		wishListFacade.deleteWishListSpotTagInWishList(
+			wishListSpotTagDeleteRequest.toWishListSpotTagDeleteRequestDto(member.getId()));
 		return ResponseEntity.ok()
 			.body(CommonResponse.success());
 	}

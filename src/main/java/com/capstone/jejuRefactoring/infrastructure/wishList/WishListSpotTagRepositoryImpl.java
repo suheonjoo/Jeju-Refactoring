@@ -27,4 +27,9 @@ public class WishListSpotTagRepositoryImpl implements WishListSpotTagRepository 
 		return wishListSpotTagJpaRepository.findSpotIdsByWishListId(wishListId);
 	}
 
+	@Override
+	public void deleteByWishListIdAndSpotIds(Long wishListId, List<Long> spotIds) {
+		wishListSpotTagJpaRepository.deleteByWishListIdAndSpotIds(wishListId, spotIds);
+	}
+
 }

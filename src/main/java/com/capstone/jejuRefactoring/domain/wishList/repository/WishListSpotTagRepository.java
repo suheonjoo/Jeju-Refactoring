@@ -12,4 +12,5 @@ public interface WishListSpotTagRepository {
 
 	List<Long> findSpotIdsByWishListId(Long wishListId);
 
+	void deleteByWishListIdAndSpotIds(Long wishListId, List<Long> spotIdsByWishListId);
 }

@@ -3,8 +3,10 @@ package com.capstone.jejuRefactoring.infrastructure.spot.dto;
 import com.capstone.jejuRefactoring.domain.spot.Location;
 
 import jakarta.persistence.Lob;
+import lombok.Builder;
 import lombok.Data;
 
+@Builder
 @Data
 public class SpotWithCategoryScoreDto implements Comparable<SpotWithCategoryScoreDto> {
 

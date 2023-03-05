@@ -1,5 +1,7 @@
 package com.capstone.jejuRefactoring.domain.spot;
 
+import java.util.Objects;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -35,7 +37,29 @@ public class PictureTag {
 	@JoinColumn(name = "spot_id")
 	private Spot spot;
 
-	protected PictureTag() {
+	@Override
+	public String toString() {
+		return "PictureTag{" +
+			"id=" + id +
+			", url='" + url + '\'' +
+			", spot=" + spot +
+			'}';
+	}
 
+	protected PictureTag() {}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		PictureTag that = (PictureTag)o;
+		return Objects.equals(getId(), that.getId());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getId());
 	}
 }

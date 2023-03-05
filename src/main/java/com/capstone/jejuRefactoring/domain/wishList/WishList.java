@@ -2,6 +2,7 @@ package com.capstone.jejuRefactoring.domain.wishList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.capstone.jejuRefactoring.domain.auth.Member;
 
@@ -53,5 +54,19 @@ public class WishList {
 	// 		.build();
 	// }
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		WishList wishList = (WishList)o;
+		return Objects.equals(getId(), wishList.getId());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getId());
+	}
 }
 
