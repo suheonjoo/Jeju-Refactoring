@@ -147,7 +147,7 @@ public class SpotServiceTest {
 		);
 
 		//when
-		SpotPageWithPictureTagsResponse result = spotService.getSpotWithPictureTagLimit3(givenSpotIdsWithPageInfoDto() ,
+		SpotPageWithPictureTagsResponse result = spotService.getSpotWithPictureTagLimit3(givenSpotIdsWithPageInfoDto(false, List.of(1l)) ,
 			List.of(Location.Aewol_eup));
 
 		//then

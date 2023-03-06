@@ -4,6 +4,7 @@ import com.capstone.jejuRefactoring.domain.preference.Score;
 
 import lombok.Getter;
 
+
 @Getter
 public class ScoreResponse {
 

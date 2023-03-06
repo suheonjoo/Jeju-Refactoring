@@ -1,12 +1,17 @@
 package com.capstone.jejuRefactoring.support.helper;
 
+import java.util.List;
+
 import com.capstone.jejuRefactoring.domain.auth.Member;
 import com.capstone.jejuRefactoring.domain.preference.MemberSpotTag;
 import com.capstone.jejuRefactoring.domain.preference.Score;
 import com.capstone.jejuRefactoring.domain.preference.SpotLikeTag;
 import com.capstone.jejuRefactoring.domain.preference.dto.request.PriorityWeightDto;
+import com.capstone.jejuRefactoring.domain.preference.dto.response.LikeFlipResponse;
+import com.capstone.jejuRefactoring.domain.preference.dto.response.SpotIdsWithPageInfoDto;
 import com.capstone.jejuRefactoring.domain.spot.Location;
 import com.capstone.jejuRefactoring.domain.spot.Spot;
+import com.capstone.jejuRefactoring.domain.spot.dto.response.ScoreResponse;
 import com.capstone.jejuRefactoring.infrastructure.preference.dto.ScoreWithSpotLocationDto;
 
 public class PreferenceGivenHelper {
@@ -110,5 +115,29 @@ public class PreferenceGivenHelper {
 			.likeCount(count)
 			.spot(Spot.builder().id(spotId).build())
 			.build();
+	}
+
+	public static SpotIdsWithPageInfoDto givenSpotIdsWithPageInfoDto(List<Long> spotIds, boolean hasNext) {
+		return SpotIdsWithPageInfoDto.builder()
+			.spotIds(spotIds)
+			.hasNext(hasNext)
+			.build();
+	}
+
+	public static PriorityWeightDto givenPriorityWeightDto() {
+		return PriorityWeightDto.builder()
+			.isSameWeight(true)
+			.build();
+	}
+
+	public static LikeFlipResponse givenLikeFlipResponse(boolean like, int likeCount) {
+		return LikeFlipResponse.builder()
+			.like(like)
+			.likeCount(likeCount)
+			.build();
+	}
+
+	public static ScoreResponse givenScoreResponse(Score score) {
+		return ScoreResponse.from(score);
 	}
 }

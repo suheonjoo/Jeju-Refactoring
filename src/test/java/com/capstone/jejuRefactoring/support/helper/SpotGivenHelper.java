@@ -1,9 +1,14 @@
 package com.capstone.jejuRefactoring.support.helper;
 
+import static com.capstone.jejuRefactoring.support.helper.PreferenceGivenHelper.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
-import org.springframework.data.domain.Slice;
-
+import com.capstone.jejuRefactoring.domain.preference.Score;
 import com.capstone.jejuRefactoring.domain.preference.dto.response.SpotIdsWithPageInfoDto;
 import com.capstone.jejuRefactoring.domain.spot.Category;
 import com.capstone.jejuRefactoring.domain.spot.Location;
@@ -12,7 +17,10 @@ import com.capstone.jejuRefactoring.domain.spot.Spot;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotForRouteRecommendDto;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotForRouteRecommendResponse;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotPageResponse;
+import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotPageWithPictureTagsResponse;
+import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotResponse;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotWithCategoryScoreAndPictureTagUrlDto;
+import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotWithPictureTagsDto;
 import com.capstone.jejuRefactoring.infrastructure.spot.dto.PictureTagUrlDto;
 import com.capstone.jejuRefactoring.infrastructure.spot.dto.SpotWithCategoryScoreDto;
 
@@ -34,6 +42,17 @@ public class SpotGivenHelper {
 			.address("주소1")
 			.location(Location.Aewol_eup)
 			.description("설명1")
+			.build();
+	}
+
+	public static SpotResponse givenSpotResponse(Score score) {
+		return SpotResponse.builder()
+			.id(1l)
+			.name("한라산")
+			.address("주소1")
+			.location(Location.Aewol_eup)
+			.description("설명1")
+			.scoreResponse(givenScoreResponse(score))
 			.build();
 	}
 
@@ -89,10 +108,10 @@ public class SpotGivenHelper {
 			.build();
 	}
 
-	public static SpotIdsWithPageInfoDto givenSpotIdsWithPageInfoDto() {
+	public static SpotIdsWithPageInfoDto givenSpotIdsWithPageInfoDto(boolean hasNext, List<Long> spotIds) {
 		return SpotIdsWithPageInfoDto.builder()
-			.hasNext(false)
-			.spotIds(List.of(1l))
+			.hasNext(hasNext)
+			.spotIds(spotIds)
 			.build();
 	}
 
@@ -142,10 +161,27 @@ public class SpotGivenHelper {
 			.build();
 	}
 
+	public static SpotPageWithPictureTagsResponse givenSpotPageWithPictureTagsResponse(boolean hasNext, int count) {
+		List<SpotWithPictureTagsDto> spotWithPictureTagsDtos = new ArrayList<>();
+		LongStream.range(1l, count + 1l).forEach(i -> spotWithPictureTagsDtos.add(givenSpotWithPictureTagsDto(i)));
+		// List<SpotWithPictureTagsDto> spotWithPictureTagsDtos = List.of(givenSpotWithPictureTagsDto(),
+		// 	givenSpotWithPictureTagsDto(), givenSpotWithPictureTagsDto());
+
+		return SpotPageWithPictureTagsResponse.builder()
+			.hasNext(hasNext)
+			.spotWithPictureTagsDtos(spotWithPictureTagsDtos)
+			.build();
+	}
+
+	public static SpotWithPictureTagsDto givenSpotWithPictureTagsDto(Long spotId) {
+		return SpotWithPictureTagsDto.builder()
+			.id(spotId)
+			.build();
+	}
+
 	public static SpotForRouteRecommendResponse givenSpotForRouteRecommendResponse() {
 		List<SpotForRouteRecommendDto> spotForRouteRecommendDtos = List.of(givenSpotForRouteRecommendDto(),
-			givenSpotForRouteRecommendDto(),
-			givenSpotForRouteRecommendDto(), givenSpotForRouteRecommendDto());
+			givenSpotForRouteRecommendDto(),givenSpotForRouteRecommendDto());
 
 		return SpotForRouteRecommendResponse.builder()
 			.category(Category.VIEW)
