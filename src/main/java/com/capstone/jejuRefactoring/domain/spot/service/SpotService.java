@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -61,26 +62,28 @@ public class SpotService {
 		Set<Long> spotIdSet = new HashSet<>();
 		List<SpotWithCategoryScoreDto> spotWithCategoryScoreDtos = spotRepository.findWithCategoryScoreByLocation(
 			locations, category);
-		log.info("spotWithCategoryScoreDtos = {}", spotWithCategoryScoreDtos);
-		Map<Location, List<SpotWithCategoryScoreAndPictureTagUrlDto>> spotsByLocationMap = spotWithCategoryScoreDtos
+		Map<Location, List<SpotWithCategoryScoreAndPictureTagUrlDto>> spotsByLocationMap = getSpotWithCategoryScoreAndPictureTagUrlDtosMapByLocation(
+			spotWithCategoryScoreDtos);
+		List<SpotForRouteRecommendDto> spotForRouteRecommendDtos = getSpotForRouteRecommendDtos(spotIdSet, spotsByLocationMap);
+		setPictureUrlDto(spotIdSet, spotForRouteRecommendDtos);
+		return SpotForRouteRecommendResponse.from(category, spotForRouteRecommendDtos);
+	}
+
+	private static Map<Location, List<SpotWithCategoryScoreAndPictureTagUrlDto>> getSpotWithCategoryScoreAndPictureTagUrlDtosMapByLocation(
+		List<SpotWithCategoryScoreDto> spotWithCategoryScoreDtos) {
+		return spotWithCategoryScoreDtos
 			.stream()
 			.map(SpotWithCategoryScoreAndPictureTagUrlDto::from)
 			.collect(Collectors.groupingBy(s -> s.getLocation()));
-		List<SpotForRouteRecommendDto> spotForRouteRecommendDtos = getSpotForRouteRecommendDtos(spotIdSet, spotsByLocationMap);
-		log.info("spotForRouteRecommendDtos = {}", spotForRouteRecommendDtos);
-		setPictureUrlDto(spotIdSet, spotForRouteRecommendDtos);
-		return SpotForRouteRecommendResponse.from(category, spotForRouteRecommendDtos);
 	}
 
 	private void setPictureUrlDto(Set<Long> spotIdSet, List<SpotForRouteRecommendDto> spotForRouteRecommendDtos) {
 		Map<Long, List<PictureTagUrlDto>> pictureTagUrlDtoBySpotIdMap = getPictureTagUrlDtoBySpotIdMap(spotIdSet);
 		for (SpotForRouteRecommendDto spotForRouteRecommendDto : spotForRouteRecommendDtos) {
-			log.info("spotForRouteRecommendDto = {}", spotForRouteRecommendDto);
 			spotForRouteRecommendDto.getSpotWithCategoryScoreAndPictureTagUrlDtos()
 				.stream()
 				.forEach(s -> s.setPictureUrl(pictureTagUrlDtoBySpotIdMap.get(s.getId()).get(0)));
 		}
-		log.info("spotForRouteRecommendDtos = {}", spotForRouteRecommendDtos);
 	}
 
 	private Map<Long, List<PictureTagUrlDto>> getPictureTagUrlDtoBySpotIdMap(Set<Long> spotIdSet) {
@@ -89,7 +92,6 @@ public class SpotService {
 				spotIds, spotIds.size())
 			.stream()
 			.collect(Collectors.groupingBy(pictureTagUrlDto -> pictureTagUrlDto.getSpotId()));
-		log.info("pictureTagUrlDtoBySpotIdMap = {}", pictureTagUrlDtoBySpotIdMap);
 		return pictureTagUrlDtoBySpotIdMap;
 	}
 
@@ -146,7 +148,6 @@ public class SpotService {
 	}
 
 	private Map<Long, List<Spot>> getBySpotIdMap(List<Spot> spotSlice) {
-		log.info("spotSlice = {}", spotSlice);
 		Map<Long, List<Spot>> spotContentsBySpotIdMap = spotSlice
 			.stream()
 			.collect(Collectors.groupingBy(spot -> spot.getId()));
@@ -166,9 +167,11 @@ public class SpotService {
 		List<Long> spotIds = wishListSpotIdsResponseDto.getSpotIds();
 		List<Spot> spots = spotRepository.findBySpotIdsWithFetchJoin(spotIds);
 		return SpotsForRouteDto.of(wishListSpotIdsResponseDto.getWishListId(), spots.stream()
-			.map(spot -> SpotWithPictureTagDto.of(spot, PictureTagDto.from(spot.getPictureTags().get(0))))
+			.map(spot -> SpotWithPictureTagDto.of(spot, PictureTagDto.of(spot.getPictureTags(),spot.getId())))
 			.collect(Collectors.toList()));
 	}
+
+
 
 	public WishListsWithPictureTagsResponseDto getPictureTagsForWishLists(WishListsResponseDto wishListsResponseDto) {
 		// 위시리시트 페이지에서 위시리스트마다 사진 3개 가져오기

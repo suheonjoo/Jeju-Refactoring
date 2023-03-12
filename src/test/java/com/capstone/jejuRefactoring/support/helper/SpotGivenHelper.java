@@ -3,9 +3,7 @@ package com.capstone.jejuRefactoring.support.helper;
 import static com.capstone.jejuRefactoring.support.helper.PreferenceGivenHelper.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 import com.capstone.jejuRefactoring.domain.preference.Score;
@@ -57,9 +55,10 @@ public class SpotGivenHelper {
 	}
 
 	public static Spot givenSpotWithPictureTags(Long spotId) {
-		List<PictureTag> pictureTags = List.of(givenPictureTag(spotId), givenPictureTag(spotId),
-			givenPictureTag(spotId));
+		List<PictureTag> pictureTags = List.of(givenPictureTagWithId(spotId), givenPictureTagWithId(spotId),
+			givenPictureTagWithId(spotId));
 		return Spot.builder()
+			.id(spotId)
 			.name("한라산")
 			.address("주소1")
 			.location(Location.Aewol_eup)
@@ -85,9 +84,16 @@ public class SpotGivenHelper {
 			.build();
 	}
 
-	public static PictureTag givenPictureTag(Long spotId) {
+	public static PictureTag givenPictureTagWithId(Long spotId) {
 		return PictureTag.builder()
 			.id(1l)
+			.url("pictureTagURL1")
+			.spot(Spot.builder().id(spotId).build())
+			.build();
+	}
+
+	public static PictureTag givenPictureTag(Long spotId) {
+		return PictureTag.builder()
 			.url("pictureTagURL1")
 			.spot(Spot.builder().id(spotId).build())
 			.build();

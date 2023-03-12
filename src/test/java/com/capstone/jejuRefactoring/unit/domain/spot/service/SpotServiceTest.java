@@ -22,7 +22,6 @@ import com.capstone.jejuRefactoring.domain.spot.Category;
 import com.capstone.jejuRefactoring.domain.spot.Location;
 import com.capstone.jejuRefactoring.domain.spot.PictureTag;
 import com.capstone.jejuRefactoring.domain.spot.Spot;
-import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotForRouteRecommendDto;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotForRouteRecommendResponse;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotPageResponse;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotPageWithPictureTagsResponse;
@@ -35,6 +34,9 @@ import com.capstone.jejuRefactoring.domain.spot.service.SpotService;
 import com.capstone.jejuRefactoring.infrastructure.spot.dto.PictureTagUrlDto;
 import com.capstone.jejuRefactoring.infrastructure.spot.dto.SpotWithCategoryScoreDto;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @ExtendWith(MockitoExtension.class)
 public class SpotServiceTest {
 
@@ -143,7 +145,7 @@ public class SpotServiceTest {
 			List.of(givenSpotWithId(1l))
 		);
 		given(pictureTagRepository.findBySpotIds(anyList())).willReturn(
-			List.of(givenPictureTag(1l), givenPictureTag(1l), givenPictureTag(1l))
+			List.of(givenPictureTagWithId(1l), givenPictureTagWithId(1l), givenPictureTagWithId(1l))
 		);
 
 		//when
@@ -174,6 +176,7 @@ public class SpotServiceTest {
 		//when
 		SpotsForRouteDto result = spotService.getSpotInfoBySpotIdsForRoute(
 			givenWishListSpotIdsResponseDto(List.of(1l, 2l, 3l)));
+		log.info("result.getSpotWithPictureTagDtos().get(0).getPictureTagDto().getSpotId() =  {}", result.getSpotWithPictureTagDtos().get(0).getPictureTagDto().getSpotId());
 
 		//then
 		assertThat(result.getWishListId()).isEqualTo(1l);
@@ -217,8 +220,8 @@ public class SpotServiceTest {
 	public void 사용자가_검색한_키워드_기반으로_페이징된_관광지를_사진과_함께_가져오기() throws Exception {
 		//given
 		List<PictureTag> pictureTags = List.of(
-			givenPictureTag(1l), givenPictureTag(1l), givenPictureTag(1l),
-			givenPictureTag(1l)
+			givenPictureTagWithId(1l), givenPictureTagWithId(1l), givenPictureTagWithId(1l),
+			givenPictureTagWithId(1l)
 		);
 
 		List<SpotPageResponse> spotPageResponses = List.of(givenSpotPageResponseWithId(1l), givenSpotPageResponseWithId(2l),

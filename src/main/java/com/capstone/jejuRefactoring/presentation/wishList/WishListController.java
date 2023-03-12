@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.capstone.jejuRefactoring.application.wishList.WishListFacade;
 import com.capstone.jejuRefactoring.common.exception.CommonResponse;
 import com.capstone.jejuRefactoring.domain.auth.Member;
+import com.capstone.jejuRefactoring.domain.wishList.service.dto.request.WishListDeleteRequestDto;
+import com.capstone.jejuRefactoring.domain.wishList.service.dto.request.WishListSaveRequestDto;
+import com.capstone.jejuRefactoring.domain.wishList.service.dto.request.WishListSpotTagDeleteRequestDto;
 import com.capstone.jejuRefactoring.presentation.auth.LoginUser;
 import com.capstone.jejuRefactoring.presentation.wishList.dto.request.WishListDeleteRequest;
 import com.capstone.jejuRefactoring.presentation.wishList.dto.request.WishListModifyRequest;
@@ -22,42 +25,42 @@ import com.capstone.jejuRefactoring.presentation.wishList.dto.request.WishListSa
 import com.capstone.jejuRefactoring.presentation.wishList.dto.request.WishListSpotTagDeleteRequest;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/api/v1/members")
+@RequestMapping("/api/v1/wishLists")
 @RequiredArgsConstructor
+@Slf4j
 public class WishListController {
 
 	private final WishListFacade wishListFacade;
 
-	@PostMapping("/{memberId}/wishLists/")
+	@PostMapping("/{wishListName}")
 	public ResponseEntity<CommonResponse> saveWishList(@Validated @RequestBody WishListSaveRequest wishListSaveRequest,
-		@LoginUser Member member) {
-		wishListFacade.saveWishList(wishListSaveRequest.toWishListSaveRequestDto(member.getId()));
+		@PathVariable String wishListName , @LoginUser Member member) {
+		wishListFacade.saveWishList(new WishListSaveRequestDto(wishListName, member.getId()));
 		return ResponseEntity.ok()
 			.body(CommonResponse.success());
 	}
 
-	@DeleteMapping("/{memberId}/wishLists/{wishListId}")
+	@DeleteMapping("/{wishListId}")
 	public ResponseEntity<CommonResponse> deleteWishList(
-		@Validated @RequestBody WishListDeleteRequest wishListDeleteRequest, @LoginUser Member member,
-		@PathVariable final Long wishListId) {
-		wishListFacade.deleteWishList(wishListDeleteRequest.toWishListDeleteRequestDto(member.getId()));
+		@LoginUser Member member, @PathVariable final Long wishListId) {
+		wishListFacade.deleteWishList(new WishListDeleteRequestDto(wishListId, member.getId()));
 		return ResponseEntity.ok()
 			.body(CommonResponse.success());
 	}
 
-	@DeleteMapping("/{memberId}/wishLists/{wishListId}/{spotId}")
+	@DeleteMapping("/{wishListId}/{spotId}")
 	public ResponseEntity<CommonResponse> deleteWishListSpotTagInWishList(
-		@Validated @RequestBody WishListSpotTagDeleteRequest wishListSpotTagDeleteRequest, @LoginUser Member member,
-		@PathVariable final Long wishListId, @PathVariable final Long spotId) {
+		@LoginUser Member member, @PathVariable final Long wishListId, @PathVariable final Long spotId) {
 		wishListFacade.deleteWishListSpotTagInWishList(
-			wishListSpotTagDeleteRequest.toWishListSpotTagDeleteRequestDto(member.getId()));
+			new WishListSpotTagDeleteRequestDto(wishListId, spotId, member.getId()));
 		return ResponseEntity.ok()
 			.body(CommonResponse.success());
 	}
 
-	@PatchMapping("/{memberId}/wishLists/{wishListId}")
+	@PatchMapping("/{wishListId}")
 	public ResponseEntity<CommonResponse> reviseWishListName(
 		@Validated @RequestBody WishListModifyRequest wishListModifyRequest, @LoginUser Member member,
 		@PathVariable final Long wishListId) {
@@ -66,20 +69,17 @@ public class WishListController {
 			.body(CommonResponse.success());
 	}
 
-	@GetMapping("/{memberId}/wishLists")
-	public ResponseEntity<CommonResponse> showWishLists(@PathVariable final Long spotId, @LoginUser Member member,
-		Pageable pageable) {
-		wishListFacade.showWishLists(member.getId());
+	@GetMapping()
+	public ResponseEntity<CommonResponse> showWishLists(@LoginUser Member member) {
 		return ResponseEntity.ok()
-			.body(CommonResponse.success());
+			.body(CommonResponse.success(wishListFacade.showWishLists(member.getId())));
 	}
 
-	@GetMapping("/{memberId}/wishLists/{wishListId}")
-	public ResponseEntity<CommonResponse> showWishList(@PathVariable final Long memberId,
-		@PathVariable final Long wishListId) {
-		wishListFacade.showWishList(memberId, wishListId);
+	@GetMapping("/{wishListId}")
+	public ResponseEntity<CommonResponse> showWishList(@LoginUser Member member, @PathVariable final Long wishListId) {
+		log.info("wishListId = {}", wishListId);
 		return ResponseEntity.ok()
-			.body(CommonResponse.success());
+			.body(CommonResponse.success(wishListFacade.showWishList(member.getId(), wishListId)));
 	}
 
 }

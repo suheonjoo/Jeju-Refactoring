@@ -14,12 +14,22 @@ import com.capstone.jejuRefactoring.domain.wishList.service.dto.request.WishList
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.response.WishListResponseDto;
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.response.WishListSpotIdsResponseDto;
 import com.capstone.jejuRefactoring.domain.wishList.service.dto.response.WishListsResponseDto;
+import com.capstone.jejuRefactoring.presentation.wishList.dto.request.WishListModifyRequest;
+import com.capstone.jejuRefactoring.presentation.wishList.dto.request.WishListSaveRequest;
 
 public class WishListGivenHelper {
 	public static WishList givenWishList(Long memberId) {
 		return WishList.builder()
 			.member(Member.builder().id(memberId).build())
 			.name("위시리스트1")
+			.build();
+	}
+
+
+	public static WishList givenWishListWithWishListName(Long memberId, String wishListName) {
+		return WishList.builder()
+			.member(Member.builder().id(memberId).build())
+			.name(wishListName)
 			.build();
 	}
 
@@ -104,6 +114,21 @@ public class WishListGivenHelper {
 		return WishListSaveRequestDto.builder()
 			.memberId(memberId)
 			.wishListName(wishListName)
+			.build();
+	}
+
+	public static WishListSaveRequest givenWishListSaveRequest(String wishListName, Long memberId) {
+		return WishListSaveRequest.builder()
+			.wishListName(wishListName)
+			.memberId(memberId)
+			.build();
+	}
+
+	public static WishListModifyRequest givenWishListModifyRequest(Long wishListId, String wishListName, Long memberId) {
+		return WishListModifyRequest.builder()
+			.wishListId(wishListId)
+			.wishListName(wishListName)
+			.memberId(memberId)
 			.build();
 	}
 }

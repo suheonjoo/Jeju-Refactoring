@@ -17,12 +17,13 @@ import org.springframework.data.domain.Slice;
 import com.capstone.jejuRefactoring.domain.preference.Score;
 import com.capstone.jejuRefactoring.domain.spot.Category;
 import com.capstone.jejuRefactoring.domain.spot.Location;
+import com.capstone.jejuRefactoring.domain.spot.PictureTag;
 import com.capstone.jejuRefactoring.domain.spot.Spot;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotPageResponse;
 import com.capstone.jejuRefactoring.infrastructure.preference.ScoreJpaRepository;
 import com.capstone.jejuRefactoring.infrastructure.spot.PictureTagJpaRepository;
 import com.capstone.jejuRefactoring.infrastructure.spot.SpotJpaRepository;
-import com.capstone.jejuRefactoring.infrastructure.spot.SpotRepositoryImpl;
+import com.capstone.jejuRefactoring.infrastructure.spot.SpotRepository;
 import com.capstone.jejuRefactoring.infrastructure.spot.dto.SpotWithCategoryScoreDto;
 import com.capstone.jejuRefactoring.support.QuerydslRepositoryTest;
 
@@ -34,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SpotRepositoryImplTest extends QuerydslRepositoryTest {
 
 	@Autowired
-	SpotRepositoryImpl spotRepository;
+	SpotRepository spotRepository;
 	@Autowired
 	PictureTagJpaRepository pictureTagJpaRepository;
 	@Autowired
@@ -72,28 +73,19 @@ public class SpotRepositoryImplTest extends QuerydslRepositoryTest {
 		List<Spot> targetSpots = spotRepository.findBySpotIdsWithFetchJoin(spotIds);
 		System.out.println("===============");
 
-		log.info("targetSpots.size() = {}", targetSpots.size());
+		log.info("targetSpots.get(0).getPictureTags() = {}", targetSpots.get(0).getPictureTags());
 
-		for (Spot targetSpot : targetSpots) {
-			System.out.println(targetSpot);
-			targetSpot.getPictureTags().stream().forEach(System.out::println);
-			System.out.println("===");
-		}
 
-		List<Object> resultList = em.createQuery(
-				"select s from Spot s inner join PictureTag pt on s.id = pt.spot.id "
-			)
-			.getResultList();
-		log.info("resultList.size() = {}", resultList.size());
-
-		List<Spot> resultList1 = em.createQuery(
-			"select s from Spot s join fetch s.pictureTags ",
-			Spot.class
-		).getResultList();
-		log.info("resultList1.size() = {}", resultList1.size());
+		List<Spot> spotsd = spotRepository.findBySpotIdsWithFetchJoin(List.of(spots.get(0).getId()));
+		log.info("spots = {}",spotsd.get(0));
+		List<Spot> spotJpaRepositoryAllById = spotJpaRepository.findAllById(List.of(spots.get(0).getId()));
+		log.info("spotJpaRepositoryAllById = {}",spotJpaRepositoryAllById);
+		List<PictureTag> bySpotIds = pictureTagJpaRepository.findBySpotIds(List.of(spots.get(0).getId()));
+		log.info("bySpotIds = {}", bySpotIds);
 
 		//then
-		Assertions.assertThat(spots.size()).isEqualTo(targetSpots.size());
+		Assertions.assertThat(targetSpots.size()).isEqualTo(targetSpots.size());
+		Assertions.assertThat(targetSpots.get(0).getPictureTags().size()).isEqualTo(2);
 	}
 
 

@@ -82,16 +82,5 @@ public class Spot {
 		return Objects.hash(id);
 	}
 
-	@Override
-	public String toString() {
-		return "Spot{" +
-			"id=" + id +
-			", name='" + name + '\'' +
-			", address='" + address + '\'' +
-			", description='" + description + '\'' +
-			", location=" + location +
-			'}';
-	}
-
 
 }

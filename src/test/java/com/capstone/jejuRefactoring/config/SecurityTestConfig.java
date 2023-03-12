@@ -5,6 +5,6 @@ import org.springframework.context.annotation.ComponentScan;
 
 @TestConfiguration
 @ComponentScan(basePackages = "com.capstone.jejuRefactoring.config.security")
-class SecurityTestConfig {
+public class SecurityTestConfig {
 
 }

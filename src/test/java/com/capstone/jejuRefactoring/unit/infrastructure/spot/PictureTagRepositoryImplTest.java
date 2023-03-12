@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.capstone.jejuRefactoring.domain.spot.PictureTag;
 import com.capstone.jejuRefactoring.domain.spot.Spot;
 import com.capstone.jejuRefactoring.infrastructure.spot.PictureTagJpaRepository;
-import com.capstone.jejuRefactoring.infrastructure.spot.PictureTagQuerydslRepository;
 import com.capstone.jejuRefactoring.infrastructure.spot.PictureTagRepositoryImpl;
 import com.capstone.jejuRefactoring.infrastructure.spot.SpotJpaRepository;
 import com.capstone.jejuRefactoring.infrastructure.spot.dto.PictureTagUrlDto;
@@ -44,9 +43,9 @@ public class PictureTagRepositoryImplTest extends QuerydslRepositoryTest {
 			List.of(givenSpotWithName("관광지1"), givenSpotWithName("관광지2"), givenSpotWithName("관광지3"))
 		);
 		pictureTagJpaRepository.saveAll(
-			List.of(givenPictureTag(spots.get(0).getId()), givenPictureTag(spots.get(0).getId()),
-				givenPictureTag(spots.get(1).getId()), givenPictureTag(spots.get(1).getId()),
-				givenPictureTag(spots.get(2).getId()), givenPictureTag(spots.get(2).getId())
+			List.of(givenPictureTagWithId(spots.get(0).getId()), givenPictureTagWithId(spots.get(0).getId()),
+				givenPictureTagWithId(spots.get(1).getId()), givenPictureTagWithId(spots.get(1).getId()),
+				givenPictureTagWithId(spots.get(2).getId()), givenPictureTagWithId(spots.get(2).getId())
 			)
 		);
 		return spots;

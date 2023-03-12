@@ -15,7 +15,7 @@ import com.capstone.jejuRefactoring.infrastructure.review.ReviewRepositoryImpl;
 import com.capstone.jejuRefactoring.infrastructure.spot.PictureTagQuerydslRepository;
 import com.capstone.jejuRefactoring.infrastructure.spot.PictureTagRepositoryImpl;
 import com.capstone.jejuRefactoring.infrastructure.spot.SpotQuerydslRepository;
-import com.capstone.jejuRefactoring.infrastructure.spot.SpotRepositoryImpl;
+import com.capstone.jejuRefactoring.infrastructure.spot.SpotRepository;
 import com.capstone.jejuRefactoring.infrastructure.wishList.WishListRepositoryImpl;
 import com.capstone.jejuRefactoring.infrastructure.wishList.WishListSpotTagRepositoryImpl;
 
@@ -33,7 +33,7 @@ import com.capstone.jejuRefactoring.infrastructure.wishList.WishListSpotTagRepos
 	PictureTagQuerydslRepository.class,
 	PictureTagRepositoryImpl.class,
 	SpotQuerydslRepository.class,
-	SpotRepositoryImpl.class,
+	SpotRepository.class,
 	SpotLikeTagRepositoryImpl.class,
 	WishListRepositoryImpl.class,
 	WishListSpotTagRepositoryImpl.class

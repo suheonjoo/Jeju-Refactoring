@@ -52,7 +52,7 @@ public class PreferenceController {
 	}
 
 	@PutMapping("/{spotId}/like")
-	public ResponseEntity<LikeFlipResponse> flipSpotLike(@PathVariable("id") final Long spotId,
+	public ResponseEntity<LikeFlipResponse> flipSpotLike(@PathVariable final Long spotId,
 		@LoginUser Member member) {
 		LikeFlipResponse likeFlipResponse = preferenceFacade.flipSpotLike(spotId, member.getId());
 		return ResponseEntity.ok(likeFlipResponse);

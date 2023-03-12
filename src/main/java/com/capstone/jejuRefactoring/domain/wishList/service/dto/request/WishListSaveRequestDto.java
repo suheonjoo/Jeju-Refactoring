@@ -12,12 +12,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class WishListSaveRequestDto {
 
 	private String wishListName;
 
 	private Long memberId;
+
+	public WishListSaveRequestDto(String wishListName, Long memberId) {
+		this.wishListName = wishListName;
+		this.memberId = memberId;
+	}
 
 	public WishList toEntity() {
 		return WishList.builder()

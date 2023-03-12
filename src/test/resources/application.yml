@@ -3,6 +3,9 @@ spring:
     include:
       - jwt
     active: test
+  properties:
+    hibernate:
+      default_batch_fetch_size: 100
 
   jpa:
     hibernate:
@@ -10,6 +13,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+#    open-in-view: true
 
   #  sql:
   #    init:

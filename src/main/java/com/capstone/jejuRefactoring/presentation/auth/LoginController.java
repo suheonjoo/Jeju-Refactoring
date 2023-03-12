@@ -5,6 +5,7 @@ import static com.capstone.jejuRefactoring.config.security.provider.JwtTokenProv
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1")
+@PreAuthorize("isAuthenticated()")
 public class LoginController {
 
 	private final AuthFacade authFacade;
