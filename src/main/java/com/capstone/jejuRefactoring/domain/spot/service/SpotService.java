@@ -208,3 +208,6 @@ public class SpotService {
 		return SpotPageWithPictureTagsResponse.of(bySpotName.hasNext(), spotWithPictureTagsDtos);
 	}
 }
+
+
+

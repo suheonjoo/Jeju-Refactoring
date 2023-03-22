@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class AuthFacade {
-
 	private final AuthCommandUseCase authCommandUseCase;
 	private final PreferenceService preferenceService;
 	private final SpotService spotService;

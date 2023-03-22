@@ -9,4 +9,6 @@ public interface PictureRepository {
 
 	Slice<Picture> findPageBySpotId(Long spotId, Pageable pageable);
 
+	Slice<Picture> findPageOpBySpotId(Long spotId, Long lastPictureId, Pageable pageable);
+
 }

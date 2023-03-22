@@ -106,7 +106,28 @@ public class SpotQuerydslRepository {
 	private BooleanExpression ltSpotId(Long lastSpotId) {
 		if (lastSpotId == null)
 			return null;
-		return spot.id.lt(lastSpotId);
+		return spot.id.gt(lastSpotId);
 	}
+
+
+	public Slice<SpotPageResponse> findPageOldBySpotName(String spotName, Pageable pageable) {
+
+		List<SpotPageResponse> content = query
+			.select(Projections.constructor(SpotPageResponse.class,
+				spot.id.as("spotId"),
+				spot.name,
+				spot.address,
+				spot.description,
+				spot.location))
+			.from(spot)
+			.where(spot.name.like(spotName + "%"))
+			.orderBy(spot.id.asc())
+			.offset(pageable.getOffset())
+			.limit(pageable.getPageSize())
+			.fetch();
+
+		return RepositorySupport.toSlice(content, pageable);
+	}
+
 
 }

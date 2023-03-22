@@ -1,4 +1,4 @@
-package com.capstone.jejuRefactoring.common.support.logging;
+package com.capstone.jejuRefactoring.common.logging;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

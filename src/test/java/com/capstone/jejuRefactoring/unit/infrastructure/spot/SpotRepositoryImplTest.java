@@ -4,11 +4,13 @@ import static com.capstone.jejuRefactoring.support.helper.PreferenceGivenHelper.
 import static com.capstone.jejuRefactoring.support.helper.SpotGivenHelper.*;
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +25,7 @@ import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotPageResponse;
 import com.capstone.jejuRefactoring.infrastructure.preference.ScoreJpaRepository;
 import com.capstone.jejuRefactoring.infrastructure.spot.PictureTagJpaRepository;
 import com.capstone.jejuRefactoring.infrastructure.spot.SpotJpaRepository;
+import com.capstone.jejuRefactoring.infrastructure.spot.SpotQuerydslRepository;
 import com.capstone.jejuRefactoring.infrastructure.spot.SpotRepository;
 import com.capstone.jejuRefactoring.infrastructure.spot.dto.SpotWithCategoryScoreDto;
 import com.capstone.jejuRefactoring.support.QuerydslRepositoryTest;
@@ -42,6 +45,8 @@ public class SpotRepositoryImplTest extends QuerydslRepositoryTest {
 	SpotJpaRepository spotJpaRepository;
 	@Autowired
 	ScoreJpaRepository scoreJpaRepository;
+	@Autowired
+	SpotQuerydslRepository spotQuerydslRepository;
 
 	@PersistenceContext
 	EntityManager em;
@@ -153,12 +158,50 @@ public class SpotRepositoryImplTest extends QuerydslRepositoryTest {
 
 		//when
 		PageRequest pageRequest = PageRequest.of(0, 1);
-		Slice<SpotPageResponse> spotPageResponses = spotRepository.findPageBySpotName("관광", spots.get(2).getId() + 1,
+		Slice<SpotPageResponse> spotPageResponses = spotRepository.findPageBySpotName("관광", 0l,
 			pageRequest);
 
 		//then
 		assertThat(spotPageResponses.getContent().size()).isEqualTo(1);
 		assertThat(spotPageResponses.hasNext()).isTrue();
+	}
+
+	@Disabled
+	@Test
+	public void 관광지_이름_검색내역_성능_튜닝_테스트() throws Exception {
+
+		//given
+		List<Spot> spotList = new ArrayList<>();
+		for (int i = 0; i < 350; i++) {
+			spotList.add(givenSpotWithName("관광지" + i));
+		}
+		spotJpaRepository.saveAllAndFlush(spotList);
+		em.flush();
+		em.clear();
+
+		//when
+		PageRequest pageRequest = PageRequest.of(0, 350);
+
+		long beforeTime = System.currentTimeMillis();
+		Slice<SpotPageResponse> old = spotQuerydslRepository.findPageOldBySpotName("관광", pageRequest);
+		long afterTime = System.currentTimeMillis();
+		long secDiffTime = (afterTime - beforeTime);
+		log.info("시간차이(m) 평범 : {}", secDiffTime); //113
+		// log.info("old = {}",old.getContent());
+
+		em.flush();
+		em.clear();
+
+		long beforeTime1 = System.currentTimeMillis();
+		spotRepository.findPageBySpotName("관광", 0l,
+			pageRequest);
+		long afterTime1 = System.currentTimeMillis();
+		long secDiffTime1 = (afterTime1 - beforeTime1);
+		log.info("시간차이(m) 최적화 : {}", secDiffTime1); //28
+
+
+
+		//then
 	}
 
 	@Test
@@ -170,7 +213,7 @@ public class SpotRepositoryImplTest extends QuerydslRepositoryTest {
 
 		//when
 		PageRequest pageRequest = PageRequest.of(0, 20);
-		Slice<SpotPageResponse> spotPageResponses = spotRepository.findPageBySpotName("관광", spots.get(2).getId() + 1,
+		Slice<SpotPageResponse> spotPageResponses = spotRepository.findPageBySpotName("관광", 0l,
 			pageRequest);
 
 		//then

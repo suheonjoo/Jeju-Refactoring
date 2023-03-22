@@ -10,16 +10,18 @@ import com.capstone.jejuRefactoring.domain.review.dto.request.ReviewPageResponse
 import com.capstone.jejuRefactoring.domain.review.repository.ReviewRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class ReviewService {
 
 	private final ReviewRepository reviewRepository;
 
-	public ReviewPageResponse getReviewsBySpotId(final Long spotId, Pageable pageable) {
-		Slice<Review> page = reviewRepository.findReviewsBySpotId(spotId, pageable);
+	public ReviewPageResponse getReviewsBySpotId(final Long spotId,Long lastReviewId, Pageable pageable) {
+		Slice<Review> page = reviewRepository.findOpReviewsBySpotId(spotId,lastReviewId, pageable);
 		return ReviewPageResponse.of(page, spotId);
 	}
 

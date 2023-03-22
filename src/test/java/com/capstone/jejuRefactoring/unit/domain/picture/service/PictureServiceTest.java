@@ -20,8 +20,6 @@ import com.capstone.jejuRefactoring.domain.picture.Picture;
 import com.capstone.jejuRefactoring.domain.picture.dto.PicturePageResponse;
 import com.capstone.jejuRefactoring.domain.picture.repsoitory.PictureRepository;
 import com.capstone.jejuRefactoring.domain.picture.service.PictureService;
-import com.capstone.jejuRefactoring.domain.review.repository.ReviewRepository;
-import com.capstone.jejuRefactoring.domain.review.service.ReviewService;
 
 @ExtendWith(MockitoExtension.class)
 public class PictureServiceTest {
@@ -36,10 +34,10 @@ public class PictureServiceTest {
 		List<Picture> pictures = List.of(givenPicture(1l), givenPicture(1l), givenPicture(1l));
 		PageRequest pageRequest = PageRequest.of(0, 20);
 		Slice<Picture> slice = RepositorySupport.toSlice(pictures, pageRequest);
-		given(pictureRepository.findPageBySpotId(any(), any())).willReturn(slice);
+		given(pictureRepository.findPageOpBySpotId(any(), any(),any())).willReturn(slice);
 
 	    //when
-		PicturePageResponse result = pictureService.getPicturesBySpotId(1l, pageRequest);
+		PicturePageResponse result = pictureService.getPicturesBySpotId(1l, 1l,pageRequest);
 
 		//then
 		assertThat(result.isHasNext()).isFalse();

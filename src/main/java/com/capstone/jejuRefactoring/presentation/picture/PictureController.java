@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capstone.jejuRefactoring.application.picture.PictureFacade;
@@ -20,9 +21,10 @@ public class PictureController {
 
 	private final PictureFacade pictureFacade;
 
-	@GetMapping("/{spotId}/pictures")
-	public ResponseEntity<CommonResponse> showPictures(@PathVariable final Long spotId, Pageable pageable) {
-		PicturePageResponse picturesBySpotId = pictureFacade.getPicturesBySpotId(spotId, pageable);
+	@GetMapping("/{spotId}/pictures/")
+	public ResponseEntity<CommonResponse> showPictures(@PathVariable final Long spotId,
+		@RequestParam(value = "lastPictureId", required = false) Long lastPictureId, Pageable pageable) {
+		PicturePageResponse picturesBySpotId = pictureFacade.getPicturesBySpotId(spotId, lastPictureId, pageable);
 		return ResponseEntity.ok()
 			.body(CommonResponse.success(picturesBySpotId));
 	}

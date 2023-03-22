@@ -26,11 +26,11 @@ public class PictureFacadeTest {
 	public void 대량_관광지_사진_가져오기() throws Exception{
 	    //given
 		PageRequest pageRequest = PageRequest.of(0, 3);
-		given(pictureService.getPicturesBySpotId(1l, pageRequest))
+		given(pictureService.getPicturesBySpotId(1l, 1l,pageRequest))
 			.willReturn(givenPicturePageResponse(pageRequest,3));
 
 	    //when
-		PicturePageResponse result = pictureFacade.getPicturesBySpotId(1l, pageRequest);
+		PicturePageResponse result = pictureFacade.getPicturesBySpotId(1l, 1l,pageRequest);
 
 		//then
 		assertThat(result.isHasNext()).isFalse();

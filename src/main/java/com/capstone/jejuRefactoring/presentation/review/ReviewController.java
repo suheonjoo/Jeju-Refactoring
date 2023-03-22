@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capstone.jejuRefactoring.application.review.ReviewFacade;
@@ -21,8 +22,9 @@ public class ReviewController {
 	private final ReviewFacade reviewFacade;
 
 	@GetMapping("/{spotId}/reviews")
-	public ResponseEntity<CommonResponse> showReviews(@PathVariable final Long spotId, Pageable pageable) {
-		ReviewPageResponse reviewsBySpotId = reviewFacade.getReviewsBySpotId(spotId, pageable);
+	public ResponseEntity<CommonResponse> showReviews(@PathVariable final Long spotId,
+		@RequestParam(value = "lastReviewId", required = false) Long lastReviewId, Pageable pageable) {
+		ReviewPageResponse reviewsBySpotId = reviewFacade.getReviewsBySpotId(spotId, lastReviewId,pageable);
 		return ResponseEntity.ok()
 			.body(CommonResponse.success(reviewsBySpotId));
 	}

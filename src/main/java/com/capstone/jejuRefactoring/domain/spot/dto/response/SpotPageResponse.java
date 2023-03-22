@@ -33,4 +33,15 @@ public class SpotPageResponse {
 		this.description = description;
 		this.location = location;
 	}
+
+	@Override
+	public String toString() {
+		return "SpotPageResponse{" +
+			"id=" + id +
+			", name='" + name + '\'' +
+			", address='" + address + '\'' +
+			", description='" + description + '\'' +
+			", location=" + location +
+			'}';
+	}
 }

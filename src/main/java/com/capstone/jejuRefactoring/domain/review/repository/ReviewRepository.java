@@ -7,4 +7,6 @@ import com.capstone.jejuRefactoring.domain.review.Review;
 
 public interface ReviewRepository {
 	Slice<Review> findReviewsBySpotId(Long spotId, Pageable pageable);
+
+	Slice<Review> findOpReviewsBySpotId(Long spotId, Long lastReviewId, Pageable pageable);
 }

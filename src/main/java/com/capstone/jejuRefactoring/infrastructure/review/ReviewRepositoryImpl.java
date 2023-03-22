@@ -20,4 +20,11 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 		return reviewQuerydslRepository.findPageBySpotId(spotId, pageable);
 	}
 
+	@Override
+	public Slice<Review> findOpReviewsBySpotId(Long spotId, Long lastReviewId, Pageable pageable) {
+		return reviewQuerydslRepository.findOpPageBySpotId(spotId,lastReviewId, pageable);
+	}
+
+
+
 }

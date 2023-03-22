@@ -3,6 +3,9 @@ spring:
     include:
       - jwt
     active: test
+
+---
+spring:
   properties:
     hibernate:
       default_batch_fetch_size: 100
@@ -13,14 +16,13 @@ spring:
     properties:
       hibernate:
         format_sql: true
-#    open-in-view: true
+    defer-datasource-initialization: false
+  #    open-in-view: true
 
-  #  sql:
-  #    init:
-  #      data-locations: classpath:data.sql
-  #      username:
-  #      password:
-  #      mode: never
+  sql:
+    init:
+      mode: never
+
   data:
     redis:
       port: 6379

@@ -20,4 +20,10 @@ public class PictureRepositoryImpl implements PictureRepository {
 		return pictureQuerydslRepository.findPageBySpotId(spotId, pageable);
 	}
 
+	@Override
+	public Slice<Picture> findPageOpBySpotId(Long spotId, Long lastPictureId,Pageable pageable) {
+		return pictureQuerydslRepository.findOpPageBySpotId(spotId, lastPictureId,pageable);
+
+	}
+
 }

@@ -8,8 +8,10 @@ import com.capstone.jejuRefactoring.domain.spot.PictureTag;
 import com.capstone.jejuRefactoring.domain.spot.repository.PictureTagRepository;
 import com.capstone.jejuRefactoring.infrastructure.spot.dto.PictureTagUrlDto;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
+@Transactional()
 @Repository
 @RequiredArgsConstructor
 public class PictureTagRepositoryImpl implements PictureTagRepository {

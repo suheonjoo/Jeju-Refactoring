@@ -38,10 +38,10 @@ public class ReviewServiceTest {
 		List<Review> reviews = List.of(givenReview(1l), givenReview(1l), givenReview(1l));
 		PageRequest pageRequest = PageRequest.of(0, 20);
 		Slice<Review> slice = RepositorySupport.toSlice(reviews, pageRequest);
-		given(reviewRepository.findReviewsBySpotId(any(), any())).willReturn(slice);
+		given(reviewRepository.findOpReviewsBySpotId(any(), any(),any())).willReturn(slice);
 
 	    //when
-		ReviewPageResponse result = reviewService.getReviewsBySpotId(1l, pageRequest);
+		ReviewPageResponse result = reviewService.getReviewsBySpotId(1l, 0l,pageRequest);
 
 		//then
 		assertThat(result.isHasNext()).isFalse();

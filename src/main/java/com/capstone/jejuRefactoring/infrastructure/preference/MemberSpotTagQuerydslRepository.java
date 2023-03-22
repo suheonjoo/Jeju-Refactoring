@@ -33,6 +33,15 @@ public class MemberSpotTagQuerydslRepository {
 			.leftJoin(score).on(memberSpotTag.spot.id.eq(score.spot.id))
 			.where(memberSpotTag.member.id.eq(memberId))
 			.fetch();
+	}
 
+	public boolean isSpotLikExistByMemberIdAndSpotIdOp(Long spotId, Long memberId) {
+		Integer isExist = query.selectOne()
+			.from(memberSpotTag)
+			.where(memberSpotTag.spot.id.eq(spotId),
+				memberSpotTag.member.id.eq(memberId)
+			)
+			.fetchFirst();
+		return isExist != null ? true : false;
 	}
 }

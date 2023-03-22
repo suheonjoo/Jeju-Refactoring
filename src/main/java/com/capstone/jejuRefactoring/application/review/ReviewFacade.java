@@ -16,7 +16,7 @@ public class ReviewFacade {
 
 	private final ReviewService reviewService;
 
-	public ReviewPageResponse getReviewsBySpotId(final Long spotId, Pageable pageable) {
-		return reviewService.getReviewsBySpotId(spotId, pageable);
+	public ReviewPageResponse getReviewsBySpotId(final Long spotId, Long lastReviewId, Pageable pageable) {
+		return reviewService.getReviewsBySpotId(spotId,lastReviewId, pageable);
 	}
 }

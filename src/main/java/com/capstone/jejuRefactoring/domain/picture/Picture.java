@@ -41,4 +41,12 @@ public class Picture {
 
 	}
 
+	@Override
+	public String toString() {
+		return "Picture{" +
+			"id=" + id +
+			", url='" + url + '\'' +
+			", spot=" + spot +
+			'}';
+	}
 }

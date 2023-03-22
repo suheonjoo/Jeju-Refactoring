@@ -1,4 +1,4 @@
-package com.capstone.jejuRefactoring.common.support.logging;
+package com.capstone.jejuRefactoring.common.logging;
 
 
 import jakarta.servlet.http.HttpServletRequest;

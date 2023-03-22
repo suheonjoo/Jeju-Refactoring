@@ -28,11 +28,11 @@ public class ReviewFacadeTest {
 	public void 특정_관광지_리뷰들_보여주기() throws Exception{
 	    //given
 		PageRequest pageRequest = PageRequest.of(0, 3);
-		given(reviewService.getReviewsBySpotId(any(), any()))
+		given(reviewService.getReviewsBySpotId(any(), any(), any()))
 			.willReturn(givenReviewPageResponse(pageRequest, 3));
 
 	    //when
-		ReviewPageResponse result = reviewFacade.getReviewsBySpotId(1l, pageRequest);
+		ReviewPageResponse result = reviewFacade.getReviewsBySpotId(1l, 1l, pageRequest);
 
 		//then
 		assertThat(result.isHasNext()).isFalse();

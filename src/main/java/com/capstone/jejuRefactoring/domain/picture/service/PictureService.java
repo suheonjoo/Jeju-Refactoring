@@ -18,8 +18,8 @@ public class PictureService {
 
 	private final PictureRepository pictureRepository;
 
-	public PicturePageResponse getPicturesBySpotId(final Long spotId, Pageable pageable) {
-		final Slice<Picture> page = pictureRepository.findPageBySpotId(spotId, pageable);
+	public PicturePageResponse getPicturesBySpotId(final Long spotId, Long lastPictureId, Pageable pageable) {
+		final Slice<Picture> page = pictureRepository.findPageOpBySpotId(spotId,lastPictureId, pageable);
 		return PicturePageResponse.of(page, spotId);
 	}
 }

@@ -24,7 +24,7 @@ public class Member extends BaseEntity {
 	@Column(name = "member_id")
 	private Long id;
 
-	@Column(name = "name")
+	@Column(name = "username")
 	private String username;
 
 	@Column(name = "email")

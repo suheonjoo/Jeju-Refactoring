@@ -44,3 +44,4 @@ public class PreferenceIntegrationTest extends IntegrationTest {
 	}
 
 }
+

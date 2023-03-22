@@ -1,7 +1,6 @@
-package com.capstone.jejuRefactoring.common.support.logging;
+package com.capstone.jejuRefactoring.common.logging;
 
 import java.lang.reflect.Proxy;
-import java.sql.DriverManager;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

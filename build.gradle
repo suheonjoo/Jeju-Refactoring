@@ -76,6 +76,8 @@ dependencies {
 	// redis redisson 추가하기
 	implementation 'org.redisson:redisson-spring-boot-starter:3.19.3'
 
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+
 
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
