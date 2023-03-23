@@ -7,11 +7,11 @@ import java.lang.reflect.Proxy;
 public class ConnectionProxyHandler implements InvocationHandler {
 
     private final Object connection;
-    private final ApiQueryCounter apiQueryCounter;
+    private final ApiQueryInfo apiQueryInfo;
 
-    public ConnectionProxyHandler(final Object connection, final ApiQueryCounter apiQueryCounter) {
+    public ConnectionProxyHandler(final Object connection, final ApiQueryInfo apiQueryInfo) {
         this.connection = connection;
-        this.apiQueryCounter = apiQueryCounter;
+        this.apiQueryInfo = apiQueryInfo;
     }
 
     @Override
@@ -21,7 +21,7 @@ public class ConnectionProxyHandler implements InvocationHandler {
             return Proxy.newProxyInstance(
                     invokeResult.getClass().getClassLoader(),
                     invokeResult.getClass().getInterfaces(),
-                    new PreparedStatementProxyHandler(invokeResult, apiQueryCounter)
+                    new PreparedStatementProxyHandler(invokeResult, apiQueryInfo)
             );
         }
         return invokeResult;

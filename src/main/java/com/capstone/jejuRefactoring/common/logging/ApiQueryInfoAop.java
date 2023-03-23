@@ -7,25 +7,26 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Aspect
-public class ApiQueryCounterAop {
+@Slf4j
+public class ApiQueryInfoAop {
 
-    private final ApiQueryCounter apiQueryCounter;
+    private final ApiQueryInfo apiQueryInfo;
 
-    public ApiQueryCounterAop(final ApiQueryCounter apiQueryCounter) {
-        this.apiQueryCounter = apiQueryCounter;
+    public ApiQueryInfoAop(final ApiQueryInfo apiQueryInfo) {
+        this.apiQueryInfo = apiQueryInfo;
     }
 
     @Around("execution(* javax.sql.DataSource.getConnection())")
     public Object getConnection(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-
         Object connection = proceedingJoinPoint.proceed();
         return Proxy.newProxyInstance(
                 connection.getClass().getClassLoader(),
                 connection.getClass().getInterfaces(),
-                new ConnectionProxyHandler(connection, apiQueryCounter)
+                new ConnectionProxyHandler(connection, apiQueryInfo)
         );
     }
 }

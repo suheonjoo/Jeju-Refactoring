@@ -9,14 +9,14 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 @Slf4j
 @Component
-public class ApiQueryCountingInterceptor implements HandlerInterceptor {
+public class ApiQueryInfoInterceptor implements HandlerInterceptor {
 
-    private static final String QUERY_COUNT_LOG_FORMAT = "{} {}, STATUS CODE: {}, QUERY_COUNT: {}";
+    private static final String QUERY_INFO_LOG_FORMAT = "STATUS_CODE: {}, METHOD: {}, URL: {}, QUERY_COUNT: {}, RUNNING_TIME: {} (ms)";
 
-    private final ApiQueryCounter apiQueryCounter;
+    private final ApiQueryInfo apiQueryInfo;
 
-    public ApiQueryCountingInterceptor(final ApiQueryCounter apiQueryCounter) {
-        this.apiQueryCounter = apiQueryCounter;
+    public ApiQueryInfoInterceptor(final ApiQueryInfo apiQueryInfo) {
+        this.apiQueryInfo = apiQueryInfo;
     }
 
     @Override
@@ -25,7 +25,8 @@ public class ApiQueryCountingInterceptor implements HandlerInterceptor {
         String requestURI = request.getRequestURI();
         String method = request.getMethod();
         int status = response.getStatus();
-        int count = apiQueryCounter.getCount();
-        log.info(QUERY_COUNT_LOG_FORMAT, method, requestURI, status, count);
+        int count = apiQueryInfo.getCount();
+        long runningTime = apiQueryInfo.getRunningTime();
+        log.info(QUERY_INFO_LOG_FORMAT, status, method, requestURI, count, runningTime);
     }
 }
