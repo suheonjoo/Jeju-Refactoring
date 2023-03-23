@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.capstone.jejuRefactoring.common.exception.security.NotExistsRefreshTokenException;
+import com.capstone.jejuRefactoring.common.exception.user.UserAlreadyExistException;
 import com.capstone.jejuRefactoring.common.exception.user.UserNotFoundException;
 import com.capstone.jejuRefactoring.config.security.provider.JwtExpirationEnums;
 import com.capstone.jejuRefactoring.config.security.provider.JwtTokenProvider;
@@ -138,7 +139,7 @@ public class AuthService implements AuthCommandUseCase {
 	private void validateDuplicateMember(String email) {
 		memberJpaRepository.findOptionByEmail(email)
 			.ifPresent(member -> {
-				throw new UserNotFoundException();
+				throw new UserAlreadyExistException();
 			});
 	}
 

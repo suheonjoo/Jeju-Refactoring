@@ -12,8 +12,10 @@ import com.capstone.jejuRefactoring.domain.spot.service.SpotService;
 import com.capstone.jejuRefactoring.presentation.auth.dto.request.JoinRequest;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class AuthFacade {
 	private final AuthCommandUseCase authCommandUseCase;
@@ -27,6 +29,7 @@ public class AuthFacade {
 	public void join(JoinRequest joinRequest) {
 		Long memberId = authCommandUseCase.join(joinRequest);
 		List<Long> spotIds = spotService.getAllSpotIds();
+		log.info("spotIds = {}",spotIds);
 		preferenceService.createMemberSpotTags(memberId, spotIds);
 	}
 
