@@ -6,7 +6,7 @@ import java.lang.reflect.Proxy;
 
 public class ConnectionProxyHandler implements InvocationHandler {
 
-    private final Object connection;
+    private final Object connection; // 실체 Connection 객체
     private final ApiQueryInfo apiQueryInfo;
 
     public ConnectionProxyHandler(final Object connection, final ApiQueryInfo apiQueryInfo) {
@@ -20,7 +20,7 @@ public class ConnectionProxyHandler implements InvocationHandler {
         if (method.getName().equals("prepareStatement")) {
             return Proxy.newProxyInstance(
                     invokeResult.getClass().getClassLoader(),
-                    invokeResult.getClass().getInterfaces(),
+                    invokeResult.getClass().getInterfaces(), //프록시에 핸들러 로직도 같이 넣어준다
                     new PreparedStatementProxyHandler(invokeResult, apiQueryInfo)
             );
         }

@@ -1,8 +1,10 @@
 package com.capstone.jejuRefactoring.common.metaDataBuilder;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class MetaDataDirector {
 
-	int id = 1;
+	private int id = 1;
 	private MetaDataBuilder metaDataBuilder;
 
 	public MetaDataDirector(MetaDataBuilder metaDataBuilder) {
@@ -16,6 +18,7 @@ public class MetaDataDirector {
 			.addMetaData(id++, "가격")
 			.addMetaData(id++, "편의시설")
 			.addMetaData(id++, "서비스")
+
 			.getMetaDataDummy();
 	}
 
@@ -26,6 +29,7 @@ public class MetaDataDirector {
 			.addMetaData(id++, "남부")
 			.addMetaData(id++, "서부")
 			.addMetaData(id++, "동부")
+
 			.getMetaDataDummy();
 	}
 
