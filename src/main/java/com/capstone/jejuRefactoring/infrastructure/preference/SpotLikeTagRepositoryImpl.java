@@ -16,6 +16,11 @@ public class SpotLikeTagRepositoryImpl implements SpotLikeTagRepository {
 	private final SpotLikeTagJpaRepository spotLikeTagJpaRepository;
 
 	@Override
+	public SpotLikeTag saveAndFlush(SpotLikeTag spotLikeTag) {
+		return spotLikeTagJpaRepository.saveAndFlush(spotLikeTag);
+	}
+
+	@Override
 	public void increaseLikeCount(Long spotId) {
 		spotLikeTagJpaRepository.increaseLikeCount(spotId);
 	}

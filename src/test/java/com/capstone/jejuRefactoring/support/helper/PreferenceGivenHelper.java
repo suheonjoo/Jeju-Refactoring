@@ -70,7 +70,7 @@ public class PreferenceGivenHelper {
 		return MemberSpotTag.builder()
 			.spot(Spot.builder().id(spotId).build())
 			.member(Member.builder().id(memberId).build())
-			.IsLikeExist(false)
+			.isLikeExist(false)
 			.personalScore(4d)
 			.build();
 	}
@@ -79,7 +79,7 @@ public class PreferenceGivenHelper {
 		return MemberSpotTag.builder()
 			.spot(Spot.builder().id(spotId).build())
 			.member(Member.builder().id(memberId).build())
-			.IsLikeExist(false)
+			.isLikeExist(false)
 			.personalScore(personalScore)
 			.build();
 	}
@@ -96,7 +96,7 @@ public class PreferenceGivenHelper {
 			.id(memberSpotTagId)
 			.spot(Spot.builder().id(spotId).build())
 			.member(Member.builder().id(memberId).build())
-			.IsLikeExist(false)
+			.isLikeExist(false)
 			.personalScore(4d)
 			.build();
 	}
@@ -106,7 +106,7 @@ public class PreferenceGivenHelper {
 			.spot(Spot.builder().id(spotId).build())
 			.member(Member.builder().id(memberId).build())
 			.personalScore(4d)
-			.IsLikeExist(isLikeExist)
+			.isLikeExist(isLikeExist)
 			.build();
 	}
 

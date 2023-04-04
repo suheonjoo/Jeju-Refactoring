@@ -42,4 +42,9 @@ public class MemberSpotTagRepositoryImpl implements MemberSpotTagRepository {
 	public void createSpotLikeByMemberIdAndSpotId(Long spotId, Long memberId) {
 		memberSpotTagJpaRepository.createSpotLikeByMemberIdAndSpotId(spotId, memberId);
 	}
+
+	@Override
+	public MemberSpotTag saveAndFlush(MemberSpotTag memberSpotTag) {
+		return memberSpotTagJpaRepository.saveAndFlush(memberSpotTag);
+	}
 }

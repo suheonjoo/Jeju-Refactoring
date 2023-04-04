@@ -15,4 +15,6 @@ public interface MemberSpotTagRepository {
 	void deleteSpotLikeByMemberIdAndSpotId(Long spotId, Long memberId);
 
 	void createSpotLikeByMemberIdAndSpotId(Long spotId, Long memberId);
+
+	MemberSpotTag saveAndFlush(MemberSpotTag memberSpotTag);
 }

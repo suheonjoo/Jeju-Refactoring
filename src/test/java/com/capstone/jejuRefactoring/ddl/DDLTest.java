@@ -129,7 +129,7 @@ public class DDLTest {
 
 	private MemberSpotTag getMemberSpotTag(Member member1, Spot spot1) {
 		return MemberSpotTag.builder()
-			.IsLikeExist(false)
+			.isLikeExist(false)
 			.spot(spot1)
 			.personalScore(4d)
 			.member(member1)

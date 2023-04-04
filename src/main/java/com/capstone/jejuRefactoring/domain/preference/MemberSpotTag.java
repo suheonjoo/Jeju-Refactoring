@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,9 +43,20 @@ public class MemberSpotTag {
 	@JoinColumn(name = "spot_id")
 	private Spot spot;
 
-	private Boolean IsLikeExist;
+	// @Version
+	// private Long version;
+
+	private Boolean isLikeExist;
 
 	protected MemberSpotTag() {
+	}
+
+	public boolean isSpotLikeExit() {
+		return this.isLikeExist;
+	}
+
+	public boolean flipSpotLike() {
+		return this.isLikeExist = this.isLikeExist == true ? false : true;
 	}
 
 	public static MemberSpotTag of(Long memberId, Long spotId) {

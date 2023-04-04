@@ -35,4 +35,22 @@ public class SpotLikeTag {
 	protected SpotLikeTag() {
 	}
 
+	@Override
+	public String toString() {
+		return "SpotLikeTag{" +
+			"id=" + id +
+			", spot=" + spot +
+			", likeCount=" + likeCount +
+			'}';
+	}
+
+	public Integer increaseLikeCount() {
+		this.likeCount++;
+		return this.likeCount;
+	}
+
+	public Integer decreaseLikeCount() {
+		this.likeCount--;
+		return this.likeCount;
+	}
 }

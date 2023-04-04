@@ -32,7 +32,9 @@ import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotResponse;
 import com.capstone.jejuRefactoring.infrastructure.preference.dto.ScoreWithSpotLocationDto;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -40,7 +42,6 @@ public class PreferenceService {
 
 	private final MemberSpotTagRepository memberSpotTagRepository;
 	private final ScoreRepository scoreRepository;
-	private final RedissonClient redissonClient;
 	private final SpotLikeTagRepository spotLikeTagRepository;
 
 	@Transactional
@@ -143,36 +144,18 @@ public class PreferenceService {
 	}
 
 	@Transactional
-	public LikeFlipResponse flipSpotLike(Long spotId, Long memberId, Integer key) {
-		boolean isSpotLikeExist = memberSpotTagRepository.isSpotLikExistByMemberIdAndSpotId(spotId, memberId);
-		RLock lock = redissonClient.getLock(key.toString());
-		try {
-			boolean available = lock.tryLock(10, 1, TimeUnit.SECONDS);
-			validatedLock(available);
-			updateSpotLike(spotId, memberId, isSpotLikeExist);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		} finally {
-			lock.unlock();
+	public LikeFlipResponse updateSpotLike(Long spotId, Long memberId) {
+		MemberSpotTag memberSpotTag = memberSpotTagRepository.findByMemberIdAndSpotIds(memberId,List.of(spotId)).get(0);
+		SpotLikeTag spotLikeTag = spotLikeTagRepository.findBySpotId(spotId).get();
+		if (memberSpotTag.isSpotLikeExit()) {
+			boolean flipSpotLike = memberSpotTag.flipSpotLike();
+			Integer likeCount = spotLikeTag.decreaseLikeCount();
+			return LikeFlipResponse.of(likeCount, flipSpotLike);
 		}
-		Optional<SpotLikeTag> spot = spotLikeTagRepository.findBySpotId(spotId);
-		return LikeFlipResponse.of(spot.get().getLikeCount(), isSpotLikeExist);
+		boolean flipSpotLike = memberSpotTag.flipSpotLike();
+		Integer likeCount = spotLikeTag.increaseLikeCount();
+		return LikeFlipResponse.of(likeCount, flipSpotLike);
 	}
 
-	private void validatedLock(boolean available) {
-		if (!available) {
-			throw new NotLockException();
-		}
-	}
 
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void updateSpotLike(Long spotId, Long memberId, boolean isSpotLikeExist) {
-		if (isSpotLikeExist) {
-			memberSpotTagRepository.deleteSpotLikeByMemberIdAndSpotId(spotId, memberId);
-			spotLikeTagRepository.decreaseLikeCount(spotId);
-			return;
-		}
-		memberSpotTagRepository.createSpotLikeByMemberIdAndSpotId(spotId, memberId);
-		spotLikeTagRepository.increaseLikeCount(spotId);
-	}
 }

@@ -15,14 +15,14 @@ public interface MemberSpotTagJpaRepository extends JpaRepository<MemberSpotTag,
 	List<MemberSpotTag> findByMemberIdAndSpotIds(@Param("memberId") Long memberId,
 		@Param("spotIds") List<Long> spotIds);
 
-	@Query(value = "select mst.IsLikeExist from MemberSpotTag mst where mst.member.id = :memberId and mst.spot.id = :spotId")
+	@Query(value = "select mst.isLikeExist from MemberSpotTag mst where mst.member.id = :memberId and mst.spot.id = :spotId")
 	boolean isSpotLikExistByMemberIdAndSpotId(@Param("spotId") Long spotId, @Param("memberId") Long memberId);
 
 	@Modifying(clearAutomatically = true)
-	@Query(value = "UPDATE MemberSpotTag mst SET mst.IsLikeExist = false WHERE mst.member.id = :memberId and mst.spot.id	= :spotId")
+	@Query(value = "UPDATE MemberSpotTag mst SET mst.isLikeExist = false WHERE mst.member.id = :memberId and mst.spot.id = :spotId")
 	void deleteSpotLikeByMemberIdAndSpotId(@Param("spotId") Long spotId, @Param("memberId") Long memberId);
 
 	@Modifying(clearAutomatically = true)
-	@Query(value = "UPDATE MemberSpotTag mst SET mst.IsLikeExist = true WHERE mst.member.id = :memberId and mst.spot.id	= :spotId")
+	@Query(value = "UPDATE MemberSpotTag mst SET mst.isLikeExist = true WHERE mst.member.id = :memberId and mst.spot.id	= :spotId")
 	void createSpotLikeByMemberIdAndSpotId(@Param("spotId") Long spotId, @Param("memberId") Long memberId);
 }
