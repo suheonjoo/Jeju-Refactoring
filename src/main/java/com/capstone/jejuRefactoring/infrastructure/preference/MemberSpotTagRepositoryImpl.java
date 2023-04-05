@@ -16,10 +16,16 @@ public class MemberSpotTagRepositoryImpl implements MemberSpotTagRepository {
 
 	private final MemberSpotTagJpaRepository memberSpotTagJpaRepository;
 	private final MemberSpotTagQuerydslRepository memberSpotTagQuerydslRepository;
+	private final MemberSpotTagJdbcRepository memberSpotTagJdbcRepository;
 
 	@Override
-	public List<MemberSpotTag> saveAll(List<MemberSpotTag> memberSpotTags) {
+	public List<MemberSpotTag> saveAllWithSpringDataJPA(List<MemberSpotTag> memberSpotTags) {
 		return memberSpotTagJpaRepository.saveAllAndFlush(memberSpotTags);
+	}
+
+	@Override
+	public void saveAll(List<MemberSpotTag> memberSpotTags) {
+		memberSpotTagJdbcRepository.saveAll(memberSpotTags);
 	}
 
 	@Override

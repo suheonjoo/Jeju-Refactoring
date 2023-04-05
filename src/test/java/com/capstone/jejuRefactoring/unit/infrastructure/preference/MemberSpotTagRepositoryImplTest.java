@@ -51,7 +51,7 @@ public class MemberSpotTagRepositoryImplTest extends QuerydslRepositoryTest {
 			givenMemberSpotTag(spots.get(4).getId(), memberId));
 
 		//when
-		List<MemberSpotTag> target = memberSpotTagRepository.saveAll(memberSpotTags);
+		List<MemberSpotTag> target = memberSpotTagRepository.saveAllWithSpringDataJPA(memberSpotTags);
 
 		//then
 		Assertions.assertThat(target.size()).isEqualTo(5);
@@ -67,7 +67,7 @@ public class MemberSpotTagRepositoryImplTest extends QuerydslRepositoryTest {
 			givenMemberSpotTag(spots.get(0).getId(), memberId), givenMemberSpotTag(spots.get(1).getId(), memberId),
 			givenMemberSpotTag(spots.get(2).getId(), memberId), givenMemberSpotTag(spots.get(3).getId(), memberId),
 			givenMemberSpotTag(spots.get(4).getId(), memberId));
-		List<MemberSpotTag> MemberSpotTags = memberSpotTagRepository.saveAll(memberSpotTags);
+		List<MemberSpotTag> MemberSpotTags = memberSpotTagRepository.saveAllWithSpringDataJPA(memberSpotTags);
 
 		//when
 		List<MemberSpotTag> target = memberSpotTagRepository.findByMemberIdAndSpotIds(memberId,

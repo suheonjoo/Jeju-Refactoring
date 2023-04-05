@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Import;
 import com.capstone.jejuRefactoring.config.QuerydslConfig;
 import com.capstone.jejuRefactoring.infrastructure.picture.PictureQuerydslRepository;
 import com.capstone.jejuRefactoring.infrastructure.picture.PictureRepositoryImpl;
+import com.capstone.jejuRefactoring.infrastructure.preference.MemberSpotTagJdbcRepository;
 import com.capstone.jejuRefactoring.infrastructure.preference.MemberSpotTagQuerydslRepository;
 import com.capstone.jejuRefactoring.infrastructure.preference.MemberSpotTagRepositoryImpl;
 import com.capstone.jejuRefactoring.infrastructure.preference.ScoreQuerydslRepository;
@@ -25,6 +26,7 @@ import com.capstone.jejuRefactoring.infrastructure.wishList.WishListSpotTagRepos
 	PictureQuerydslRepository.class,
 	PictureRepositoryImpl.class,
 	MemberSpotTagQuerydslRepository.class,
+	MemberSpotTagJdbcRepository.class,
 	MemberSpotTagRepositoryImpl.class,
 	ScoreQuerydslRepository.class,
 	ScoreRepositoryImpl.class,

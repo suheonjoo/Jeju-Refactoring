@@ -1,5 +1,8 @@
 package com.capstone.jejuRefactoring.domain.auth.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,7 +22,12 @@ import com.capstone.jejuRefactoring.domain.auth.Role;
 import com.capstone.jejuRefactoring.domain.auth.dto.AuthResponseDto;
 import com.capstone.jejuRefactoring.domain.auth.dto.LoginResult;
 import com.capstone.jejuRefactoring.domain.auth.repository.TokenRepository;
+import com.capstone.jejuRefactoring.domain.preference.MemberSpotTag;
+import com.capstone.jejuRefactoring.domain.preference.repository.MemberSpotTagRepository;
 import com.capstone.jejuRefactoring.infrastructure.auth.respository.MemberJpaRepository;
+import com.capstone.jejuRefactoring.infrastructure.preference.MemberSpotTagJpaRepository;
+import com.capstone.jejuRefactoring.infrastructure.spot.SpotJpaRepository;
+import com.capstone.jejuRefactoring.infrastructure.spot.SpotRepository;
 import com.capstone.jejuRefactoring.presentation.auth.dto.request.JoinRequest;
 
 import lombok.RequiredArgsConstructor;
@@ -35,22 +43,19 @@ public class AuthService implements AuthCommandUseCase {
 	private final PasswordEncoder passwordEncoder;
 	private final TokenRepository tokenRepository;
 	private final JwtTokenProvider jwtTokenProvider;
+	private final SpotRepository spotRepository;
+	private final MemberSpotTagRepository memberSpotTagRepository;
 
 	@Transactional
 	@Override
 	public Long join(JoinRequest joinRequest) {
 		validateDuplicateMember(joinRequest.getEmail());
 		String encodedPassword = passwordEncoder.encode(joinRequest.getPassword());
-		Member member = Member.builder()
-			.email(joinRequest.getEmail())
-			.username(joinRequest.getUsername())
-			.password(encodedPassword)
-			.role(Role.USER)
-			.build();
-		memberJpaRepository.save(member);
+		memberJpaRepository.save(Member.of(joinRequest, encodedPassword));
 		return memberJpaRepository.findOptionByEmail(joinRequest.getEmail())
 			.orElseThrow(() -> new UserNotFoundException()).getId();
 	}
+
 
 	public LoginResult login(final String email) {
 		Member member = memberJpaRepository.findOptionByEmail(email)

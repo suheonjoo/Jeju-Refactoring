@@ -3,18 +3,12 @@ package com.capstone.jejuRefactoring.domain.preference.service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.capstone.jejuRefactoring.common.exception.priority.NotLockException;
 import com.capstone.jejuRefactoring.domain.preference.MemberSpotTag;
 import com.capstone.jejuRefactoring.domain.preference.Score;
 import com.capstone.jejuRefactoring.domain.preference.SpotLikeTag;

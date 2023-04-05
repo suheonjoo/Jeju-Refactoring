@@ -1,6 +1,7 @@
 package com.capstone.jejuRefactoring.domain.auth;
 
 import com.capstone.jejuRefactoring.common.baseEntity.BaseEntity;
+import com.capstone.jejuRefactoring.presentation.auth.dto.request.JoinRequest;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -70,6 +71,15 @@ public class Member extends BaseEntity {
 
 	private void updatePassword(String password) {
 		this.password = password;
+	}
+
+	public static Member of(JoinRequest joinRequest, String encodedPassword) {
+		return Member.builder()
+			.email(joinRequest.getEmail())
+			.username(joinRequest.getUsername())
+			.password(encodedPassword)
+			.role(Role.USER)
+			.build();
 	}
 
 }
