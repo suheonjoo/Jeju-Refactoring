@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 @Repository
 @RequiredArgsConstructor
 public class MemberSpotTagJdbcRepository {
-
 	private final JdbcTemplate jdbcTemplate;
 
 	public void saveAll(List<MemberSpotTag> memberSpotTags) {
@@ -34,7 +33,5 @@ public class MemberSpotTagJdbcRepository {
 				}
 			}
 		);
-
 	}
-
 }

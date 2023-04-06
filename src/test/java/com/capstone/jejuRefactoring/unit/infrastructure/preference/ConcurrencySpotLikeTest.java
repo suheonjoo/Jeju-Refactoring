@@ -94,4 +94,37 @@ public class ConcurrencySpotLikeTest {
 		assertEquals(0, target.getLikeCount());
 	}
 
+
+	@Test
+	public void AOP를_적용한_관광지_좋아요_동시성_테스트() throws Exception {
+		//given
+		memberJpaRepository.saveAll(List.of(givenMember(), givenMember()));
+		Spot spot = spotJpaRepository.save(givenSpot());
+		SpotLikeTag spotLikeTag = spotLikeTagJpaRepository.save(givenSpotLikeTag(spot.getId(), 0));
+		memberSpotTagJpaRepository.save(givenMemberSpotTag(spot.getId(), 1l));
+		memberSpotTagJpaRepository.save(givenMemberSpotTag(spot.getId(), 2l));
+
+		//when
+		int threadCount = 1000;
+		ExecutorService executorService = Executors.newFixedThreadPool(100);
+		CountDownLatch latch = new CountDownLatch(threadCount);
+
+		for (int i = 0; i < threadCount; i++) {
+			executorService.submit(() -> {
+				try {
+					preferenceFacade.flipSpotLikeWithAop(spot.getId(), 1l);
+					preferenceFacade.flipSpotLikeWithAop(spot.getId(), 2l);
+				} finally {
+					latch.countDown();
+				}
+			});
+		}
+		latch.await();
+
+		//then
+		SpotLikeTag target = spotLikeTagJpaRepository.findById(spotLikeTag.getId()).get();
+		assertEquals(0, target.getLikeCount());
+
+	}
+
 }

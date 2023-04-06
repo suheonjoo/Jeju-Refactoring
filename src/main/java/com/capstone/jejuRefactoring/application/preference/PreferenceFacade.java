@@ -1,7 +1,6 @@
 package com.capstone.jejuRefactoring.application.preference;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import org.redisson.api.RLock;
@@ -14,7 +13,7 @@ import org.springframework.util.StringUtils;
 import com.capstone.jejuRefactoring.common.exception.priority.NotLockException;
 import com.capstone.jejuRefactoring.common.exception.spot.LocationGroupNotFoundException;
 import com.capstone.jejuRefactoring.common.exception.spot.LocationNotFoundException;
-import com.capstone.jejuRefactoring.domain.preference.SpotLikeTag;
+import com.capstone.jejuRefactoring.common.redissonLockAop.RedissonLockAnnotation;
 import com.capstone.jejuRefactoring.domain.preference.dto.request.PriorityWeightDto;
 import com.capstone.jejuRefactoring.domain.preference.dto.response.LikeFlipResponse;
 import com.capstone.jejuRefactoring.domain.preference.dto.response.SpotIdsWithPageInfoDto;
@@ -86,6 +85,11 @@ public class PreferenceFacade {
 		if (!available) {
 			throw new NotLockException();
 		}
+	}
+
+	@RedissonLockAnnotation
+	public LikeFlipResponse flipSpotLikeWithAop(Long spotId, Long memberId) {
+		return preferenceService.updateSpotLike(spotId, memberId);
 	}
 
 }

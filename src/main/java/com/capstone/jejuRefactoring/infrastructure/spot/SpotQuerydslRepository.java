@@ -18,7 +18,6 @@ import com.capstone.jejuRefactoring.domain.spot.Location;
 import com.capstone.jejuRefactoring.domain.spot.Spot;
 import com.capstone.jejuRefactoring.domain.spot.dto.response.SpotPageResponse;
 import com.capstone.jejuRefactoring.infrastructure.spot.dto.SpotWithCategoryScoreDto;
-import com.capstone.jejuRefactoring.infrastructure.spot.dto.TestDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.NumberPath;
@@ -75,7 +74,7 @@ public class SpotQuerydslRepository {
 			.select(spot.id)
 			.from(spot)
 			.where(spot.name.like(spotName + "%"),
-				ltSpotId(lastSpotId))
+				gtSpotId(lastSpotId))
 			.orderBy(spot.id.asc())
 			.limit(pageable.getPageSize() + 1) //// limit보다 데이터를 1개 더 들고와서, 해당 데이터가 있다면 hasNext 변수에 true 를 넣어 알린다
 			.fetch();
@@ -95,7 +94,7 @@ public class SpotQuerydslRepository {
 				spot.location))
 			.from(spot)
 			.where(spot.id.in(ids),
-				ltSpotId(lastSpotId))
+				gtSpotId(lastSpotId))
 			.orderBy(spot.id.asc())
 			.limit(pageable.getPageSize() + 1)
 			.fetch();
@@ -103,7 +102,7 @@ public class SpotQuerydslRepository {
 		return RepositorySupport.toSlice(content, pageable);
 	}
 
-	private BooleanExpression ltSpotId(Long lastSpotId) {
+	private BooleanExpression gtSpotId(Long lastSpotId) {
 		if (lastSpotId == null)
 			return null;
 		return spot.id.gt(lastSpotId);
